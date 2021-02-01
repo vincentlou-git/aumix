@@ -28,9 +28,9 @@ if __name__ == "__main__":
     samp_rate = 1000
     freq = 2
     sawtooth_params = {
-        duration: duration,
-        samp_rate: samp_rate,
-        freq: freq
+        "duration": duration,
+        "samp_rate": samp_rate,
+        "freq": freq
     }
     
     Ns = [1, 3, 5, 15, 101]
@@ -40,20 +40,12 @@ if __name__ == "__main__":
     
     # Generate signals
     fourier_sawtooths = [fs.FourierSawtoothSignal(n=n, 
-                                                  duration=duration,
-                                                  samp_rate=samp_rate,
-                                                  freq=freq).data for n in Ns]
-    true_sawtooth = ss.SawtoothSignal(duration=duration,
-                                      samp_rate=samp_rate,
-                                      freq=freq).data
+                                                  **sawtooth_params).data for n in Ns]
+    true_sawtooth = ss.SawtoothSignal(**sawtooth_params).data
     
     fourier_squares = [fs.FourierSquareSignal(n=n, 
-                                              duration=duration,
-                                              samp_rate=samp_rate,
-                                              freq=freq).data for n in Ns]
-    true_square = ss.SquareSignal(duration=duration,
-                                  samp_rate=samp_rate,
-                                  freq=freq).data
+                                              **sawtooth_params).data for n in Ns]
+    true_square = ss.SquareSignal(**sawtooth_params).data
     
     
     
