@@ -54,7 +54,7 @@ class SquareSignal(Signal):
 class SawtoothSignal(Signal):
     
     def gen_data(self):
-        self.data = signal.sawtooth(np.pi * self.freq * self.samp_nums) / 2
+        self.data = (signal.sawtooth(np.pi * self.freq * self.samp_nums) + 1) / 2
     
 
 
