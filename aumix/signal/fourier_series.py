@@ -9,11 +9,11 @@ Generates signals approximated with Fourier series.
 
 import numpy as np
 
-import simple_signal as ssig
+import simple_signal as ss
 
 
 
-class FourierSignal(ssig.Signal):
+class FourierSignal(ss.Signal):
     
     def __init__(self, n, **kwargs):
         self.n = n
@@ -57,4 +57,4 @@ class FourierSawtoothSignal(FourierSignal):
         
         
 if __name__ == "__main__":
-    print(FourierSquareSignal(5).data)
+    print(FourierSawtoothSignal(5).data)
