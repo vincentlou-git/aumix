@@ -29,7 +29,7 @@ class FourierSquareSignal(FourierSignal):
         self.data = []
         
         for t in self.samp_nums:
-            sum_terms = [1/n * np.sin(n * np.pi * self.freq * t) for n in n_odds]
+            sum_terms = [1/n * np.sin(2 * n * np.pi * self.freq * t) for n in n_odds]
     
             y = 4/np.pi * sum(sum_terms)
             self.data.append(y)
@@ -46,10 +46,28 @@ class FourierSawtoothSignal(FourierSignal):
         self.data = []
         
         for t in self.samp_nums:
-            sum_terms = [1/n * np.sin(n * np.pi * self.freq * t) for n in ns]
+            sum_terms = [1/n * np.sin(2 * n * np.pi * self.freq * t) for n in ns]
     
             y = 1/2 - 1/np.pi * sum(sum_terms)
             self.data.append(y)
+        
+        self.data = np.array(self.data)
+
+
+
+class FourierSeriesSignal(FourierSignal):
+    """
+    Represent a general Fourier series approximated function.
+    
+    .. math::
+        \frac{1}{2} k + \sum_{i=1}^{N} a_{i} cos(nf)
+    
+    """
+    
+    def gen_data(self):
+        
+        ns = range(1, self.n+1)
+        self.data = []
         
         self.data = np.array(self.data)
 
