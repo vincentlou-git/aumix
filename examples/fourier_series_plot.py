@@ -4,7 +4,7 @@ fourier_series_plot.py
 
 Plots signals approximated with fourier series.
 
-@author: DoraMemo
+@author: Chan Wai Lou / Vincent Lou
 """
 
 # import sys
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     duration = 4
     samp_rate = 1000
     freq = 1
-    sawtooth_params = {
+    signal_params = {
         "duration": duration,
         "samp_rate": samp_rate,
         "freq": freq
@@ -38,27 +38,43 @@ if __name__ == "__main__":
     
     
     
-    # Generate signals
-    fourier_sawtooths = [fs.FourierSawtoothSignal(n=n, 
-                                                  **sawtooth_params).data 
-                         for n in Ns]
-    true_sawtooth = ss.SawtoothSignal(**sawtooth_params).data
+    # Generate sawtooth signal
+    sawtooths = [
+        fs.FourierSawtoothSignal(n=n, 
+                                 **signal_params).data 
+        for n in Ns]
+    sawtooths.append( ss.SawtoothSignal(**signal_params).data )
     
-    fourier_squares = [fs.FourierSquareSignal(n=n, 
-                                              **sawtooth_params).data 
-                       for n in Ns]
-    true_square = ss.SquareSignal(**sawtooth_params).data
+    # Generate square signal
+    squares = [
+        fs.FourierSquareSignal(n=n, 
+                               **signal_params).data 
+        for n in Ns]
+    squares.append( ss.SquareSignal(**signal_params).data )
     
     
+    # Figure options
+    general_options = {"xlabel": "time (seconds)",
+                       "ylabel": "Amplitude"}
     
-    # Figure labels
-    flabels = [f"N = {n}" for n in Ns]
+    sawtooth_line_options = [{"label": f"N = {n}"} for n in Ns]
+    sawtooth_line_options.append({"label": "True signal",
+                                  "linewidth": 2.5,
+                                  "color": "black"})
+    sq_line_options = [{"label": f"N = {n}"} for n in Ns]
+    sq_line_options.append({"label": "True signal",
+                                  "linewidth": 2,
+                                  "color": "black"})
     
     # Plot signals
-    aplot.fourier_plot(ts, fourier_sawtooths, true_sawtooth, 
-                       fsignal_labels=flabels, 
-                       title="Sawtooth wave approximated with Fourier series")
-    aplot.fourier_plot(ts, fourier_squares, true_square, 
-                       fsignal_labels=flabels, 
-                       title="Square wave approximated with Fourier series")
+    aplot.single_plot(ts, 
+                      sawtooths, 
+                      line_options=sawtooth_line_options, 
+                      title="Sawtooth wave approximated with Fourier series",
+                      **general_options)
+    aplot.single_plot(ts, 
+                      squares, 
+                      line_options=sq_line_options, 
+                      title="Square wave approximated with Fourier series",
+                      **general_options)
     

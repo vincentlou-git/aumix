@@ -4,7 +4,7 @@ simple_signal.py
 
 Generates simple signals such as sine waves or square waves.
 
-@author: Chan Wai Lou
+@author: Chan Wai Lou / Vincent Lou
 """
 
 from abc import ABC, abstractmethod

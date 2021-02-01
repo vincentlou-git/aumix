@@ -4,7 +4,7 @@ plot.py
 
 Plotting functions.
 
-@author: DoraMemo
+@author: Chan Wai Lou / Vincent Lou
 """
 
 import matplotlib.pyplot as pl
@@ -12,6 +12,8 @@ import matplotlib.pyplot as pl
 import numpy as np
 
 
+
+# ------------------------- Decorators --------------------------- #
 
 def savefig(function):
     """
@@ -37,37 +39,60 @@ def savefig(function):
     return wrapper
 
 
+# ---------------------------------------------------------------------- #
+
 
 
 @savefig
-def fourier_plot(ts: np.ndarray, fsignals: list, signal: np.ndarray, 
-                 fsignal_labels: list,
-                 title="", figsize=(9, 7), **kwargs):
+def single_plot(xs: np.ndarray, 
+                ys: list, 
+                line_options = [],
+                title = "", 
+                xlabel = "",
+                ylabel = "",
+                figsize = (9, 7), 
+                **kwargs
+                ):
     """
-    Plot multiple signals and a true signal in the same plot.
+    Plot ys against xs in a line chart using 1 figure.
 
     Parameters
     ----------
-    ts : np.ndarray
-        Time samples. For example, np.array([0, 0.1, 0.2, 0.3, 0.4]).
+    xs : np.ndarray
+        Data points in the x-axis. 
+        For example, np.array([0, 0.1, 0.2, 0.3, 0.4]).
         
-    fsignals : list
-        A list of fourier series approximated signals.
-        Each list contains an np.ndarray of same length as ts, where
-        each element i represents the amplitude at ts[i].
+    ys : list
+        A list of data points stored in `np.ndarray`s.
+        Each `np.ndarray` contains elements y_i 
+        that is plotted against x_i in xs.
         
-    signal : np.ndarray
-        The true signal's amplitudes, stored in an np.ndarray.
-        signal should have the same length as ts.
+    line_options : list, default: []
+        A list each containing a dictionary for options to draw each line.
+        Not all lines need to be supplied an option, i.e. the length of
+        line_options does not need to be the same as ys.
         
-    fsignal_labels : list
-        A list of string labels for each signal in fsignals.
+        For example, if we have two lines, we can create line_options as so:
+            line_options[0] = {
+                    label="Line 1"
+                }
+            line_options[1] = {
+                    label="Line 2",
+                    linewidth=2.5,
+                    color="black"
+                }
         
-    title : str, optional
-        The title of the plot. The default is "".
+    title : str, default: ""
+        The title of the plot.
         
-    figsize : tuple, optional
-        Size of the figure used in pyplot.figure. The default is (9, 7).
+    xlabel : str, default: ""
+        The x-axis label.
+        
+    ylabel : str, default: ""
+        The y-axis label.
+        
+    figsize : tuple, default: (9, 7)
+        Figure size of the plot.
         
     **kwargs : dict
         Other keyward arguments.
@@ -77,23 +102,26 @@ def fourier_plot(ts: np.ndarray, fsignals: list, signal: np.ndarray,
     None.
 
     """
-    # Get keyword arguments
-    true_linewidth = kwargs.get("true_linewidth", 2.5)
-    true_color = kwargs.get("true_color", "black")
+    # Fill up line_options if it's not fully specified
+    num_lines = len(ys)
+    num_options = len(line_options)
+    __line_options = [{} for line in range(num_lines)]
+    
+    # Specified in line_options, use it
+    for line_idx in range(num_options):
+        __line_options[line_idx] = line_options[line_idx]
+    
     
     # Create the figure
     fig = pl.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     ax.set_title(title)
-    ax.set_ylabel("Amplitude")
-    ax.set_xlabel("time (second)")
+    ax.set_ylabel(xlabel)
+    ax.set_xlabel(ylabel)
     
-    # Plot all Fourier signals
-    for i, fsignal in enumerate(fsignals):
-        signal_len = fsignal.shape[0]
-        ax.plot(ts[:signal_len], fsignal, label=fsignal_labels[i])
-    
-    # Plot the true signal
-    ax.plot(ts, signal, label="True signal", color=true_color, linewidth=true_linewidth)
+    # Plot all ys
+    for i, line in enumerate(ys):
+        line_len = len(line)
+        ax.plot(xs[:line_len], line, **__line_options[i])
 
     ax.legend()
