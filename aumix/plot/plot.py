@@ -77,6 +77,10 @@ def fourier_plot(ts: np.ndarray, fsignals: list, signal: np.ndarray,
     None.
 
     """
+    # Get keyword arguments
+    true_linewidth = kwargs.get("true_linewidth", 2.5)
+    true_color = kwargs.get("true_color", "black")
+    
     # Create the figure
     fig = pl.figure(figsize=figsize)
     ax = fig.add_subplot(111)
@@ -90,6 +94,6 @@ def fourier_plot(ts: np.ndarray, fsignals: list, signal: np.ndarray,
         ax.plot(ts[:signal_len], fsignal, label=fsignal_labels[i])
     
     # Plot the true signal
-    ax.plot(ts, signal, label="True signal", color='black')
+    ax.plot(ts, signal, label="True signal", color=true_color, linewidth=true_linewidth)
 
     ax.legend()
