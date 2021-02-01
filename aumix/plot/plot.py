@@ -125,3 +125,41 @@ def single_plot(xs: np.ndarray,
         ax.plot(xs[:line_len], line, **__line_options[i])
 
     ax.legend()
+    
+    
+    
+@savefig
+def small_plot(xs: np.ndarray, 
+               ys: list,
+               figsize = (2.75, .5), 
+               **kwargs
+               ):
+    """
+    Generate a small, thumbnail-styled plot.
+
+    Parameters
+    ----------
+    xs : np.ndarray
+        Data points in the x-axis. 
+        For example, np.array([0, 0.1, 0.2, 0.3, 0.4]).
+        
+    ys : list
+        A list of data points stored in `np.ndarray`s.
+        Each `np.ndarray` contains elements y_i 
+        that is plotted against x_i in xs.
+        
+    figsize : tuple, default: (9, 7)
+        Figure size of the plot.
+        
+    **kwargs : dict
+        Other keyward arguments.
+
+    Returns
+    -------
+    None.
+
+    """
+    fig = pl.figure(figsize=figsize)
+    ax = fig.add_subplot(111)
+    ax.plot(xs, ys)
+    pl.axis('off')
