@@ -5,6 +5,6 @@ Created on Sun Jan 31 05:49:53 2021
 @author: DoraMemo
 """
 
-import aumix.signal as asignal
+import aumix.simple_signal as asignal
 
 print(asignal.SawtoothSignal().data)

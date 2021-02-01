@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-signal.py
+simple_signal.py
 
 Generates simple signals such as sine waves or square waves.
 
@@ -33,28 +33,28 @@ class Signal(ABC):
 class SineSignal(Signal):
     
     def gen_data(self):
-        self.data = np.sin(2 * np.pi * self.freq * self.samp_nums)
+        self.data = np.sin(np.pi * self.freq * self.samp_nums)
     
     
 
 class CosineSignal(Signal):
     
     def gen_data(self):
-        self.data = np.cos(2 * np.pi * self.freq * self.samp_nums)
+        self.data = np.cos(np.pi * self.freq * self.samp_nums)
     
     
 
 class SquareSignal(Signal):
     
     def gen_data(self):
-        self.data = signal.square(2 * np.pi * self.freq * self.samp_nums)
+        self.data = signal.square(np.pi * self.freq * self.samp_nums)
     
     
 
 class SawtoothSignal(Signal):
     
     def gen_data(self):
-        self.data = -signal.sawtooth(2 * np.pi * self.freq * self.samp_nums)
+        self.data = signal.sawtooth(np.pi * self.freq * self.samp_nums) / 2
     
 
 
