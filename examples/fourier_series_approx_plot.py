@@ -7,12 +7,6 @@ Plots signals approximated with fourier series.
 @author: Chan Wai Lou / Vincent Lou
 """
 
-# import sys
-# if "../" not in sys.path:
-#     sys.path.append("../")
-# if "../aumix/signal" not in sys.path:
-#     sys.path.append("../aumix/signal")
-
 import aumix.signal.fourier_series as fs
 import aumix.signal.simple_signal as ss
 import aumix.plot.plot as aplot

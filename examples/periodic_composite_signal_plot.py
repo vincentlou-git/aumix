@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb  1 20:10:38 2021
+periodic_composite_signal_plot.py
 
 @author: Chan Wai Lou / Vincent Lou
 """
 
-import aumix.signal.fourier_series as fs
-import aumix.signal.simple_signal as ss
+import aumix.signal.periodic_composite_signal as pcs
 import aumix.plot.plot as aplot
 
 import numpy as np
@@ -31,24 +30,8 @@ signal_params = {
 
 
 
-# Approximate clarinet signal
-cl_odd_amplitudes = [1, 0.75, 0.50, 0.14, 0.50, 0.12, 0.17]
-n = len(cl_odd_amplitudes)*2
-
-cl_sin_amplitudes = [0
-                     if i % 2 == 0 
-                     else 
-                     cl_odd_amplitudes[int((i-1)/2)] 
-                     for i in range(1, n+1)]
-cl_cos_amplitudes = [0 for i in range(n)]
-print(cl_sin_amplitudes)
-
-# Generate clarinet signal
-cl_signal = fs.FourierSeriesSignal(n=n, 
-                                   k=0,
-                                   cos_coeffs = cl_cos_amplitudes,
-                                   sin_coeffs = cl_sin_amplitudes,
-                                   **signal_params)
+# Generate clarinet signal using predefined amplitudes
+cl_signal = pcs.ClarinetApproxSignal(**signal_params)
 
 # Figure options
 general_options = {"xlabel": "time (seconds)",
