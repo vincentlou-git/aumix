@@ -116,8 +116,8 @@ def single_plot(xs: np.ndarray,
     fig = pl.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     ax.set_title(title)
-    ax.set_ylabel(xlabel)
-    ax.set_xlabel(ylabel)
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
     
     # Plot all ys
     for i, line in enumerate(ys):
