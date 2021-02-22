@@ -12,7 +12,6 @@ import matplotlib.pyplot as pl
 import numpy as np
 
 
-
 # ------------------------- Decorators --------------------------- #
 
 def savefig(function):
@@ -26,31 +25,33 @@ def savefig(function):
     function : function
         Plotting function.
     """
+
     def wrapper(*args, **kwargs):
         plot_func = function(*args, **kwargs)
-        
+
         savefig_path = kwargs.get("savefig_path", None)
         if savefig_path is not None:
             pl.savefig(savefig_path, bbox_inches='tight')
-            
+
         pl.show()
-        
+
         return plot_func
+
     return wrapper
 
 
 # ---------------------------------------------------------------------- #
 
 
-
 @savefig
-def single_plot(xs: np.ndarray, 
-                ys: list, 
-                line_options = [],
-                title = "", 
-                xlabel = "",
-                ylabel = "",
-                figsize = (9, 7), 
+def single_plot(xs: np.ndarray,
+                ys: list,
+                line_options=[],
+                title="",
+                xlabel="",
+                ylabel="",
+                figsize=(9, 7),
+                options=[],
                 **kwargs
                 ):
     """
@@ -93,6 +94,9 @@ def single_plot(xs: np.ndarray,
         
     figsize : tuple, default: (9, 7)
         Figure size of the plot.
+
+    options : list, default: []
+        "grid": display a grid behind the plot.
         
     **kwargs : dict
         Other keyward arguments.
@@ -106,32 +110,83 @@ def single_plot(xs: np.ndarray,
     num_lines = len(ys)
     num_options = len(line_options)
     __line_options = [{} for line in range(num_lines)]
-    
+
     # Specified in line_options, use it
     for line_idx in range(num_options):
         __line_options[line_idx] = line_options[line_idx]
-    
-    
+
     # Create the figure
     fig = pl.figure(figsize=figsize)
     ax = fig.add_subplot(111)
     ax.set_title(title)
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
-    
+
+    if "grid" in options:
+        ax.grid()
+
     # Plot all ys
     for i, line in enumerate(ys):
         line_len = len(line)
         ax.plot(xs[:line_len], line, **__line_options[i])
 
     ax.legend()
-    
-    
-    
+
+
 @savefig
-def small_plot(xs: np.ndarray, 
+def single_subplots(xs={},
+                    ys={},
+                    n_rows=1,
+                    n_cols=1,
+                    individual_figsize=(4, 4),
+                    line_options={},
+                    titles={},
+                    xlabels={},
+                    ylabels={},
+                    options=[],
+                    **kwargs
+                    ):
+
+    # Create figure template
+    fig = pl.figure(figsize=(individual_figsize[0] * n_rows, individual_figsize[1] * n_cols))
+    fig.subplots_adjust(left=-0.2, right=1, top=1, bottom=-0.2)
+
+    # Find figure positions where both the x-axis and y-axis have data
+    fig_pos = set(xs.keys()) & set(ys.keys())   # Python 2 friendly
+
+    for key in fig_pos:
+        (row, col) = key
+
+        # Fill up line_options if it's not fully specified
+        num_lines = len(ys[key])    # ys must contain the key since it's intersected
+        num_options = len(line_options.get(key, {}))
+        __line_options = [{} for line in range(num_lines)]
+
+        # Specified in line_options, use it
+        for line_idx in range(num_options):
+            __line_options[line_idx] = line_options[line_idx]
+
+        # Create the specified subplot
+        ax = fig.add_subplot(n_rows, n_cols, row * n_cols + col + 1)
+        ax.set_title(titles.get(key, ""))
+        ax.set_ylabel(ylabels.get(key, ""))
+        ax.set_xlabel(xlabels.get(key, ""))
+
+        if "grid" in options:
+            ax.grid()
+
+        # Plot all ys
+        for i, line in enumerate(ys[key]):
+            line_len = len(line)
+            ax.plot(xs[key][:line_len], line, **__line_options[i])
+
+        ax.legend()
+
+
+@savefig
+def small_plot(xs: np.ndarray,
                ys: list,
-               figsize = (2.75, .5), 
+               figsize=(2.75, .5),
                **kwargs
                ):
     """
