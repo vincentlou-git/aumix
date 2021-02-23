@@ -138,10 +138,8 @@ def single_subplots(fig_data: dict = None,
 
     # Create figure template
     fig = pl.figure(figsize=(individual_figsize[0] * n_rows, individual_figsize[1] * n_cols))
-    pl.title(title)
+    fig.suptitle(title)
     fig.subplots_adjust(left=-0.2, right=1, top=1, bottom=-0.2)
-
-    # Find figure positions where both the x-axis and y-axis have data
 
     for ((row, col, num), f) in fig_data.items():
 
