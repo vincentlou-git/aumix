@@ -91,8 +91,6 @@ def single_plot(fig_data: FigData = None,
 
 @savefig
 def single_subplots(fig_data: dict = None,
-                    n_rows=1,
-                    n_cols=1,
                     individual_figsize=(6, 6),
                     title="",
                     **kwargs
@@ -110,12 +108,6 @@ def single_subplots(fig_data: dict = None,
 
         Justification: Using a dict rather than a list with each FigData having a "subplot_pos" keyword variable
         is more explicit, and so is preferred.
-
-    n_rows: int, default: 1
-        Number of rows of figures.
-
-    n_cols: int, default: 1
-        Number of columns of figures.
 
     individual_figsize: tuple, default: (6, 6)
         Size of each individual subplot.
@@ -136,8 +128,12 @@ def single_subplots(fig_data: dict = None,
     if fig_data is None or len(fig_data) == 0:
         return
 
+    # Find out the maximum required rows and columns
+    n_rows = max(fig_data.keys())[0]
+    n_cols = max(fig_data.keys(), key=lambda tup: tup[1])[1]
+
     # Create figure template
-    fig = pl.figure(figsize=(individual_figsize[0] * n_rows, individual_figsize[1] * n_cols))
+    fig = pl.figure(figsize=(individual_figsize[0] * n_cols, individual_figsize[1] * n_rows))
     fig.suptitle(title)
     fig.subplots_adjust(left=-0.2, right=1, top=1, bottom=-0.2)
 
