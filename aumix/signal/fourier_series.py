@@ -71,14 +71,14 @@ class FourierSeriesSignal(FourierSignal):
         super().__init__(**kwargs)
 
     def __cosine_sum(self):
-        cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.freq * self.samp_nums)
+        self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.freq * self.samp_nums)
                              for n in self.ns]
-        return np.sum(cosine_components, axis=0)
+        return np.sum(self.cosine_components, axis=0)
 
     def __sine_sum(self):
-        sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * n * self.freq * self.samp_nums)
+        self.sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * n * self.freq * self.samp_nums)
                            for n in self.ns]
-        return np.sum(sine_components, axis=0)
+        return np.sum(self.sine_components, axis=0)
 
     def gen_data(self):
         # add constant, cosine components, and sine components together
