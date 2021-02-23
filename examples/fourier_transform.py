@@ -73,7 +73,9 @@ cl_fft_title = "Fourier Transform " + cl_signal_title
 sine_sum_signal_title = f"Sum of two sine signals at frequencies {sine_signal1.freq}Hz and {sine_signal2.freq}Hz"
 sine_sum_fft_title = "Fourier Transform of the " + sine_sum_signal_title
 
-general_options = {"xlabel": "time (seconds)",
+signal_axis_labels = {"xlabel": "time (seconds)",
+                      "ylabel": "Amplitude"}
+fft_axis_labels = {"xlabel": "Frequency (Hz)",
                    "ylabel": "Amplitude"}
 
 # line_options = [{"label": f"f0 = {freq}Hz"}]
@@ -84,24 +86,24 @@ general_options = {"xlabel": "time (seconds)",
 cl_signal_fig = FigData(xs=cl_signal.samp_nums,
                         ys=[cl_signal.data],
                         title=cl_signal_title,
-                        **general_options)
+                        **signal_axis_labels)
 
 cl_fft_fig = FigData(xs=cl_fft_x[:cl_slice_num],
                      ys=np.abs(cl_fft[:cl_slice_num]),
                      title=cl_fft_title,
                      options=["grid"],
-                     **general_options)
+                     **fft_axis_labels)
 
 sine_signal_fig = FigData(xs=sine_signal1.samp_nums,
                           ys=[sine_sum_signal.data],
                           title=sine_sum_signal_title,
-                          **general_options)
+                          **signal_axis_labels)
 
 sine_fft_fig = FigData(xs=sine_fft_x[:sine_slice_num],
                        ys=np.abs(sine_fft[:sine_slice_num]),
                        title=sine_sum_fft_title,
                        options=["grid"],
-                       **general_options)
+                       **fft_axis_labels)
 
 #
 # Plot
