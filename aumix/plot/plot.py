@@ -71,22 +71,27 @@ def single_plot(fig_data: FigData = None,
     if fig_data is None:
         return
 
+    # Create the figure dict
+    fig_dict = {(1, 1, 1): fig_data}
+    single_subplots(fig_dict,
+                    individual_figsize=fig_data.figsize)
+
     # Create the figure
-    fig = pl.figure(figsize=fig_data.figsize)
-    ax = fig.add_subplot(111)
-    ax.set_title(fig_data.title)
-    ax.set_ylabel(fig_data.ylabel)
-    ax.set_xlabel(fig_data.xlabel)
-
-    if "grid" in fig_data.options:
-        ax.grid()
-
-    # Plot all ys
-    for i, line in enumerate(fig_data.ys):
-        line_len = len(line)
-        ax.plot(fig_data.xs[:line_len], line, **fig_data.line_options[i])
-
-    ax.legend()
+    # fig = pl.figure(figsize=fig_data.figsize)
+    # ax = fig.add_subplot(111)
+    # ax.set_title(fig_data.title)
+    # ax.set_ylabel(fig_data.ylabel)
+    # ax.set_xlabel(fig_data.xlabel)
+    #
+    # if "grid" in fig_data.options:
+    #     ax.grid()
+    #
+    # # Plot all ys
+    # for i, line in enumerate(fig_data.ys):
+    #     line_len = len(line)
+    #     ax.plot(fig_data.xs[:line_len], line, **fig_data.line_options[i])
+    #
+    # ax.legend()
 
 
 @savefig
@@ -149,10 +154,34 @@ def single_subplots(fig_data: dict = None,
         if "grid" in f.options:
             ax.grid()
 
-        # Plot all ys
+        # Determine the plot type
+        plot_map = {
+            "plot": ax.plot,
+            "errorbar": ax.errorbar,
+            "scatter": ax.scatter,
+            "step": ax.step,
+            "loglog": ax.loglog,
+            "semilogx": ax.semilogx,
+            "semilogy": ax.semilogy,
+            "bar": ax.bar,
+            "barh": ax.barh,
+            "stem": ax.stem,
+            "eventplot": ax.eventplot,
+            "pie": ax.pie,
+            "stackplot": ax.stackplot,
+            "broken_barh": ax.broken_barh,
+            "vlines": ax.vlines,
+            "hlines": ax.hlines,
+            "fill": ax.fill
+        }
+
+        # If the figure does not have a plot type (or the plot type is undefined), use the normal plot
+        plot_func = plot_map.get(f.plot_type, ax.plot)
+
+        # Plot data contained in the figure
         for i, line in enumerate(f.ys):
             line_len = len(line)
-            ax.plot(f.xs[:line_len], line, **f.line_options[i])
+            plot_func(f.xs[:line_len], line, **f.line_options[i])
 
         ax.legend()
 
