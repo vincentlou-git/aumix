@@ -20,6 +20,7 @@ class FigData:
                  xlabel="",
                  ylabel="",
                  figsize=(9, 7),
+                 plot_type="plot",
                  options=None,
                  **kwargs
                  ):
@@ -60,6 +61,10 @@ class FigData:
         figsize : tuple, default: (9, 7)
             Figure size of the plot.
 
+        plot_type : str, default: "plot"
+            A string indicator for the plot type.
+            This can be detected in some plotting function for different chart types.
+
         options : list, optional
             "grid": display a grid behind the plot.
         """
@@ -70,6 +75,7 @@ class FigData:
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.figsize = figsize
+        self.plot_type = plot_type
         self.options = [] if options is None else options
 
         self.__fill_line_options()
@@ -81,6 +87,7 @@ class FigData:
         # Fill up line_options if it's not fully specified
         num_lines = len(self.ys)
         num_options = len(self.line_options)
+        print(num_lines, num_options)
         __line_options = [{} for line in range(num_lines)]
 
         # Specified in line_options, use it
@@ -88,3 +95,5 @@ class FigData:
             __line_options[line_idx] = self.line_options[line_idx]
 
         self.line_options = __line_options
+
+    # TODO: move plot functions inside the class
