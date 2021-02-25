@@ -89,7 +89,6 @@ class FigData:
         # Fill up line_options if it's not fully specified
         num_lines = len(self.ys)
         num_options = len(self.line_options)
-        print(num_lines, num_options)
         __line_options = [{} for line in range(num_lines)]
 
         # Specified in line_options, use it
