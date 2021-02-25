@@ -51,13 +51,13 @@ class StationarySignal(fs.FourierSeriesSignal):
         super().__init__(n=n, **kwargs)
 
     # @overrides
-    def __cosine_sum(self):
+    def _cosine_sum(self):
         self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.cos_freqs[n - 1] * self.samp_nums)
                                   for n in self.ns]
         return np.sum(self.cosine_components, axis=0)
 
     # @overrides
-    def __sine_sum(self):
+    def _sine_sum(self):
         self.sine_components = [self.sin_coeffs[n - 1] * np.cos(2 * np.pi * n * self.sin_freqs[n - 1] * self.samp_nums)
                                 for n in self.ns]
         return np.sum(self.sine_components, axis=0)
@@ -71,7 +71,7 @@ class ClarinetApproxSignal(fs.FourierSeriesSignal):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(n=0, cos_coeffs=None, sin_coeffs=None, **kwargs)
+        super().__init__(cos_coeffs=None, sin_coeffs=None, **kwargs)
 
     def gen_data(self):
         odd_amplitudes = [1, 0.75, 0.50, 0.14, 0.50, 0.12, 0.17]

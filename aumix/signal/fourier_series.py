@@ -72,19 +72,19 @@ class FourierSeriesSignal(FourierSignal):
         self.sin_coeffs = [0 for _ in range(n)] if sin_coeffs is None else sin_coeffs
         super().__init__(**kwargs)
 
-    def __cosine_sum(self):
+    def _cosine_sum(self):
         self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.freq * self.samp_nums)
                                   for n in self.ns]
         return np.sum(self.cosine_components, axis=0)
 
-    def __sine_sum(self):
+    def _sine_sum(self):
         self.sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * n * self.freq * self.samp_nums)
                                 for n in self.ns]
         return np.sum(self.sine_components, axis=0)
 
     def gen_data(self):
         # add constant, cosine components, and sine components together
-        self.data = 0.5 * self.k + self.__cosine_sum() + self.__sine_sum()
+        self.data = 0.5 * self.k + self._cosine_sum() + self._sine_sum()
 
         if self.options.get("normalize", False):
             max_amp = max(self.data)
