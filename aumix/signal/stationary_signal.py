@@ -28,7 +28,7 @@ class StationarySignal(fs.FourierSeriesSignal):
     See `FourierSeriesSignal`.
     """
 
-    def __init__(self, cos_freqs, sin_freqs, **kwargs):
+    def __init__(self, cos_freqs=None, sin_freqs=None, **kwargs):
         """
         Initialization
 
@@ -43,9 +43,12 @@ class StationarySignal(fs.FourierSeriesSignal):
         kwargs : dict
             Other keyword arguments.
         """
-        self.cos_freqs = cos_freqs
-        self.sin_freqs = sin_freqs
-        super().__init__(**kwargs)
+        n = max(0 if cos_freqs is None else len(cos_freqs), 0 if sin_freqs is None else len(sin_freqs))
+
+        self.freq = None
+        self.cos_freqs = [0 for _ in range(n)] if cos_freqs is None else cos_freqs
+        self.sin_freqs = [0 for _ in range(n)] if sin_freqs is None else sin_freqs
+        super().__init__(n=n, **kwargs)
 
     # @overrides
     def __cosine_sum(self):
@@ -80,7 +83,7 @@ class ClarinetApproxSignal(fs.FourierSeriesSignal):
                            else
                            odd_amplitudes[int((i - 1) / 2)]
                            for i in range(1, self.n + 1)]
-        self.cos_coeffs = [0 for i in range(self.n)]
+        self.cos_coeffs = [0 for _ in range(self.n)]
 
         # Generate clarinet signal
         super().gen_data()

@@ -64,10 +64,12 @@ class FourierSeriesSignal(FourierSignal):
     
     """
 
-    def __init__(self, cos_coeffs, sin_coeffs, k=0, **kwargs):
+    def __init__(self, cos_coeffs=None, sin_coeffs=None, k=0, **kwargs):
+
+        n = kwargs.get("n", 0)
         self.k = k
-        self.cos_coeffs = cos_coeffs
-        self.sin_coeffs = sin_coeffs
+        self.cos_coeffs = [0 for _ in range(n)] if cos_coeffs is None else cos_coeffs
+        self.sin_coeffs = [0 for _ in range(n)] if sin_coeffs is None else sin_coeffs
         super().__init__(**kwargs)
 
     def __cosine_sum(self):
