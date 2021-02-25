@@ -14,11 +14,14 @@ import aumix.signal.fourier_series as fs
 
 class StationarySignal(fs.FourierSeriesSignal):
     """
-    A representation of a generic, non-piecewise-smooth signal of mulitple frequencies.
+    A representation of a generic, non-piecewise-smooth signal of multiple frequencies.
     
     Notice Fourier Series states that any such function can be represented
     as a sum of sines and cosines, hence we don't need to specify any
     coefficients other than for sin and cos.
+
+    This is different to FourierSeriesSignal in that the individual frequencies can be specified,
+    rather than specifying 1 fundamental frequency (f0) then adding multiples of the fundamental frequency (k*f0).
     
     Parameters
     ----------
@@ -26,21 +29,35 @@ class StationarySignal(fs.FourierSeriesSignal):
     """
 
     def __init__(self, cos_freqs, sin_freqs, **kwargs):
+        """
+        Initialization
+
+        Parameters
+        ----------
+        cos_freqs: list
+            Frequencies of cosine components.
+
+        sin_freqs: list
+            Frequencies of sine components.
+
+        kwargs : dict
+            Other keyword arguments.
+        """
         self.cos_freqs = cos_freqs
         self.sin_freqs = sin_freqs
         super().__init__(**kwargs)
 
     # @overrides
     def __cosine_sum(self):
-        cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.cos_freqs[n - 1] * self.samp_nums)
-                             for n in self.ns]
-        return np.sum(cosine_components, axis=0)
+        self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.cos_freqs[n - 1] * self.samp_nums)
+                                  for n in self.ns]
+        return np.sum(self.cosine_components, axis=0)
 
     # @overrides
     def __sine_sum(self):
-        sine_components = [self.sin_coeffs[n - 1] * np.cos(2 * np.pi * n * self.sin_freqs[n - 1] * self.samp_nums)
-                           for n in self.ns]
-        return np.sum(sine_components, axis=0)
+        self.sine_components = [self.sin_coeffs[n - 1] * np.cos(2 * np.pi * n * self.sin_freqs[n - 1] * self.samp_nums)
+                                for n in self.ns]
+        return np.sum(self.sine_components, axis=0)
 
 
 class ClarinetApproxSignal(fs.FourierSeriesSignal):
