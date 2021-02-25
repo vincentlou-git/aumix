@@ -78,6 +78,8 @@ class FigData:
         self.plot_type = plot_type
         self.options = [] if options is None else options
 
+        self.kwargs = kwargs
+
         self.__fill_line_options()
 
         # Wrap ys in a list if it's not a list. For example this could happen when only 1 line is specified.
