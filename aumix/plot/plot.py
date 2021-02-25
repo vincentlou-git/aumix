@@ -9,6 +9,7 @@ Plotting functions.
 
 from aumix.plot.fig_data import *
 
+from datetime import datetime
 import matplotlib.pyplot as pl
 # from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
@@ -29,11 +30,12 @@ def savefig(function):
         Plotting function.
     """
 
-    def wrapper(*args, savefig_path=None, **kwargs):
+    def wrapper(*args, savefig_path=None, auto_timestamp=True, **kwargs):
         plot_func = function(*args, **kwargs)
 
         if savefig_path is not None:
-            pl.savefig(savefig_path, bbox_inches='tight')
+            timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
+            pl.savefig(f"{timestamp}-{savefig_path}", bbox_inches='tight')
 
         pl.show()
 
@@ -95,20 +97,22 @@ def single_plot(fig_data: FigData = None,
 
 
 @savefig
-def single_subplots(fig_data: dict = None,
+def single_subplots(grid_size,
+                    fig_data: dict = None,
                     individual_figsize=(6, 6),
                     title="",
                     **kwargs
                     ):
     """
-    Plot one figure with n_rows-by-n_cols subplots.
+    Plot one figure with n_rows-by-n_cols subplots with the same width and height.
 
     Parameters
     ----------
     fig_data: dict, optional
         A dictionary of (subplot_pos, figure_data).
-        subplot_pos expects a 3-tuple to be used in fig.add_subuplot.
-            For example, (1, 2, 1) means the first subplot with a whole figure having 1 row and 2 columns.
+        subplot_pos expects a 2-tuple or a 4-tuple to be used in fig.add_subuplot. Index begins from 0.
+            For 2-tuples, e.g. (1, 2) means the subplot will be placed at the second row and the third column.
+            For 4-tuples, e.g. (0, 0, 2, 1) means a subplot at (0, 0) spanning 2 rows and 1 column.
         figure_data expects a FigData object, encapsulating the figure's data.
 
         Justification: Using a dict rather than a list with each FigData having a "subplot_pos" keyword variable
@@ -133,19 +137,25 @@ def single_subplots(fig_data: dict = None,
     if fig_data is None or len(fig_data) == 0:
         return
 
-    # Find out the maximum required rows and columns
-    n_rows = max(fig_data.keys())[0]
-    n_cols = max(fig_data.keys(), key=lambda tup: tup[1])[1]
+    # Retrieve number of rows and columns
+    n_rows = grid_size[0]
+    n_cols = grid_size[1]
 
     # Create figure template
     fig = pl.figure(figsize=(individual_figsize[0] * n_cols, individual_figsize[1] * n_rows))
     fig.suptitle(title)
-    fig.subplots_adjust(left=-0.2, right=1, top=1, bottom=-0.2)
+    gs = pl.GridSpec(n_rows, n_cols, figure=fig)
 
-    for ((row, col, num), f) in fig_data.items():
+    for (fig_pos, f) in fig_data.items():
 
         # Create the specified subplot
-        ax = fig.add_subplot(row, col, num)
+        row = fig_pos[0]
+        col = fig_pos[1]
+        row_span = fig_pos[2] if len(fig_pos) > 2 else 1
+        col_span = fig_pos[3] if len(fig_pos) > 3 else 1
+
+        # ax = fig.add_subplot(gs[row:row+row_span, col:col+col_span])
+        ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span))
         ax.set_title(f.title)
         ax.set_ylabel(f.ylabel)
         ax.set_xlabel(f.xlabel)
@@ -184,7 +194,7 @@ def single_subplots(fig_data: dict = None,
             plot_func(f.xs[:line_len], line, **f.line_options[i])
 
         ax.legend()
-
+        pl.tight_layout()
 
 @savefig
 def small_plot(xs: np.ndarray,
