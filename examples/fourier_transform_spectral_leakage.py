@@ -71,6 +71,7 @@ signal_axis_labels = {"xlabel": "time (seconds)",
 fft_axis_labels = {"xlabel": "Frequency (Hz)",
                    "ylabel": "Amplitude"}
 
+#
 # Encapsulate signals data
 #
 
@@ -104,7 +105,8 @@ cl_fft_fig = FigData(xs=cl_fft_x[:cl_slice_num],
 # Plot
 #
 
-aplot.single_subplots({(2, 2, 1): cl_signal_fig,
-                       (2, 2, 2): cl_window_fig,
-                       (2, 2, 3): cl_fft_fig},
+aplot.single_subplots(grid_size=(2, 2),
+                      fig_data={(0, 0): cl_signal_fig,
+                                (0, 1): cl_window_fig,
+                                (1, 0, 1, 2): cl_fft_fig},
                       individual_figsize=(6, 4))

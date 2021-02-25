@@ -147,12 +147,14 @@ sine_fft_fig = FigData(xs=sine_fft_x[:sine_slice_num],
 # Plot
 #
 
-aplot.single_subplots({(3, 1, 1): cl_raw_fig,
-                       (3, 1, 2): cl_signal_fig,
-                       (3, 1, 3): cl_fft_fig},
+aplot.single_subplots(grid_size=(3, 1),
+                      fig_data={(0, 0): cl_raw_fig,
+                                (1, 0): cl_signal_fig,
+                                (2, 0): cl_fft_fig},
                       individual_figsize=(12, 3))
 
-aplot.single_subplots({(3, 1, 1): sine_raw_fig,
-                       (3, 1, 2): sine_signal_fig,
-                       (3, 1, 3): sine_fft_fig},
+aplot.single_subplots(grid_size=(3, 1),
+                      fig_data={(0, 0): sine_raw_fig,
+                                (1, 0): sine_signal_fig,
+                                (2, 0): sine_fft_fig},
                       individual_figsize=(12, 3))
