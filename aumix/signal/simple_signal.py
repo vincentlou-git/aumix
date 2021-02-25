@@ -15,12 +15,12 @@ from scipy import signal
 
 class Signal(ABC):
 
-    def __init__(self, freq=440, samp_rate=44100, duration=1, options={}):
+    def __init__(self, freq=440, samp_rate=44100, duration=1, options=None):
         self.samp_rate = samp_rate
         self.duration = duration
         self.freq = freq
         self.samp_nums = np.arange(duration * samp_rate) / samp_rate
-        self.options = options
+        self.options = {} if options is None else options
 
         self.gen_data()
 
