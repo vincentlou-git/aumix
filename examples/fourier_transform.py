@@ -20,16 +20,16 @@ from scipy.fft import fft, ifft, fftfreq
 #
 # Parameters
 #
-duration = 0.75
-samp_rate = 800
+duration = 1
 
-freq = 440
+cl_freq = 440
 cl_pitch_label = "?"
+cl_samp_rate = 44100
+
+sine_samp_rate = 800
 
 signal_params = {
     "duration": duration,
-    "samp_rate": samp_rate,
-    # "freq": freq,
     "options": {
         "normalize": True
     }
@@ -39,53 +39,79 @@ signal_params = {
 # Generate signals
 #
 
-# Generate clarinet signal using predefined amplitudes
-cl_signal = sts.ClarinetApproxSignal(**signal_params)
+# Clarinet signal using predefined amplitudes
+cl_signal = sts.ClarinetApproxSignal(freq=cl_freq, samp_rate=cl_samp_rate, **signal_params)
 
-# Generate simple signals
-sine_signal1 = ss.SineSignal(**signal_params, freq=50)
-sine_signal2 = ss.SineSignal(**signal_params, freq=80)
-sine_sum_signal = sine_signal1.data + sine_signal2.data * 0.5
+# Superposition of two sines
+sine_signal = sts.StationarySignal(sin_freqs=[25, 80], sin_coeffs=[1, 0.5], samp_rate=sine_samp_rate, **signal_params)
 
 
-# Generate clarinet Fourier Transform
+# FFT of clarinet
 cl_fft = fft(cl_signal.data)
 cl_recon = ifft(cl_fft)
 
+# Only consider positive frequencies (since the spectrum is symmetric)
 cl_slice_num = cl_signal.samp_nums.shape[0]//2
+# Nyquist: max discernable freq is sampling rate / 2
 cl_fft_x = fftfreq(cl_signal.samp_nums.shape[0], 1/cl_signal.samp_rate)
 
-# Generate sine sum Fourier Transform
-sine_fft = fft(sine_sum_signal.data)
+# FFT of sine sum
+sine_fft = fft(sine_signal.data)
 sine_recon = ifft(sine_fft)
 
-sine_slice_num = sine_signal1.samp_nums.shape[0]//2
-sine_fft_x = fftfreq(sine_signal1.samp_nums.shape[0], 1/sine_signal1.samp_rate)
+sine_slice_num = sine_signal.samp_nums.shape[0]//2
+sine_fft_x = fftfreq(sine_signal.samp_nums.shape[0], 1/sine_signal.samp_rate)
 
 
 #
 # Figure options
 #
 
-cl_signal_title = "Approximated Clarinet Signal"
-cl_fft_title = "Fourier Transform " + cl_signal_title
+# Zoom
+cl_time_for_two_cycles = min(duration, 1/cl_signal.freq*2)
+cl_xlim = (-0.05*cl_time_for_two_cycles, 1.05*cl_time_for_two_cycles)
 
-sine_sum_signal_title = f"Sum of two sine signals at frequencies {sine_signal1.freq}Hz and {sine_signal2.freq}Hz"
-sine_sum_fft_title = "Fourier Transform of the " + sine_sum_signal_title
+sine_time_for_two_cycles = min(duration, 1/min(sine_signal.sin_freqs)*2)
+sine_xlim = (-0.05*sine_time_for_two_cycles, 1.05*sine_time_for_two_cycles)
 
+# Axis labels
 signal_axis_labels = {"xlabel": "time (seconds)",
                       "ylabel": "Amplitude"}
 fft_axis_labels = {"xlabel": "Frequency (Hz)",
                    "ylabel": "Amplitude"}
 
-# line_options = [{"label": f"f0 = {freq}Hz"}]
+# Titles
+cl_signal_title = f"Approximated Clarinet Signal\nSampling Rate = {cl_signal.samp_rate}Hz"
+cl_raw_title = "Constituent waves of the " + cl_signal_title
+cl_fft_title = "Fourier Transform of the " + cl_signal_title.split("\n")[0]
+
+sine_raw_title = f"Pure Sine Waves\nSampling Rate = {sine_signal.samp_rate}Hz"
+sine_sum_signal_title = f"Sum of two sine signals at frequencies { sine_signal.sin_freqs[0] }Hz and { sine_signal.sin_freqs[1] }Hz"
+sine_sum_fft_title = "Fourier Transform of the " + sine_sum_signal_title.lower()
+
+# Line options
+cl_raw_line_options = [{"label": f"(Sine) f0 = {cl_freq}Hz"}]
+cl_raw_line_options += [{"label": f"(Sine) {amp:.2f} * { ((i+1)*2 + 1) * cl_freq }Hz"} for i, amp in enumerate(cl_signal.sin_coeffs[2::2])]
+
+sine_raw_line_options = [{"label": f"{amp:.2f} * { sine_signal.sin_freqs[i] }Hz"} for i, amp in enumerate(sine_signal.sin_coeffs)]
 
 #
 # Encapsulate signals data
 #
+cl_raw_fig = FigData(xs=cl_signal.samp_nums,
+                     ys=cl_signal.sine_components[::2],
+                     title=cl_raw_title,
+                     line_options=cl_raw_line_options,
+                     xlim=cl_xlim,
+                     **signal_axis_labels)
+
 cl_signal_fig = FigData(xs=cl_signal.samp_nums,
-                        ys=[cl_signal.data],
+                        ys=[cl_signal.data,
+                            cl_recon],
                         title=cl_signal_title,
+                        line_options=[{"label": "Original"},
+                                      {"label": "Reconstructed from FFT"}],
+                        xlim=cl_xlim,
                         **signal_axis_labels)
 
 cl_fft_fig = FigData(xs=cl_fft_x[:cl_slice_num],
@@ -94,9 +120,21 @@ cl_fft_fig = FigData(xs=cl_fft_x[:cl_slice_num],
                      options=["grid"],
                      **fft_axis_labels)
 
-sine_signal_fig = FigData(xs=sine_signal1.samp_nums,
-                          ys=[sine_sum_signal.data],
+
+sine_raw_fig = FigData(xs=sine_signal.samp_nums,
+                       ys=sine_signal.sine_components,
+                       title=sine_raw_title,
+                       line_options=sine_raw_line_options,
+                       xlim=sine_xlim,
+                       **signal_axis_labels)
+
+sine_signal_fig = FigData(xs=sine_signal.samp_nums,
+                          ys=[sine_signal.data,
+                              sine_recon],
                           title=sine_sum_signal_title,
+                          line_options=[{"label": "Original"},
+                                        {"label": "Reconstructed from FFT"}],
+                          xlim=sine_xlim,
                           **signal_axis_labels)
 
 sine_fft_fig = FigData(xs=sine_fft_x[:sine_slice_num],
@@ -109,10 +147,12 @@ sine_fft_fig = FigData(xs=sine_fft_x[:sine_slice_num],
 # Plot
 #
 
-aplot.single_subplots({(2, 1, 1): cl_signal_fig,
-                       (2, 1, 2): cl_fft_fig},
-                      individual_figsize=(12, 6))
+aplot.single_subplots({(3, 1, 1): cl_raw_fig,
+                       (3, 1, 2): cl_signal_fig,
+                       (3, 1, 3): cl_fft_fig},
+                      individual_figsize=(12, 3))
 
-aplot.single_subplots({(2, 1, 1): sine_signal_fig,
-                       (2, 1, 2): sine_fft_fig},
-                      individual_figsize=(12, 6))
+aplot.single_subplots({(3, 1, 1): sine_raw_fig,
+                       (3, 1, 2): sine_signal_fig,
+                       (3, 1, 3): sine_fft_fig},
+                      individual_figsize=(12, 3))
