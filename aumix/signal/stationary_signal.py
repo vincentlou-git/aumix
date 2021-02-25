@@ -52,13 +52,13 @@ class StationarySignal(fs.FourierSeriesSignal):
 
     # @overrides
     def _cosine_sum(self):
-        self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * n * self.cos_freqs[n - 1] * self.samp_nums)
+        self.cosine_components = [self.cos_coeffs[n - 1] * np.cos(2 * np.pi * self.cos_freqs[n - 1] * self.samp_nums)
                                   for n in self.ns]
         return np.sum(self.cosine_components, axis=0)
 
     # @overrides
     def _sine_sum(self):
-        self.sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * n * self.sin_freqs[n - 1] * self.samp_nums)
+        self.sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * self.sin_freqs[n - 1] * self.samp_nums)
                                 for n in self.ns]
         return np.sum(self.sine_components, axis=0)
 
