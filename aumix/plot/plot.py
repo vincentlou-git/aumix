@@ -29,10 +29,9 @@ def savefig(function):
         Plotting function.
     """
 
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, savefig_path=None, **kwargs):
         plot_func = function(*args, **kwargs)
 
-        savefig_path = kwargs.get("savefig_path", None)
         if savefig_path is not None:
             pl.savefig(savefig_path, bbox_inches='tight')
 
@@ -74,7 +73,8 @@ def single_plot(fig_data: FigData = None,
     # Create the figure dict
     fig_dict = {(1, 1, 1): fig_data}
     single_subplots(fig_dict,
-                    individual_figsize=fig_data.figsize)
+                    individual_figsize=fig_data.figsize,
+                    **kwargs)
 
     # Create the figure
     # fig = pl.figure(figsize=fig_data.figsize)
@@ -145,11 +145,11 @@ def single_subplots(fig_data: dict = None,
     for ((row, col, num), f) in fig_data.items():
 
         # Create the specified subplot
-        # ax = fig.add_subplot(n_rows, n_cols, row * n_cols + col + 1)
         ax = fig.add_subplot(row, col, num)
         ax.set_title(f.title)
         ax.set_ylabel(f.ylabel)
         ax.set_xlabel(f.xlabel)
+        ax.set(**f.kwargs)
 
         if "grid" in f.options:
             ax.grid()
