@@ -71,7 +71,7 @@ class ClarinetApproxSignal(fs.FourierSeriesSignal):
     """
 
     def __init__(self, **kwargs):
-        super().__init__(cos_coeffs=None, sin_coeffs=None, **kwargs)
+        super().__init__(n=0, cos_coeffs=None, sin_coeffs=None, **kwargs)
 
     def gen_data(self):
         odd_amplitudes = [1, 0.75, 0.50, 0.14, 0.50, 0.12, 0.17]
