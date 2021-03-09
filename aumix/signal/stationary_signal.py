@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-periodic_composite_signal.py
+stationary_signal.py
 
 Periodic signals that is a superposition of multiple frequencies.
 
@@ -61,6 +61,9 @@ class StationarySignal(fs.FourierSeriesSignal):
         self.sine_components = [self.sin_coeffs[n - 1] * np.sin(2 * np.pi * self.sin_freqs[n - 1] * self.samp_nums)
                                 for n in self.ns]
         return np.sum(self.sine_components, axis=0)
+
+    def __str__(self):
+        return f"sin_freqs={self.sin_freqs}, cos_freqs={self.cos_freqs}, {super().__str__()}"
 
 
 class ClarinetApproxSignal(fs.FourierSeriesSignal):

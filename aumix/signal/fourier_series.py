@@ -23,6 +23,9 @@ class FourierSignal(ss.Signal, ABC):
 
         super().__init__(**kwargs)
 
+    def __str__(self):
+        return f"Fourier_n={self.n}, {super().__str__()}"
+
 
 class FourierSquareSignal(FourierSignal):
     """Represents a square signal approximated with Fourier series."""
@@ -91,6 +94,9 @@ class FourierSeriesSignal(FourierSignal):
             self.data /= max_amp
 
         self.data = np.array(self.data)
+
+    def __str__(self):
+        return f"sin_coeffs={self.sin_coeffs}, cos_coeffs={self.cos_coeffs}, {super().__str__()}"
 
 
 # Example of using the FourierSignal class 
