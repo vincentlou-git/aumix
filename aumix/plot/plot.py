@@ -9,6 +9,7 @@ Plotting functions.
 
 from aumix.plot.fig_data import *
 
+import os
 from datetime import datetime
 import matplotlib.pyplot as pl
 # from mpl_toolkits.mplot3d import Axes3D
@@ -33,9 +34,13 @@ def savefig(function):
     def wrapper(*args, savefig_path=None, auto_timestamp=True, **kwargs):
         plot_func = function(*args, **kwargs)
 
+        folder = "figures"
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
         if savefig_path is not None:
             timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
-            pl.savefig(f"{timestamp}-{savefig_path}", bbox_inches='tight')
+            pl.savefig(f"{folder}/{timestamp}-{savefig_path}", bbox_inches='tight')
 
         pl.show()
 
