@@ -149,6 +149,15 @@ def single_subplots(grid_size,
     # Create figure template
     fig = pl.figure(figsize=(individual_figsize[0] * n_cols, individual_figsize[1] * n_rows))
     fig.suptitle(title)
+
+    # Create a big subplot to set any desired style / parameter
+    ax = fig.add_subplot(111, frameon=False)
+    ax.spines['top'].set_color('none')
+    ax.spines['bottom'].set_color('none')
+    ax.spines['left'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
+
     gs = pl.GridSpec(n_rows, n_cols, figure=fig)
 
     for (fig_pos, f) in fig_data.items():
@@ -200,6 +209,9 @@ def single_subplots(grid_size,
 
         ax.legend()
         pl.tight_layout()
+
+    ax.set(**kwargs)
+
 
 @savefig
 def small_plot(xs: np.ndarray,
