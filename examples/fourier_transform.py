@@ -151,10 +151,14 @@ aplot.single_subplots(grid_size=(3, 1),
                       fig_data={(0, 0): cl_raw_fig,
                                 (1, 0): cl_signal_fig,
                                 (2, 0): cl_fft_fig},
-                      individual_figsize=(12, 3))
+                      individual_figsize=(12, 3),
+                      savefig_path="Clarinet_FFT"
+                      )
 
 aplot.single_subplots(grid_size=(3, 1),
                       fig_data={(0, 0): sine_raw_fig,
                                 (1, 0): sine_signal_fig,
                                 (2, 0): sine_fft_fig},
-                      individual_figsize=(12, 3))
+                      individual_figsize=(12, 3),
+                      savefig_path=f"{str(sine_signal.sin_freqs).replace(' ', '')}Hz_Sine_Sum_FFT"
+                      )
