@@ -101,7 +101,10 @@ class Signal(ABC):
         return upper
 
     def __str__(self):
-        return f"freq={self.freq}, samp_rate={self.samp_rate}, duration={self.duration}"
+        return f"Signal abstract class with freq={self.freq}, samp_rate={self.samp_rate}, duration={self.duration}"
+
+    def __repr__(self):
+        return f"Signal(freq={self.freq},samp_rate={self.samp_rate},duration={self.duration})"
 
 
 class SineSignal(Signal):

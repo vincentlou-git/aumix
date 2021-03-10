@@ -24,7 +24,10 @@ class FourierSignal(ss.Signal, ABC):
         super().__init__(**kwargs)
 
     def __str__(self):
-        return f"Fourier_n={self.n}, {super().__str__()}"
+        return f"FourierSignal abstract class with n={self.n}. Inherits {str(super())}"
+
+    def __repr__(self):
+        return f"FourierSignal(n={self.n},{repr(super())})"
 
 
 class FourierSquareSignal(FourierSignal):
@@ -96,7 +99,17 @@ class FourierSeriesSignal(FourierSignal):
         self.data = np.array(self.data)
 
     def __str__(self):
-        return f"sin_coeffs={self.sin_coeffs}, cos_coeffs={self.cos_coeffs}, {super().__str__()}"
+        return f"FourierSeriesSignal class with " \
+               f"sin_coeffs={self.sin_coeffs}, " \
+               f"cos_coeffs={self.cos_coeffs}, " \
+               f"k={self.k}. Inherits {str(super())}"
+
+    def __repr__(self):
+        return f"FourierSeriesSignal(" \
+               f"sin_coeffs={str(self.sin_coeffs).replace(' ', '')}," \
+               f"cos_coeffs={str(self.cos_coeffs).replace(' ', '')}," \
+               f"k={self.k}," \
+               f"{repr(super())})"
 
 
 # Example of using the FourierSignal class 

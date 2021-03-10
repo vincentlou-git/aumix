@@ -63,7 +63,16 @@ class StationarySignal(fs.FourierSeriesSignal):
         return np.sum(self.sine_components, axis=0)
 
     def __str__(self):
-        return f"sin_freqs={self.sin_freqs}, cos_freqs={self.cos_freqs}, {super().__str__()}"
+        return f"StationarySignal class with " \
+               f"sin_freqs={self.sin_freqs}, " \
+               f"cos_freqs={self.cos_freqs}. " \
+               f"Inherits {str(super())}"
+
+    def __repr__(self):
+        return f"StationarySignal(" \
+               f"sin_freqs={str(self.sin_freqs).replace(' ', '')}," \
+               f"cos_freqs={str(self.cos_freqs).replace(' ', '')}," \
+               f"{repr(super())})"
 
 
 class ClarinetApproxSignal(fs.FourierSeriesSignal):
