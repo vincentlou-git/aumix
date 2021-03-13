@@ -78,8 +78,9 @@ def single_plot(fig_data: FigData = None,
         return
 
     # Create the figure dict
-    fig_dict = {(1, 1, 1): fig_data}
-    single_subplots(fig_dict,
+    fig_dict = {(0, 0): fig_data}
+    single_subplots(grid_size=(1, 1),
+                    fig_data=fig_dict,
                     individual_figsize=fig_data.figsize,
                     **kwargs)
 
