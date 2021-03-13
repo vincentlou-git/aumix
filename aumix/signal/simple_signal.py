@@ -55,7 +55,6 @@ class Signal(ABC):
     def _chop_tuple(self):
         lower = self._chop_lower()
         upper = self._chop_upper()
-        print(lower, upper)
 
         if lower > upper:
             print("Lower chop range cannot be larger than upper chop range. "
