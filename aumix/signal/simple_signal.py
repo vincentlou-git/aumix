@@ -79,7 +79,7 @@ class Signal(ABC):
             else:
                 print(f"Invalid lower chop_range {self.chop_range[0]}.")
 
-        return lower
+        return int(lower)
 
     def _chop_upper(self):
         upper = self.datalen
@@ -97,7 +97,7 @@ class Signal(ABC):
             else:
                 print(f"Invalid upper chop_range {self.chop_range[1]}.")
 
-        return upper
+        return int(upper)
 
     def __str__(self):
         return f"Signal abstract class with freq={self.freq}, samp_rate={self.samp_rate}, duration={self.duration}"
