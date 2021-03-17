@@ -14,7 +14,8 @@ class FigData:
 
     def __init__(self,
                  xs: np.ndarray = None,
-                 ys: list = None,
+                 ys=None,
+                 zs=None,
                  line_options=None,
                  title="",
                  xlabel="",
@@ -26,13 +27,17 @@ class FigData:
                  ):
         """
         xs : np.ndarray, optional
-            Data points in the x-axis.
+            An array of data points in the x-axis.
             For example, np.array([0, 0.1, 0.2, 0.3, 0.4]).
 
-        ys : list, optional
-            A list of data points stored in `np.ndarray`s.
+        ys : list, np.ndarray, optional
+            A list of data point arrays in the y-axis, or an array of data points if
+            zs is specified.
             Each item is a line in the figure.
             Each `np.ndarray` contains elements y_i that is plotted against x_i in xs.
+
+        zs : list, optional
+            A list of data point arrays in the z-axis.
 
         line_options : list, optional
             A list each containing a dictionary for options to draw each line.
@@ -70,6 +75,21 @@ class FigData:
         """
         self.xs = np.array([]) if xs is None else xs
         self.ys = [] if ys is None else ys
+        self.zs = [] if zs is None else zs
+        self.dim = 2 if zs is None else 3  # Dimensionality of the plot
+
+        # When only 1 line is specified and the figure is 2D,
+        # wrap ys in a list if it's not a list of ndarrays.
+        if self.dim == 2 and (type(self.ys) != list or type(self.ys[0]) != np.ndarray):
+            self.ys = [self.ys]
+
+        # When only 1 line is specified and the figure is 3D,
+        # wrap zs in a list if it's not a list of ndarrays.
+        if self.dim == 3 and (type(self.zs) != list or type(self.zs[0]) != np.ndarray):
+            self.zs = [self.zs]
+
+        self.nlines = len(self.ys) if self.dim == 2 else len(self.zs)  # number of lines
+
         self.line_options = [] if line_options is None else line_options
         self.title = title
         self.xlabel = xlabel
@@ -80,16 +100,13 @@ class FigData:
 
         self.kwargs = kwargs
 
-        self.__fill_line_options()
+        self._fill_line_options()
 
-        # Wrap ys in a list if it's not a list. For example this could happen when only 1 line is specified.
-        self.ys = [self.ys] if type(self.ys) != list else self.ys
 
-    def __fill_line_options(self):
+    def _fill_line_options(self):
         # Fill up line_options if it's not fully specified
-        num_lines = len(self.ys)
         num_options = len(self.line_options)
-        __line_options = [{} for line in range(num_lines)]
+        __line_options = [{} for line in range(self.nlines)]
 
         # Specified in line_options, use it
         for line_idx in range(num_options):

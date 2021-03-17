@@ -31,7 +31,8 @@ def savefig(function):
         Plotting function.
     """
 
-    def wrapper(*args, savefig_path=None, auto_timestamp=True, **kwargs):
+    def wrapper(*args, savefig_path=None, auto_timestamp=True, auto_version_tag=False, **kwargs):
+        # TODO: Implement auto version tag by checking the last modified date of the calling script
         plot_func = function(*args, **kwargs)
 
         folder = "figures"
@@ -197,16 +198,21 @@ def single_subplots(grid_size,
             "broken_barh": ax.broken_barh,
             "vlines": ax.vlines,
             "hlines": ax.hlines,
-            "fill": ax.fill
+            "fill": ax.fill,
+            "pcolormesh": ax.pcolormesh
         }
 
         # If the figure does not have a plot type (or the plot type is undefined), use the normal plot
         plot_func = plot_map.get(f.plot_type, ax.plot)
 
         # Plot data contained in the figure
-        for i, line in enumerate(f.ys):
-            line_len = len(line)
-            plot_func(f.xs[:line_len], line, **f.line_options[i])
+        for i in range(f.nlines):
+            if f.dim == 2:
+                line_len = len(f.ys[i])
+                plot_func(f.xs[:line_len], f.ys[i][:line_len], **f.line_options[i])
+            elif f.dim == 3:
+                line_len = len(f.zs[i])
+                plot_func(f.xs[:line_len], f.ys[:line_len], f.zs[i][:line_len], **f.line_options[i])
 
         ax.legend()
         pl.tight_layout()
