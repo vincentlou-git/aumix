@@ -1,7 +1,7 @@
 """
 wav.py
 
-Module for converting to .wav files from signal data.
+Module to read / write .wav files from numerical data.
 
 @author: Chan Wai Lou / Vincent Lou
 """
@@ -13,13 +13,25 @@ import os
 
 def signal2wav(filename, signal, samp_rate=None, dtype=np.int32):
     """
+    Convert from numerical data to .wav.
 
     Parameters
     ----------
-    filename
-    signal
-    samp_rate
+    filename : str
+        Filename of the output WITHOUT ".wav" appended.
+
+    signal : np.ndarray, or aumix.signal.simple_signal.Signal
+        An array containing the numerical data, or a Signal class with the numerical data
+        encapsulated inside.
+
+    samp_rate : int, optional
+        Sampling rate.
+        If `signal` is an array, this needs to be specified.
+        If `signal` is a Signal class, its samp_rate field should be specified.
+
     dtype
+        Data type of the output .wav file. 4 resolution are supported as follows:
+
         np.uint8 : 8-bit PCM
         np.int16 : 16-bit PCM
         np.int32 : 32-bit PCM
@@ -27,7 +39,7 @@ def signal2wav(filename, signal, samp_rate=None, dtype=np.int32):
 
     Returns
     -------
-
+    None
     """
 
     data = signal
