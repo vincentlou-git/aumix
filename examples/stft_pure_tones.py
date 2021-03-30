@@ -1,5 +1,5 @@
 """
-short_time_fourier_transform.py
+stft_pure_tones.py
 
 Investigation on using scipy's Short-Time Fourier Transform.
 
@@ -7,8 +7,6 @@ Investigation on using scipy's Short-Time Fourier Transform.
 """
 
 from scipy import signal
-import matplotlib.pyplot as pl
-import numpy as np
 
 # Generate a test signal,
 # a 2 Vrms sine wave whose frequency is slowly modulated around 3kHz,
@@ -38,7 +36,7 @@ from aumix.plot.fig_data import *
 #
 n_signals = 4
 
-samp_rate = 160
+samp_rate = 44100
 
 # freqs = range(1, n_signals+1)
 freqs = range(10, 10 + 10 * n_signals, 10)
@@ -72,9 +70,10 @@ f, t, Zxx = signal.stft(x=nst.data,
                         fs=nst.samp_rate,
                         window=window,
                         nperseg=100)
-print(f.shape, f[:10])
-print(t.shape, t[:10])
-print(Zxx.shape, Zxx[:10])
+print(t.shape, f.shape, Zxx.shape)
+# print(f.shape, f[:10])
+# print(t.shape, t[:10])
+# print(Zxx.shape, Zxx[:10])
 # print(len([stft**2 for stft in Zxx]), [stft**2 for stft in Zxx][:10])
 
 signal_fig = FigData(xs=nst.samp_nums,
@@ -94,15 +93,8 @@ stft_fig = FigData(xs=t,
                    options=["grid"],
                    plot_type="pcolormesh",
                    xlabel="Time (s)",
-                   ylabel="Frequency (Hz)")
-
-# aplot.single_plot(signal_fig)
-
-# pl.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=1, shading='gouraud')
-# pl.title('STFT Magnitude')
-# pl.ylabel('Frequency [Hz]')
-# pl.xlabel('Time [sec]')
-# pl.show()
+                   ylabel="Frequency (Hz)",
+                   fit_data=False)
 
 aplot.single_subplots(grid_size=(2, 1),
                       fig_data={(0, 0): signal_fig,
