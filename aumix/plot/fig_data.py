@@ -22,6 +22,7 @@ class FigData:
                  ylabel="",
                  figsize=(9, 7),
                  plot_type="plot",
+                 fit_data=True,
                  options=None,
                  **kwargs
                  ):
@@ -70,6 +71,12 @@ class FigData:
             A string indicator for the plot type.
             This can be detected in some plotting function for different chart types.
 
+        fit_data : bool, default: True
+            An indicator for whether to only plot data up to the array length
+            of the last axis or not.
+            This is merely an indicator and does not affect any values stored inside the
+            object.
+
         options : list, optional
             "grid": display a grid behind the plot.
         """
@@ -96,12 +103,12 @@ class FigData:
         self.ylabel = ylabel
         self.figsize = figsize
         self.plot_type = plot_type
+        self.fit_data = fit_data
         self.options = [] if options is None else options
 
         self.kwargs = kwargs
 
         self._fill_line_options()
-
 
     def _fill_line_options(self):
         # Fill up line_options if it's not fully specified

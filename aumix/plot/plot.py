@@ -208,10 +208,10 @@ def single_subplots(grid_size,
         # Plot data contained in the figure
         for i in range(f.nlines):
             if f.dim == 2:
-                line_len = len(f.ys[i])
+                line_len = len(f.ys[i]) if f.fit_data else None
                 plot_func(f.xs[:line_len], f.ys[i][:line_len], **f.line_options[i])
             elif f.dim == 3:
-                line_len = len(f.zs[i])
+                line_len = len(f.zs[i]) if f.fit_data else None
                 plot_func(f.xs[:line_len], f.ys[:line_len], f.zs[i][:line_len], **f.line_options[i])
 
         ax.legend()
