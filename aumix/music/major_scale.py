@@ -1,7 +1,7 @@
 """
 major_scale.py
 
-Module for generating major scales.
+Module for generating major scale frequencies.
 
 @author: DoraMemo
 """
