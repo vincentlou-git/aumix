@@ -36,7 +36,7 @@ from aumix.plot.fig_data import *
 #
 n_signals = 4
 
-samp_rate = 44100
+samp_rate = 100
 
 # freqs = range(1, n_signals+1)
 freqs = range(10, 10 + 10 * n_signals, 10)
