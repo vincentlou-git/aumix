@@ -29,15 +29,16 @@ class Signal(ABC):
             44.1kHz.
         duration : number, default: 1
             Duration of the signal in seconds.
+            This will round up to np.ceil(duration * samp_rate)/samp_rate.
         chop_range : tuple, default: None
 
         options : dict, default: None
             Options for the signal. Available options depend on the implemented class.
         """
         self.samp_rate = samp_rate
-        self.duration = duration
         self.freq = freq
-        self.samp_nums = np.arange(duration * samp_rate) / samp_rate
+        self.duration = np.ceil(duration * samp_rate) / samp_rate
+        self.samp_nums = np.arange(self.duration * samp_rate) / samp_rate
         self.datalen = len(self.samp_nums)
         self.chop_range = chop_range
 
