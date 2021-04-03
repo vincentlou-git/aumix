@@ -10,6 +10,8 @@ import numpy as np
 from scipy.io import wavfile
 import os
 
+import aumix.signal.simple_signal as ss
+
 
 def signal2wav(filename, signal, samp_rate=None, dtype=np.int32):
     """
@@ -45,7 +47,7 @@ def signal2wav(filename, signal, samp_rate=None, dtype=np.int32):
     data = signal
 
     # If signal is a Signal class, then retrieve data and sampling rate from it
-    if "data" in vars(signal):
+    if isinstance(signal, ss.Signal):
         data = signal.data
         samp_rate = signal.samp_rate
 
