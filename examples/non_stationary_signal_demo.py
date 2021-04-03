@@ -46,4 +46,9 @@ fig = FigData(xs=nst.samp_nums,
 # Plot
 #
 aplot.single_plot(fig)
+
+
+#
+# Output audio
+#
 signal2wav("audio/nonst8", nst, dtype=np.uint8)
