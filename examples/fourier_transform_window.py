@@ -72,7 +72,7 @@ cl_fft_x = fftfreq(cl_signal.samp_nums.shape[0], 1/cl_signal.samp_rate)
 cl_time_for_two_cycles = min(duration, 1/cl_signal.freq*2)
 cl_xlim = (-0.05*cl_time_for_two_cycles, 1.05*cl_time_for_two_cycles)
 
-cl_signal_title = "Approximated Clarinet Signal"
+cl_signal_title = "Artificial Clarinet Signal"
 cl_window_title = cl_signal_title + f" * {window.__name__}"
 cl_fft_title = "Fourier Transform"
 
@@ -88,7 +88,7 @@ fft_axis_labels = {"xlabel": "Frequency (Hz)",
 cl_signal_fig = FigData(xs=cl_signal.samp_nums,
                         ys=[cl_signal.data,
                             cl_ifft],
-                        title=cl_signal_title,
+                        title="Artifically Produced Clarinet Signal using Fourier series",
                         line_options=[{"label": "Original"},
                                       {"label": "Reconstructed from FFT"}],
                         # xlim=cl_xlim,
