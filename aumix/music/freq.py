@@ -1,8 +1,9 @@
 """
-note.py
+freq.py
 
-Musical notes.
+Module for converting letter notes to frequencies and vice versa.
 
+@author: Chan Wai Lou
 """
 
 notes = [
