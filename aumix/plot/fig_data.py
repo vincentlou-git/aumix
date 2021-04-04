@@ -23,6 +23,7 @@ class FigData:
                  figsize=(9, 7),
                  plot_type="plot",
                  fit_data=True,
+                 tickers=None,
                  options=None,
                  **kwargs
                  ):
@@ -77,6 +78,35 @@ class FigData:
             This is merely an indicator and does not affect any values stored inside the
             object.
 
+        tickers : dict, optional
+            A dictionary for configuring the tick position and format of each axis.
+            Structure:
+            "xaxis"
+                -- "major"
+                    -- "locator"
+                    -- "formatter"
+                -- "minor"
+                    -- "locator"
+                    -- "formatter"
+            "yaxis"
+                -- "major"
+                    -- "locator"
+                    -- "formatter"
+                -- "minor"
+                    -- "locator"
+                    -- "formatter"
+
+            EXAMPLE
+            -------
+            tickers = {
+                "yaxis": {
+                    "major": {
+                        "locator": mticker.AutoLocator(),
+                        "formatter": mticker.LogFormatter(labelOnlyBase=False, minor_thresholds=(np.inf, np.inf))
+                    }
+                }
+            }
+
         options : list, optional
             "grid": display a grid behind the plot.
         """
@@ -104,6 +134,7 @@ class FigData:
         self.figsize = figsize
         self.plot_type = plot_type
         self.fit_data = fit_data
+        self.tickers = {} if tickers is None else tickers
         self.options = [] if options is None else options
 
         self.kwargs = kwargs

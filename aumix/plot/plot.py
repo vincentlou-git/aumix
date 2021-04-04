@@ -214,6 +214,22 @@ def single_subplots(grid_size,
                 line_len = len(f.zs[i]) if f.fit_data else None
                 plot_func(f.xs[:line_len], f.ys[:line_len], f.zs[i][:line_len], **f.line_options[i])
 
+        # Tick locator & formatters
+        for axis_label, axis_obj in [("xaxis", ax.xaxis), ("yaxis", ax.yaxis)]:
+
+            tick = f.tickers.get(axis_label, {})
+
+            for m, locform in tick.items():
+
+                loca_func = axis_obj.set_major_locator if m == "major" else axis_obj.set_minor_locator
+                form_func = axis_obj.set_major_formatter if m == "major" else axis_obj.set_minor_formatter
+
+                loca_obj = locform.get("locator", None)
+                form_obj = locform.get("formatter", None)
+
+                loca_func(loca_obj)
+                form_func(form_obj)
+
         ax.legend()
         pl.tight_layout()
 
