@@ -25,7 +25,7 @@ n_notes = 8
 samp_rate = 44100
 freq_absence_tol = 5e-3
 
-freqs = notes.scale_freqs(scale_name=scale_name, n_notes=n_notes)
+freqs = notes.major_scale(scale_name=scale_name, n_notes=n_notes, output="freq")
 durations = [0.25] * n_notes
 chop_ranges = [None] * n_notes
 
