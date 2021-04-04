@@ -24,7 +24,7 @@ samp_rate = 44100
 freq_absence_tol = 5e-3
 filter_threshold = 3100   # Hz
 
-freqs = maj.maj_freqs(scale_name=scale_name, n_notes=n_notes*2)
+freqs = maj.scale_freqs(scale_name=scale_name, n_notes=n_notes * 2)
 freqs = freqs[::2]   # Create arpeggio
 durations = [0.25] * n_notes
 chop_ranges = [None] * n_notes

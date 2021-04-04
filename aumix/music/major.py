@@ -13,7 +13,7 @@ import numpy as np
 semitone_steps = [2, 2, 1, 2, 2, 2, 1]
 
 
-def maj_freqs(scale_name, n_notes=8):
+def scale_freqs(scale_name, n_notes=8):
 
     n_octaves = int(np.ceil(n_notes / 8))
 
