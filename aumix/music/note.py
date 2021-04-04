@@ -143,4 +143,4 @@ def freq2note(fn, a4=440, ret_cents=False):
             side = -1 if cent_index != 0 else 1
 
     return (notes[notes.index("A4") + r_index], side * cent_index) if ret_cents else notes[
-        a4_index + r_index]
+        notes.index("A4") + r_index]
