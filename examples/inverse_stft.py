@@ -38,15 +38,27 @@ durations = [1] * n_chords
 chop_ranges = [None] * n_chords
 
 # STFT parameters
-window = "hann"
 window_length = 8192
 overlap_percent = 0.5
+
+window = signal.windows.hann(window_length, sym=True)             # 50%: COLA satisfied
+# window = "boxcar"           # 75%: COLA satisfied
+
+# "Shaky" reconstructions. For check_COLA, see ola.py
+# window = "boxcar"           # 25%: COLA not satisfied
+# window = "blackmanharris"   # 50%: COLA not satisfied
+
+window_name = window        # Rename explicitly if necessary
 
 #
 # Generate data
 #
 
 cutoff_duration = sum(durations) * 0.4
+noverlap = int(window_length * overlap_percent)
+
+cola = signal.check_COLA(window, window_length, noverlap)
+nola = signal.check_NOLA(window, window_length, noverlap)
 
 # A4 C5 E5 for "A4"
 chord = notes.minor_chord(scale_name=scale_name, n_notes=3, output="chord")
@@ -77,7 +89,7 @@ f, t, Zxx = signal.stft(x=nst.data,
                         fs=nst.samp_rate,
                         window=window,
                         nperseg=window_length,
-                        noverlap=int(window_length * overlap_percent))
+                        noverlap=noverlap)
 
 Zxx_max = np.max(np.abs(Zxx))
 
@@ -98,7 +110,7 @@ Zxxf[hioff:, toff:] = high
 
 
 # Compute Inverse STFT
-trec, xrec = signal.istft(Zxxf, samp_rate)
+trec, xrec = signal.istft(Zxxf, samp_rate, window=window, nperseg=window_length, noverlap=noverlap)
 
 
 #
@@ -136,7 +148,8 @@ stft_fig_params = {
 
 signal_fig = FigData(xs=nst.samp_nums,
                      ys=nst.data,
-                     title=f"'Contaminated' {scale_name} minor chord (Pure sine waves)",
+                     title=f"'Contaminated' {scale_name} minor chord (Pure sine waves)\n"
+                           f"Sampling Rate = {samp_rate}Hz",
                      plot_type="plot",
                      xlabel="Time (s)",
                      ylabel="Amplitude")
@@ -144,9 +157,9 @@ signal_fig = FigData(xs=nst.samp_nums,
 stft_fig = FigData(xs=t,
                    ys=f,
                    zs=np.abs(Zxx),
-                   title=f"STFT Magnitude w/ {window} window\n"
-                         f"Window length = {window_length}\n"
-                         f"Overlap = {overlap_percent*100}%",
+                   title=f"STFT Magnitude w/ {window_name} window\n"
+                         f"Window length = {window_length}, Overlap = {overlap_percent*100}%\n"
+                         f"COLA = {cola}, NOLA = {nola}",
                     **stft_fig_params)
 
 stftf_fig = FigData(xs=t,
@@ -177,7 +190,7 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (1, 0): recon_fig
                                 },
                       individual_figsize=(6, 4),
-                      savefig_path=f"ISTFT_{window}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}_minor_chord_sampr={samp_rate}"
+                      savefig_path=f"ISTFT_{window_name}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}_minor_chord_sampr={samp_rate}"
                       )
 
-signal2wav(f"audio/ISTFT_{window}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
+signal2wav(f"audio/ISTFT_{window_name}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
