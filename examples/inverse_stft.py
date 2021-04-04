@@ -8,6 +8,7 @@ Inverse short-time Fourier transform attempt.
 
 import copy
 from scipy import signal
+import matplotlib.ticker as ticker
 import music21 as m21
 
 import aumix.music.notes as notes
@@ -109,7 +110,29 @@ cond = [all(x < freq_absence_tol) for x in Zxx]
 min_freq_idx = cond.index(False) - 1
 cond.reverse()
 max_freq_idx = len(cond) - cond.index(False) - 1
-ylim = (f[min_freq_idx], f[max_freq_idx]*1.1)
+ylim = (f[min_freq_idx]*0.95, f[max_freq_idx]*1.1)
+
+stft_fig_params = {
+    "line_options": [{"vmin": 0,
+                      "vmax": Zxx_max,
+                      "shading": 'gouraud'}],
+    "options": ["grid"],
+    "plot_type": "pcolormesh",
+    "xlabel": "Time (s)",
+    "ylabel": "Frequency (Hz)",
+    "ylim": ylim,
+    "yscale": "log",
+    "tickers": {
+       "yaxis": {
+           "major": {
+               "locator": ticker.AutoLocator(),
+               "formatter": ticker.LogFormatter(labelOnlyBase=False,
+                                                minor_thresholds=(np.inf, np.inf))
+           }
+       }
+    },
+    "fit_data": False
+}
 
 signal_fig = FigData(xs=nst.samp_nums,
                      ys=nst.data,
@@ -124,34 +147,16 @@ stft_fig = FigData(xs=t,
                    title=f"STFT Magnitude w/ {window} window\n"
                          f"Window length = {window_length}\n"
                          f"Overlap = {overlap_percent*100}%",
-                   line_options=[{"vmin": 0,
-                                  "vmax": Zxx_max,
-                                  "shading": 'gouraud'}],
-                   options=["grid"],
-                   plot_type="pcolormesh",
-                   xlabel="Time (s)",
-                   ylabel="Frequency (Hz)",
-                   ylim=ylim,
-                   yscale="log",
-                   fit_data=False)
+                    **stft_fig_params)
 
 stftf_fig = FigData(xs=t,
                     ys=f,
                     zs=np.abs(Zxxf),
                     title=f"Filtered STFT\n"
                           f"Cutoff duration: {cutoff_duration}s\n"
-                          f"Before cutoff: Lowpass at {'{:.2f}'.format(lopass_threshold)}Hz\n"
-                          f"After cutoff: Highpass at {'{:.2f}'.format(hipass_threshold)}Hz",
-                    line_options=[{"vmin": 0,
-                                   "vmax": Zxx_max,
-                                   "shading": 'gouraud'}],
-                    options=["grid"],
-                    plot_type="pcolormesh",
-                    xlabel="Time (s)",
-                    ylabel="Frequency (Hz)",
-                    ylim=ylim,
-                    yscale="log",
-                    fit_data=False)
+                          f"Before cutoff: Lowpass below {'{:.2f}'.format(lopass_threshold)}Hz\n"
+                          f"After cutoff: Highpass above {'{:.2f}'.format(hipass_threshold)}Hz",
+                    **stft_fig_params)
 
 recon_fig = FigData(xs=trec,
                     ys=xrec,
@@ -169,9 +174,10 @@ aplot.single_subplots(grid_size=(2, 2),
                       fig_data={(0, 1): stft_fig,
                                 (1, 1): stftf_fig,
                                 (0, 0): signal_fig,
-                                (1, 0): recon_fig},
+                                (1, 0): recon_fig
+                                },
                       individual_figsize=(6, 4),
-                      savefig_path=f"ISTFT_{window}_{window_length}_{overlap_percent*100}%_Pure_{scale_name}_minor_chord_sampr={samp_rate}"
+                      savefig_path=f"ISTFT_{window}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}_minor_chord_sampr={samp_rate}"
                       )
 
-signal2wav(f"audio/ISTFT_{window}_{window_length}_{overlap_percent*100}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
+signal2wav(f"audio/ISTFT_{window}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
