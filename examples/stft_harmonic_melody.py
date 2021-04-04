@@ -10,7 +10,7 @@ on a synthesized clarinet melody.
 from scipy import signal
 from scipy.fft import fft, fftfreq
 
-import aumix.music.major_scale as maj
+import aumix.music.major as maj
 import aumix.signal.stationary_signal as sts
 import aumix.signal.non_stationary_signal as nsts
 from aumix.io.wav import *

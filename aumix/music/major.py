@@ -1,5 +1,5 @@
 """
-major_scale.py
+major.py
 
 Module for generating major scale frequencies.
 

@@ -8,7 +8,7 @@ Inverse short-time Fourier transform attempt.
 
 from scipy import signal
 
-import aumix.music.major_scale as maj
+import aumix.music.major as maj
 import aumix.signal.stationary_signal as sts
 import aumix.signal.non_stationary_signal as nsts
 from aumix.io.wav import *
