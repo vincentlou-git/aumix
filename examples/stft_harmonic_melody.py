@@ -13,7 +13,7 @@ from scipy.fft import fft, fftfreq
 import aumix.music.notes as notes
 import aumix.signal.stationary_signal as sts
 import aumix.signal.non_stationary_signal as nsts
-from aumix.io.wav import *
+import aumix.io.wav as wav
 import aumix.plot.plot as aplot
 from aumix.plot.fig_data import *
 
@@ -136,4 +136,4 @@ aplot.single_subplots(grid_size=(2, 2),
                       savefig_path=f"STFT_Clarinet_{scale_name}_Major_scale_sampr={samp_rate}"
                       )
 
-# signal2wav(f"audio/cl_{scale_name}_scale", nst)
+# wav.write(f"audio/cl_{scale_name}_scale", nst)

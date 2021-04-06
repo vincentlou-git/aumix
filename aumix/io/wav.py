@@ -13,7 +13,7 @@ import os
 import aumix.signal.simple_signal as ss
 
 
-def signal2wav(filename, signal, samp_rate=None, dtype=np.int32):
+def write(filename, signal, samp_rate=None, dtype=np.int32):
     """
     Convert from numerical data to .wav.
 

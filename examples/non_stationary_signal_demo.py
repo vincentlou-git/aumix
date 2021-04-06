@@ -8,7 +8,7 @@ Example of using the NonStationarySignal class.
 
 import aumix.signal.simple_signal as ss
 import aumix.signal.non_stationary_signal as nsts
-from aumix.io.wav import *
+import aumix.io.wav as wav
 import aumix.plot.plot as aplot
 from aumix.plot.fig_data import *
 
@@ -51,4 +51,4 @@ aplot.single_plot(fig)
 #
 # Output audio
 #
-signal2wav("audio/nonst8", nst, dtype=np.uint8)
+wav.write("audio/nonst8", nst, dtype=np.uint8)

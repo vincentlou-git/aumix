@@ -14,7 +14,7 @@ import music21 as m21
 import aumix.music.notes as notes
 import aumix.signal.stationary_signal as sts
 import aumix.signal.non_stationary_signal as nsts
-from aumix.io.wav import *
+import aumix.io.wav as wav
 import aumix.plot.plot as aplot
 from aumix.plot.fig_data import *
 
@@ -193,4 +193,4 @@ aplot.single_subplots(grid_size=(2, 2),
                       savefig_path=f"ISTFT_{window_name}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}_minor_chord_sampr={samp_rate}"
                       )
 
-signal2wav(f"audio/ISTFT_{window_name}_{window_length}_{int(overlap_percent*100)}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
+wav.write(f"audio/ISTFT_{window_name}_{window_length}_{int(overlap_percent * 100)}%_Pure_{scale_name}m", np.concatenate((nst.data, xrec)), samp_rate=samp_rate)
