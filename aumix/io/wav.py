@@ -60,14 +60,14 @@ def write(filename, signal, samp_rate=None, dtype=np.int32):
 
     # Treat 8-bit PCM as a special case, since the numbers are unsigned.
     if dtype == np.uint8:
-        out_data = data * amplitude / max(data)
+        unsigned_data = data - np.min(data)
+        out_data = unsigned_data * amplitude / np.max(unsigned_data)
     else:
-        unsigned_data = data - min(data)
-        out_data = unsigned_data * amplitude / max(unsigned_data)
+        out_data = data * amplitude / np.max(data)
 
     # Create folder if it doesn't exist
     folder = "/".join(filename.split("/")[:-1])
-    if not os.path.exists(folder):
+    if folder != "" and not os.path.exists(folder):
         os.makedirs(folder)
 
     # Output file
