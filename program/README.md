@@ -1,0 +1,1 @@
+This folder contains python scripts that are intended to be run as standalone programs on the command line using `python3 <prog_name>.py [arguments]`, usually for quick investigation purposes. Therefore, they usually don't cover all cases.
