@@ -87,7 +87,7 @@ cl_fft_title = "Fourier Transform of the " + cl_signal_title.split("\n")[0]
 
 sine_raw_title = f"Pure Sine Waves\nSampling Rate = {sine_signal.samp_rate}Hz"
 sine_sum_signal_title = f"Sum of two sine signals at frequencies { sine_signal.sin_freqs[0] }Hz and { sine_signal.sin_freqs[1] }Hz"
-sine_sum_fft_title = "Fourier Transform of the " + sine_sum_signal_title.lower()
+sine_sum_fft_title = "Fourier Transform of the " + sine_sum_signal_title
 
 # Line options
 cl_raw_line_options = [{"label": f"(Sine) f0 = {cl_freq}Hz"}]
@@ -122,7 +122,7 @@ cl_fft_fig = FigData(xs=cl_fft_x[:cl_slice_num],
 
 
 sine_raw_fig = FigData(xs=sine_signal.samp_nums,
-                       ys=sine_signal.sine_components,
+                       ys=sine_signal._sine_components(),
                        title=sine_raw_title,
                        line_options=sine_raw_line_options,
                        xlim=sine_xlim,
