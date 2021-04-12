@@ -99,7 +99,7 @@ sine_raw_line_options = [{"label": f"{amp:.2f} * { sine_signal.sin_freqs[i] }Hz"
 # Encapsulate signals data
 #
 cl_raw_fig = FigData(xs=cl_signal.samp_nums,
-                     ys=cl_signal.sine_components[::2],
+                     ys=cl_signal._sine_components()[::2],
                      title=cl_raw_title,
                      line_options=cl_raw_line_options,
                      xlim=cl_xlim,
