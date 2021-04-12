@@ -16,6 +16,7 @@ import aumix.signal.stationary_signal as sts
 import aumix.signal.non_stationary_signal as nsts
 import aumix.io.wav as wav
 import aumix.plot.plot as aplot
+import aumix.plot.preset as apreset
 from aumix.plot.fig_data import *
 
 #
@@ -118,11 +119,7 @@ trec, xrec = signal.istft(Zxxf, samp_rate, window=window, nperseg=window_length,
 #
 
 # Zoom: Find max / min frequency present in the signal (less than some tolerance)
-cond = [all(x < freq_absence_tol) for x in Zxx]
-min_freq_idx = cond.index(False) - 1
-cond.reverse()
-max_freq_idx = len(cond) - cond.index(False) - 1
-ylim = (f[min_freq_idx]*0.95, f[max_freq_idx]*1.1)
+ylim = apreset.ylim_zoom(f, Zxx, absence_tol=freq_absence_tol)
 
 stft_fig_params = {
     "line_options": [{"vmin": 0,
@@ -160,7 +157,7 @@ stft_fig = FigData(xs=t,
                    title=f"STFT Magnitude w/ {window_name} window\n"
                          f"Window length = {window_length}, Overlap = {overlap_percent*100}%\n"
                          f"COLA = {cola}, NOLA = {nola}",
-                    **stft_fig_params)
+                   **stft_fig_params)
 
 stftf_fig = FigData(xs=t,
                     ys=f,
