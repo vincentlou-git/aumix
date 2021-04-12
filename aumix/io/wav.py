@@ -13,7 +13,7 @@ import os
 import aumix.signal.simple_signal as ss
 
 
-def write(filename, signal, samp_rate=None, dtype=np.int32):
+def write(filename, signal, samp_rate=None, amp_perc=1.0, dtype=np.int32):
     """
     Convert from numerical data to .wav.
 
@@ -30,6 +30,9 @@ def write(filename, signal, samp_rate=None, dtype=np.int32):
         Sampling rate.
         If `signal` is an array, this needs to be specified.
         If `signal` is a Signal class, its samp_rate field should be specified.
+
+    amp_perc : float, optional
+        Amplitude percentage. Should range from 0.0 to 1.0.
 
     dtype
         Data type of the output .wav file. 4 resolution are supported as follows:
@@ -56,7 +59,7 @@ def write(filename, signal, samp_rate=None, dtype=np.int32):
         raise ValueError("Sampling rate is undefined.")
 
     # Find out the maximum size of the specified type
-    amplitude = np.iinfo(dtype).max if dtype != np.float32 else 1
+    amplitude = amp_perc * (np.iinfo(dtype).max if dtype != np.float32 else 1)
 
     # Treat 8-bit PCM as a special case, since the numbers are unsigned.
     if dtype == np.uint8:
