@@ -209,46 +209,45 @@ azi_fig_params = {
     "options": ["grid"],
     "plot_type": "pcolormesh",
     "xlabel": "Azimuth",
-    "ylabel": "Frequency"
+    "ylabel": "Frequency",
 }
+azi_line_options = [{"vmin": 0,
+                     "shading": 'gouraud',
+                     "cmap": "plasma"}]
 
+azi_line_options[0]["vmax"] = np.max(l_azi_null_tau)
 l_azi_null_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=l_azi_null_tau,
                          title=f"Frequency-azimuth spectrogram (Left Channel, tau={'{:.2f}'.format(t[tau_idx])}s)",
-                         line_options=[{"vmin": 0,
-                                        "vmax": np.max(l_azi_null_tau),
-                                        "shading": 'gouraud'}],
+                         line_options=azi_line_options,
                          ylim=l_ylim,
                          **azi_fig_params)
 
+azi_line_options[0]["vmax"] = np.max(l_azi_peak_tau)
 l_azi_peak_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=l_azi_peak_tau,
                          title=f"Null magnitude estimation ({est_method})",
-                         line_options=[{"vmin": 0,
-                                        "vmax": np.max(l_azi_peak_tau),
-                                        "shading": 'gouraud'}],
+                         line_options=azi_line_options,
                          ylim=l_ylim,
                          **azi_fig_params)
 
+azi_line_options[0]["vmax"] = np.max(r_azi_null_tau)
 r_azi_null_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=r_azi_null_tau,
                          title=f"Frequency-azimuth spectrogram (Right Channel, tau={'{:.2f}'.format(t[tau_idx])}s)",
-                         line_options=[{"vmin": 0,
-                                        "vmax": np.max(r_azi_null_tau),
-                                        "shading": 'gouraud'}],
+                         line_options=azi_line_options,
                          ylim=r_ylim,
                          **azi_fig_params)
 
+azi_line_options[0]["vmax"] = np.max(r_azi_peak_tau)
 r_azi_peak_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=r_azi_peak_tau,
                          title=f"Null magnitude estimation ({est_method})",
-                         line_options=[{"vmin": 0,
-                                        "vmax": np.max(r_azi_peak_tau),
-                                        "shading": 'gouraud'}],
+                         line_options=azi_line_options,
                          ylim=r_ylim,
                          **azi_fig_params)
 
@@ -294,7 +293,7 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (1, 1): l_stft_rec_fig,
                                 },
                       individual_figsize=(6, 4),
-                      savefig_path=f"ADRess_left_{tech_name}")
+                      savefig_path=f"ADRess_left_{tech_name}.png")
 
 aplot.single_subplots(grid_size=(2, 2),
                       fig_data={(0, 0): r_azi_null_fig,
@@ -303,7 +302,7 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (1, 1): r_stft_rec_fig,
                                 },
                       individual_figsize=(6, 4),
-                      savefig_path=f"ADRess_right_{tech_name}")
+                      savefig_path=f"ADRess_right_{tech_name}.png")
 
 # Output audio file
 for i, chord in enumerate(chord_names):
@@ -315,24 +314,3 @@ wav.write(f"audio/{name}_right", rsig.data, samp_rate=samp_rate)
 
 wav.write(f"audio/{est_method}_{name}_{window}_{nperseg}_{noverlap}_sep1", left_recon, samp_rate=samp_rate)
 wav.write(f"audio/{est_method}_{name}_{window}_{nperseg}_{noverlap}_sep2", right_recon, samp_rate=samp_rate)
-
-
-# unused
-# Left in stereo space
-# for i in range(int(beta/2)+1):
-#     # Scan across the stereo space, giving g_i
-#     g[i] = i/beta
-#
-#     # Compute frequency-azimuth plane at current time frame tau
-#     for freq_idx in range(len(f)):
-#         azi_curr[freq_idx, i] = np.abs(left_stft[freq_idx, tau] - g[i] * right_stft[freq_idx, tau])
-#
-# # Right in stereo space
-# for i in range(int(beta/2)+1, beta+1):
-#     # Scan across the stereo space, giving g_i
-#     g[i] = (beta-i)/beta
-#
-#     # Compute frequency-azimuth plane at current time frame tau
-#     for freq_idx in range(len(f)):
-#         azi_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
-
