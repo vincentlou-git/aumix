@@ -1,16 +1,13 @@
 """
 adress_nulls.py
 
-ADRess
+Experiment in using ADRess on pure tone chords.
 
 @author: DoraMemo
 """
 
-import numpy as np
 import copy
 from scipy import signal
-import librosa
-import music21 as m21
 
 import aumix.signal.stationary_signal as sts
 from aumix.plot.fig_data import *
@@ -29,7 +26,7 @@ import aumix.io.wav as wav
 chord_names = ["C4", "C#5"]   # Create a CM chord and a C#M chord so they sound clashed together
 notes_per_chord = 3
 left_intensities = np.array([0.75, 0.75, 0.75, 0.25, 0.25, 0.25])
-duration = 1
+duration = 3
 samp_rate = 44100
 
 # STFT parameters
@@ -47,8 +44,9 @@ est_method = "invert_min_only"
 
 # Output parameters
 freq_absence_tol = 5e-2   # Frequency magnitude to tell that "this frequency has nothing"
-tau_idx = 45 // 2   # Time position in the STFT to plot the frequency-azimuth figures
-name = f"{str(chord_names).replace(' ', '')}={str(left_intensities).replace(' ', ',')}"
+tau_idx = 30   # Time position in the STFT to plot the frequency-azimuth figures
+name = f"{str(chord_names).replace(' ', '')}={str(left_intensities).replace(' ', ',')}_sr={samp_rate}"
+tech_name = f"{est_method}_{name}_{window}_{nperseg}_{noverlap}"
 
 #
 # Computation
@@ -217,7 +215,7 @@ azi_fig_params = {
 l_azi_null_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=l_azi_null_tau,
-                         title=f"Frequency-azimuth spectrogram (Left Channel, tau={t[tau_idx]}s)",
+                         title=f"Frequency-azimuth spectrogram (Left Channel, tau={'{:.2f}'.format(t[tau_idx])}s)",
                          line_options=[{"vmin": 0,
                                         "vmax": np.max(l_azi_null_tau),
                                         "shading": 'gouraud'}],
@@ -237,7 +235,7 @@ l_azi_peak_fig = FigData(xs=np.arange(beta + 1),
 r_azi_null_fig = FigData(xs=np.arange(beta + 1),
                          ys=f,
                          zs=r_azi_null_tau,
-                         title=f"Frequency-azimuth spectrogram (Right Channel, tau={t[tau_idx]}s)",
+                         title=f"Frequency-azimuth spectrogram (Right Channel, tau={'{:.2f}'.format(t[tau_idx])}s)",
                          line_options=[{"vmin": 0,
                                         "vmax": np.max(r_azi_null_tau),
                                         "shading": 'gouraud'}],
@@ -295,7 +293,8 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (0, 1): l_stft_src_fig,
                                 (1, 1): l_stft_rec_fig,
                                 },
-                      individual_figsize=(6, 4))
+                      individual_figsize=(6, 4),
+                      savefig_path=f"ADRess_left_{tech_name}")
 
 aplot.single_subplots(grid_size=(2, 2),
                       fig_data={(0, 0): r_azi_null_fig,
@@ -303,18 +302,19 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (0, 1): r_stft_src_fig,
                                 (1, 1): r_stft_rec_fig,
                                 },
-                      individual_figsize=(6, 4))
+                      individual_figsize=(6, 4),
+                      savefig_path=f"ADRess_right_{tech_name}")
 
 # Output audio file
 for i, chord in enumerate(chord_names):
-    wav.write(f"audio/{name}_true_{chord}", true_sigs[i].data, samp_rate=samp_rate)
+    wav.write(f"audio/true_{chord}M", true_sigs[i].data, samp_rate=samp_rate)
 
-wav.write(f"audio/{name}_src", src.T, samp_rate=samp_rate)
+wav.write(f"audio/{name}_stereo", src.T, samp_rate=samp_rate)
 wav.write(f"audio/{name}_left", lsig.data, samp_rate=samp_rate)
 wav.write(f"audio/{name}_right", rsig.data, samp_rate=samp_rate)
 
-wav.write(f"audio/{est_method}_{name}_sep1", left_recon, samp_rate=samp_rate)
-wav.write(f"audio/{est_method}_{name}_sep2", right_recon, samp_rate=samp_rate)
+wav.write(f"audio/{est_method}_{name}_{window}_{nperseg}_{noverlap}_sep1", left_recon, samp_rate=samp_rate)
+wav.write(f"audio/{est_method}_{name}_{window}_{nperseg}_{noverlap}_sep2", right_recon, samp_rate=samp_rate)
 
 
 # unused
