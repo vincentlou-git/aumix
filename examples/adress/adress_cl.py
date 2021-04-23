@@ -115,7 +115,6 @@ for i, tau in enumerate(taus):
                                                     left_stft=left_stft,
                                                     right_stft=right_stft,
                                                     beta=beta,
-                                                    n_freq_bins=f.shape[0],
                                                     method=est_method)
     left_nulls.append(ln)
     left_peaks.append(lp)
@@ -126,8 +125,6 @@ for i, tau in enumerate(taus):
 #
 # Encapsulate & Plot data
 #
-null_figs = [None for i in range(len(taus))]
-peak_figs = [None for i in range(len(taus))]
 fig_data = {}
 
 # Zoom: Find max / min frequency present in the signal (less than some tolerance)
@@ -144,7 +141,7 @@ azi_line_options = [{"vmin": 0,
                      "shading": 'gouraud',
                      "cmap": "plasma"}]
 
-# Left subplots
+# Subplots for both channels
 for channel, ylim, nulls, peaks, stft, recon_stfts, sep_names, ds, Hs in \
         (("Left", l_ylim, left_nulls, left_peaks, left_stft,
           left_recon_stfts, left_sep_names, left_ds, left_Hs),
@@ -152,25 +149,25 @@ for channel, ylim, nulls, peaks, stft, recon_stfts, sep_names, ds, Hs in \
           right_recon_stfts, right_sep_names, right_ds, right_Hs)):
     for i, tau in enumerate(taus):
         azi_line_options[0]["vmax"] = np.max(nulls[i])
-        null_figs[i] = FigData(xs=np.arange(beta + 1),
-                               ys=f,
-                               zs=nulls[i],
-                               title=f"Frequency-azimuth spectrogram\n({channel} Channel, tau={'{:.2f}'.format(tau)}s)",
-                               line_options=azi_line_options,
-                               ylim=ylim,
-                               **azi_fig_params)
+        null_fig = FigData(xs=np.arange(beta + 1),
+                           ys=f,
+                           zs=nulls[i],
+                           title=f"Frequency-azimuth spectrogram\n({channel} Channel, tau={'{:.2f}'.format(tau)}s)",
+                           line_options=azi_line_options,
+                           ylim=ylim,
+                           **azi_fig_params)
 
         azi_line_options[0]["vmax"] = np.max(peaks[i])
-        peak_figs[i] = FigData(xs=np.arange(beta + 1),
-                               ys=f,
-                               zs=peaks[i],
-                               title=f"Null magnitude estimation ({est_method})",
-                               line_options=azi_line_options,
-                               ylim=ylim,
-                               **azi_fig_params)
+        peak_fig = FigData(xs=np.arange(beta + 1),
+                           ys=f,
+                           zs=peaks[i],
+                           title=f"Null magnitude estimation ({est_method})",
+                           line_options=azi_line_options,
+                           ylim=ylim,
+                           **azi_fig_params)
 
-        fig_data[(0, i)] = null_figs[i]
-        fig_data[(1, i)] = peak_figs[i]
+        fig_data[(0, i)] = null_fig
+        fig_data[(1, i)] = peak_fig
 
     stft_src_fig = apreset.stft_pcolormesh(t=t,
                                            f=f,
