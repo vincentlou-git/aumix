@@ -36,6 +36,7 @@ def stft_pcolormesh(t, f, Zxx,
                     options=["grid"],
                     plot_type="pcolormesh",
                     shading="gouraud",
+                    max_mag=None
                     ):
 
     tickers = {
@@ -57,7 +58,7 @@ def stft_pcolormesh(t, f, Zxx,
                    xlabel=xlabel,
                    ylabel=ylabel,
                    line_options=[{"vmin": 0,
-                                  "vmax": np.max(mag),
+                                  "vmax": np.max(mag) if max_mag is None else max_mag,
                                   "shading": shading}],
                    ylim=ylim,
                    yscale=yscale,
