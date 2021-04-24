@@ -31,7 +31,7 @@ def savefig(function):
         Plotting function.
     """
 
-    def wrapper(*args, savefig_path=None, auto_timestamp=True, auto_version_tag=False, **kwargs):
+    def wrapper(*args, show=True, savefig_path=None, auto_timestamp=True, auto_version_tag=False, **kwargs):
         # TODO: Implement auto version tag by checking the last modified date of the calling script
         plot_func = function(*args, **kwargs)
 
@@ -43,7 +43,10 @@ def savefig(function):
             timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
             pl.savefig(f"{folder}/{timestamp}-{savefig_path}", bbox_inches='tight')
 
-        pl.show()
+        if show:
+            pl.show()
+        else:
+            pl.close()
 
         return plot_func
 
@@ -171,6 +174,7 @@ def single_subplots(grid_size,
         col_span = fig_pos[3] if len(fig_pos) > 3 else 1
 
         # ax = fig.add_subplot(gs[row:row+row_span, col:col+col_span])
+        # ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span), projection="3d" if f.dim == 3 and f.plot_type == "plot" else None)
         ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span))
         ax.set_title(f.title)
         ax.set_ylabel(f.ylabel)
