@@ -9,11 +9,12 @@ Module to read / write .wav files from numerical data.
 import numpy as np
 from scipy.io import wavfile
 import os
+from datetime import datetime
 
 import aumix.signal.simple_signal as ss
 
 
-def write(filename, signal, samp_rate=None, amp_perc=1.0, dtype=np.int32):
+def write(filename, signal, samp_rate=None, amp_perc=1.0, dtype=np.int32, auto_timestamp=False):
     """
     Convert from numerical data to .wav.
 
@@ -69,9 +70,12 @@ def write(filename, signal, samp_rate=None, amp_perc=1.0, dtype=np.int32):
         out_data = data * amplitude / np.max(data)
 
     # Create folder if it doesn't exist
+    raw_filename = filename.split("/")[-1]
     folder = "/".join(filename.split("/")[:-1])
     if folder != "" and not os.path.exists(folder):
         os.makedirs(folder)
 
+    timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
+
     # Output file
-    wavfile.write(f"{filename}.wav", samp_rate, out_data.astype(dtype))
+    wavfile.write(f"{folder}/{timestamp}-{raw_filename}.wav", samp_rate, out_data.astype(dtype))
