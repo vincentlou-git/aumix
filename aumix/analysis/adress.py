@@ -10,6 +10,12 @@ import numpy as np
 from scipy import signal
 
 
+def _stereo_g(beta):
+    half_pos = (beta+1) // 2
+    g = list(np.arange(half_pos)) + [(beta - i) for i in range(half_pos, beta + 1)]
+    return np.array(g) * 2 / beta
+
+
 def _null2peak(fas, beta, method="invert_all"):
     """Estimates the magnitude of the null in a frequency-azimuth spectrogram."""
 
@@ -38,23 +44,141 @@ def _null2peak_fitz(fas, lfk, rfk, beta):
     To filter out the subspace, null_args can be used to indicate the source position of each frequency bin."""
 
     null_args = np.argmin(fas, axis=-1)  # Dominant stereo position for each frequency
+    max_fa = np.max(fas, axis=-1)  # Max. freq-azi value in each frequency bin
     min_fa = np.min(fas, axis=-1)  # Min. freq-azi value in each frequency bin
 
-    # Estimated peak magnitude
-    # Calculate all peaks as from the left channel first
-    azi_peak = np.abs(lfk) - min_fa
-
-    # Replace peaks where the min is in the right channel
-    right_peak = np.abs(rfk) - min_fa
-    right_ids = np.where(null_args <= beta//2)
-
-    azi_peak[right_ids] = right_peak[right_ids]
+    # # Estimated peak magnitude
+    # # Calculate all peaks as from the left channel first
+    # azi_peak = np.abs(lfk) #- min_fa
+    #
+    # # Replace peaks where the min is in the right channel
+    # right_peak = np.abs(rfk) #- min_fa
+    right_ids = np.where(null_args <= (beta+1)//2)
+    #
+    # azi_peak[right_ids] = right_peak[right_ids]
 
     # 2D-ify the peak values
     # azi_peak = np.zeros(fas.shape)
     # azi_peak[np.arange(null_args.shape[0]), null_args] = left_peak
 
+    azi_peak = max_fa - min_fa
+
     return azi_peak, null_args, right_ids
+
+
+def adress_null_peak_at_idx(tau_idx,
+                            left_stft,
+                            right_stft,
+                            beta,
+                            method,
+                            g=None):
+
+    # Compute g if not supplied
+    g = np.array([i / beta for i in range(beta + 1)]) if g is None else g
+
+    # Compute the nulls
+    left_azi_null = np.abs(np.tile(left_stft[:, tau_idx], (beta + 1, 1)).T - g * np.tile(right_stft[:, tau_idx], (beta + 1, 1)).T)
+    right_azi_null = np.abs(np.tile(right_stft[:, tau_idx], (beta + 1, 1)).T - g * np.tile(left_stft[:, tau_idx], (beta + 1, 1)).T)
+
+    # Or, in the more readable format:
+    # for i in range(beta + 1):
+    #     for freq_idx in range(len(f)):
+    #         left_azi_null_curr[freq_idx, i] = np.abs(left_stft[freq_idx, tau] - g[i] * right_stft[freq_idx, tau])
+    #         right_azi_null_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
+
+    # Estimate the magnitude of the nulls
+    left_azi_peak = _null2peak(left_azi_null, beta, method=method)
+    right_azi_peak = _null2peak(right_azi_null, beta, method=method)
+
+    return left_azi_null, left_azi_peak, right_azi_null, right_azi_peak
+
+
+def adress_fitz_null_peak_at_idx(tau_idx,
+                                 left_stft,
+                                 right_stft,
+                                 beta,
+                                 g=None):
+    """
+    Returns the null/peak 2D spectrograms, combining both channels into
+    one frequency-azimuth space (does not choose sources in subspace)
+    """
+
+    # Cache common intermediate terms
+    half_pos = (beta+1) // 2
+
+    # Compute g if not supplied
+    g = _stereo_g(beta) if g is None else g
+
+    # Compute the nulls
+    azi_null = np.zeros((left_stft.shape[0], beta + 1))
+    azi_null[:, :half_pos] = np.abs(np.tile(left_stft[:, tau_idx], (half_pos, 1)).T - g[:half_pos] * np.tile(right_stft[:, tau_idx], (half_pos, 1)).T)
+    azi_null[:, half_pos:] = np.abs(np.tile(right_stft[:, tau_idx], (beta + 1 - half_pos, 1)).T - g[half_pos:] * np.tile(left_stft[:, tau_idx], (beta + 1 - half_pos, 1)).T)
+
+    # Or, in the more readable format:
+    # Left in stereo space
+    # for i in range(int(beta/2)+1):
+    #     for freq_idx in range(len(f)):
+    #         azi_curr[freq_idx, i] = np.abs(left_stft[freq_idx, tau] - g[i] * right_stft[freq_idx, tau])
+    #
+    # # Right in stereo space
+    # for i in range(int(beta/2)+1, beta+1):
+    #     for freq_idx in range(len(f)):
+    #         azi_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
+
+    # Estimate the magnitude of the nulls
+    azi_peak, null_args, right_ids = _null2peak_fitz(azi_null, left_stft[:, tau_idx], right_stft[:, tau_idx], beta)
+
+    return azi_null, azi_peak, null_args, right_ids
+
+
+def adress_null_peak_at_sec(tau,
+                            t,
+                            *args,
+                            **kwargs):
+    """
+    Returns the left & right null/peak spectrograms
+
+    Parameters
+    ----------
+    tau
+    t
+    kwargs
+
+    Returns
+    -------
+
+    """
+
+    tau_idx = np.where(t > tau)[0][0]
+
+    return adress_null_peak_at_idx(tau_idx=tau_idx,
+                                   *args,
+                                   **kwargs)
+
+
+def adress_fitz_null_peak_at_sec(tau,
+                                 t,
+                                 *args,
+                                 **kwargs):
+    """
+    Returns the null/peak 2D spectrograms (does not choose sources in subspace)
+
+    Parameters
+    ----------
+    tau
+    t
+    kwargs
+
+    Returns
+    -------
+
+    """
+
+    tau_idx = np.where(t > tau)[0][0]
+
+    return adress_fitz_null_peak_at_idx(tau_idx=tau_idx,
+                                        *args,
+                                        **kwargs)
 
 
 def adress(left_signal,
@@ -212,10 +336,8 @@ def adress_fitz(left_signal,
     right_phase = right_stft / np.abs(right_stft)
 
     # Source cancellation variables
-    g = np.array([i / beta for i in range(beta // 2)] + [(beta - i) / beta for i in range(beta // 2, beta + 1)])
-
-    bounds = [(ds[i] - int(Hs[i]/2), ds[i] + int(Hs[i]/2)) for i in range(len(ds))]
-
+    g = _stereo_g(beta)
+    bounds = [(ds[i] - Hs[i]/2, ds[i] + Hs[i]/2) for i in range(len(ds))]
     sep_mags = [np.zeros((f.shape[0], t.shape[0])) for _ in range(len(ds))]
 
     # Resultant STFT variables
@@ -244,12 +366,13 @@ def adress_fitz(left_signal,
 
         # Replace the phase at the current time column with right channel STFT values
         # if it's dominant
-        phase[right_ids, tau] = right_phase[right_ids, tau]
+        phase[right_ids, tau] = right_phase[right_ids, tau]   # TODO: TESTING
 
     # Combine estimated magnitude and original bin phases
     # Separated range of synthesized STFT values, at time tau
     for i in range(len(ds)):
         sep_stfts.append( sep_mags[i] * phase )
+        # sep_stfts.append( sep_mags[i] * (phase if ds[i] <= beta//2 else right_phase) )
 
     # Finish separation on all time frames. Inverse it
     for sep_stft in sep_stfts:
@@ -277,118 +400,3 @@ def adress_fitz(left_signal,
             extra["stft_t"] = t
 
         return t_recon, recons, extra
-
-
-def adress_null_peak_at_idx(tau_idx,
-                            left_stft,
-                            right_stft,
-                            beta,
-                            method,
-                            g=None):
-
-    # Compute g if not supplied
-    g = np.array([i / beta for i in range(beta + 1)]) if g is None else g
-
-    # Compute the nulls
-    left_azi_null = np.abs(np.tile(left_stft[:, tau_idx], (beta + 1, 1)).T - g * np.tile(right_stft[:, tau_idx], (beta + 1, 1)).T)
-    right_azi_null = np.abs(np.tile(right_stft[:, tau_idx], (beta + 1, 1)).T - g * np.tile(left_stft[:, tau_idx], (beta + 1, 1)).T)
-
-    # Or, in the more readable format:
-    # for i in range(beta + 1):
-    #     for freq_idx in range(len(f)):
-    #         left_azi_null_curr[freq_idx, i] = np.abs(left_stft[freq_idx, tau] - g[i] * right_stft[freq_idx, tau])
-    #         right_azi_null_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
-
-    # Estimate the magnitude of the nulls
-    left_azi_peak = _null2peak(left_azi_null, beta, method=method)
-    right_azi_peak = _null2peak(right_azi_null, beta, method=method)
-
-    return left_azi_null, left_azi_peak, right_azi_null, right_azi_peak
-
-
-def adress_fitz_null_peak_at_idx(tau_idx,
-                                 left_stft,
-                                 right_stft,
-                                 beta,
-                                 g=None):
-    """
-    Returns the null/peak 2D spectrograms, combining both channels into
-    one frequency-azimuth space (does not choose sources in subspace)
-    """
-
-    # Cache common intermediate terms
-    half_pos = beta//2
-
-    # Compute g if not supplied
-    g = np.array([i / beta for i in range(half_pos)] + [(beta - i) / beta for i in range(half_pos, beta + 1)]) if g is None else g
-
-    # Compute the nulls
-    azi_null = np.zeros((left_stft.shape[0], beta + 1))
-    azi_null[:, :half_pos] = np.abs(np.tile(left_stft[:, tau_idx], (half_pos, 1)).T - g[:half_pos] * np.tile(right_stft[:, tau_idx], (half_pos, 1)).T)
-    azi_null[:, half_pos:] = np.abs(np.tile(right_stft[:, tau_idx], (beta + 1 - half_pos, 1)).T - g[half_pos:] * np.tile(left_stft[:, tau_idx], (beta + 1 - half_pos, 1)).T)
-
-    # Or, in the more readable format:
-    # Left in stereo space
-    # for i in range(int(beta/2)+1):
-    #     for freq_idx in range(len(f)):
-    #         azi_curr[freq_idx, i] = np.abs(left_stft[freq_idx, tau] - g[i] * right_stft[freq_idx, tau])
-    #
-    # # Right in stereo space
-    # for i in range(int(beta/2)+1, beta+1):
-    #     for freq_idx in range(len(f)):
-    #         azi_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
-
-    # Estimate the magnitude of the nulls
-    azi_peak, null_args, right_ids = _null2peak_fitz(azi_null, left_stft[:, tau_idx], right_stft[:, tau_idx], beta)
-
-    return azi_null, azi_peak, null_args, right_ids
-
-
-def adress_null_peak_at_sec(tau,
-                            t,
-                            *args,
-                            **kwargs):
-    """
-    Returns the left & right null/peak spectrograms
-
-    Parameters
-    ----------
-    tau
-    t
-    kwargs
-
-    Returns
-    -------
-
-    """
-
-    tau_idx = np.where(t > tau)[0][0]
-
-    return adress_null_peak_at_idx(tau_idx=tau_idx,
-                                   *args,
-                                   **kwargs)
-
-
-def adress_fitz_null_peak_at_sec(tau,
-                                 t,
-                                 *args,
-                                 **kwargs):
-    """
-    Returns the null/peak 2D spectrograms (does not choose sources in subspace)
-
-    Parameters
-    ----------
-    tau
-    t
-    kwargs
-
-    Returns
-    -------
-
-    """
-
-    tau_idx = np.where(t > tau)[0][0]
-
-    return adress_fitz_null_peak_at_idx(tau_idx=tau_idx,
-                                        *args,
-                                        **kwargs)
