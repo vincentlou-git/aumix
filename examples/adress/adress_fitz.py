@@ -38,7 +38,7 @@ noverlap = 3072  # nperseg - Step size
 
 # ADRess parameters
 ds = [0, 100, 201]
-Hs = [4, 4, 4]
+Hs = [8, 4, 8]
 
 beta = 200  # Azimuth resolution
 
@@ -47,7 +47,7 @@ freq_absence_tol = 5e-2  # Frequency magnitude to tell that "this frequency has 
 taus = [note_duration/2 + note_duration*i for i in range(len(soprano))]  # Time positions (in sec) in the STFT to plot the frequency-azimuth figures
 sep_names = ["Left Hard-Panned", "Center", "Right Hard-Panned"]
 name = f"melody-chord-cl-LCR-fitz={str(left_intensities).replace(' ', ',')}_sr={samp_rate}"
-tech_name = f"{name}_{window}_{nperseg}_{noverlap}"
+tech_name = f"{name}_swap" #{window}_{nperseg}_{noverlap}"
 
 #
 # Computation
@@ -82,17 +82,17 @@ for li in set(left_intensities):
     true_signals[li] = np.sum(melody_data[part_args], axis=0)
 
 # Perform FitzGerald's ADRess
-_, recons, extra = adress.adress_fitz(left_signal=left_signal,
-                                      right_signal=right_signal,
-                                      samp_rate=samp_rate,
-                                      ds=ds,
-                                      Hs=Hs,
-                                      beta=beta,
-                                      window=window,
-                                      nperseg=nperseg,
-                                      noverlap=noverlap,
-                                      print_options=["progress"],
-                                      more_outputs=["stfts", "stft_f", "stft_t"])
+_, recons, extra = adress.adress_stereo(left_signal=left_signal,
+                                        right_signal=right_signal,
+                                        samp_rate=samp_rate,
+                                        ds=ds,
+                                        Hs=Hs,
+                                        beta=beta,
+                                        window=window,
+                                        nperseg=nperseg,
+                                        noverlap=noverlap,
+                                        print_options=["progress"],
+                                        more_outputs=["stfts", "stft_f", "stft_t"])
 
 t = extra["stft_t"]
 f = extra["stft_f"]
@@ -105,11 +105,11 @@ nulls = []
 peaks = []
 
 for i, tau in enumerate(taus):
-    n, p, nargs, _ = adress.adress_fitz_null_peak_at_sec(tau,
-                                                         t=t,
-                                                         left_stft=left_stft,
-                                                         right_stft=right_stft,
-                                                         beta=beta)
+    n, p, nargs, _, _ = adress.adress_stereo_null_peak_at_sec(tau,
+                                                              t=t,
+                                                              left_stft=left_stft,
+                                                              right_stft=right_stft,
+                                                              beta=beta)
     nulls.append(n)
 
     # The full 2d peaks freq-azi spectrogram
@@ -204,7 +204,8 @@ for i, (pos, audio) in enumerate(true_signals.items()):
 aplot.single_subplots(grid_size=(5, 4),
                       fig_data=fig_data,
                       individual_figsize=(6, 4),
-                      savefig_path=f"FitzADRess_{tech_name}.png"
+                      savefig_path=f"FitzADRess_{tech_name}.png",
+                      show=False
                       )
 
 #
@@ -221,5 +222,5 @@ for pos, audio in true_signals.items():
 
 # Reconstructed audio
 for i, recon in enumerate(recons):
-    wav.write(f"audio/{tech_name}_{short_sep_names[i]}", recon, samp_rate=samp_rate)
+    wav.write(f"audio/{tech_name}_{short_sep_names[i]}", recon, samp_rate=samp_rate, auto_timestamp=True)
 
