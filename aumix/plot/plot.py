@@ -40,8 +40,8 @@ def savefig(function):
             os.makedirs(folder)
 
         if savefig_path is not None:
-            timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
-            pl.savefig(f"{folder}/{timestamp}-{savefig_path}", bbox_inches='tight')
+            timestamp = datetime.now().strftime("%y%m%d-%H%M%S") + "-" if auto_timestamp else ""
+            pl.savefig(f"{folder}/{timestamp}{savefig_path}", bbox_inches='tight')
 
         if show:
             pl.show()

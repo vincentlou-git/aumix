@@ -75,7 +75,7 @@ def write(filename, signal, samp_rate=None, amp_perc=1.0, dtype=np.int32, auto_t
     if folder != "" and not os.path.exists(folder):
         os.makedirs(folder)
 
-    timestamp = datetime.now().strftime("%y%m%d-%H%M%S") if auto_timestamp else ""
+    timestamp = datetime.now().strftime("%y%m%d-%H%M%S") + "-" if auto_timestamp else ""
 
     # Output file
-    wavfile.write(f"{folder}/{timestamp}-{raw_filename}.wav", samp_rate, out_data.astype(dtype))
+    wavfile.write(f"{folder}/{timestamp}{raw_filename}.wav", samp_rate, out_data.astype(dtype))
