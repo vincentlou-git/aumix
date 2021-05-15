@@ -27,13 +27,13 @@ window_names = ['barthann',
                 'boxcar',
                 ('chebwin', 100),  # attenuation
                 'cosine',
-                ('dpss', 2.5),  # normalized half-bandwidth
+                ('dpss', 3),  # normalized half-bandwidth   *(exists as a function)
                 ('exponential', 25, 3),  # center, decay scale
                 'flattop',
                 ('gaussian', 7),  # std
-                'general_cosine',
+                ('general_cosine', [1, 1.942604, 1.340318, 0.440811, 0.043097]),   # Sequence of weighting coefficients   *(exists as a function)
                 ('general_gaussian', 1.5, 7),  # power, width
-                'general_hamming',
+                ('general_hamming', 0.5),   # alpha   *(exists as a function)
                 'hamming',
                 'hann',
                 ('kaiser', 14),  # beta
@@ -45,7 +45,7 @@ window_names = ['barthann',
                 ]
 
 total_fignum = len(window_names)
-ncols = 4
+ncols = 3
 nrows = int( np.ceil(total_fignum / ncols) )
 print(nrows, ncols)
 
@@ -61,32 +61,45 @@ figs_response = {}
 #
 
 for window in window_names:
+
+    window_name = str(window)
+
     try:
         # Generate signal data
-        window_data[window] = windows.get_window(window, Nx)
+        window_data[window_name] = windows.get_window(window, Nx)
 
-        # Generate frequency response
-        A = fft(window_data[window], 2048) / (len(window_data[window]) / 2.0)
-        freq = np.linspace(-0.5, 0.5, len(A))
-        response = 20 * np.log10(np.abs(fftshift(A / abs(A).max())))
-
-        # Figure position
-        curr_fignum = len(window_data)
-        print(curr_fignum)
-        row = (curr_fignum-1) % nrows
-        col = int( np.floor((curr_fignum-1) / nrows) )
-
-        # Create figures
-        figs[(row, col)] = FigData(xs=np.array(range(Nx)),
-                                   ys=[window_data[window]],
-                                   title=window)
-        figs_response[(row, col)] = FigData(xs=np.array(freq),
-                                            ys=[response],
-                                            title=window,
-                                            xlim=(-0.5, 0.5),
-                                            ylim=(-120, 0))
     except ValueError as e:
-        pass
+        # Call the function itself if it exists
+        if window in windows.__all__:
+            window_data[window_name] = getattr(windows, window)(Nx)
+
+        elif type(window) is tuple and window[0] in windows.__all__:
+            window_data[window_name] = getattr(windows, window[0])(Nx, *window[1:])
+
+        else:
+            print(f"{window} failed: {e}")
+            continue
+
+    # Generate frequency response
+    A = fft(window_data[window_name], 2048) / (len(window_data[window_name]) / 2.0)
+    freq = np.linspace(-0.5, 0.5, len(A))
+    response = 20 * np.log10(np.abs(fftshift(A / abs(A).max())))
+
+    # Figure position
+    curr_fignum = len(window_data)
+    print(curr_fignum)
+    row = (curr_fignum-1) % nrows
+    col = int( np.floor((curr_fignum-1) / nrows) )
+
+    # Create figures
+    figs[(row, col)] = FigData(xs=np.array(range(Nx)),
+                               ys=[window_data[window_name]],
+                               title=window)
+    figs_response[(row, col)] = FigData(xs=np.array(freq),
+                                        ys=[response],
+                                        title=window,
+                                        xlim=(-0.5, 0.5),
+                                        ylim=(-120, 0))
 
 
 #
@@ -95,7 +108,7 @@ for window in window_names:
 
 aplot.single_subplots(grid_size=(nrows, ncols),
                       fig_data=figs,
-                      individual_figsize=(4, 2.5),
+                      individual_figsize=(3.5, 1.6),
                       title="All Scipy Supported Windows",
                       xlabel="Sample",
                       ylabel="Amplitude",
@@ -103,7 +116,7 @@ aplot.single_subplots(grid_size=(nrows, ncols),
 
 aplot.single_subplots(grid_size=(nrows, ncols),
                       fig_data=figs_response,
-                      individual_figsize=(4, 2.5),
+                      individual_figsize=(3.5, 1.6),
                       title="Frequency Response of each window",
                       xlabel="Normalized frequency (cycles per sample)",
                       ylabel="Normalized magnitude (dB)",
