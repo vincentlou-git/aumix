@@ -78,10 +78,10 @@ sine_xlim = (-0.05*sine_time_for_two_cycles, 1.05*sine_time_for_two_cycles)
 signal_axis_labels = {"xlabel": "time (seconds)",
                       "ylabel": "Amplitude"}
 fft_axis_labels = {"xlabel": "Frequency (Hz)",
-                   "ylabel": "Amplitude"}
+                   "ylabel": "Amplitude per Hz"}
 
 # Titles
-cl_signal_title = f"Approximated Clarinet Signal\nSampling Rate = {cl_signal.samp_rate}Hz"
+cl_signal_title = f"Synthetic Clarinet Signal\nSampling Rate = {cl_signal.samp_rate}Hz"
 cl_raw_title = "Constituent waves of the " + cl_signal_title
 cl_fft_title = "Fourier Transform of the " + cl_signal_title.split("\n")[0]
 
@@ -151,7 +151,7 @@ aplot.single_subplots(grid_size=(3, 1),
                       fig_data={(0, 0): cl_raw_fig,
                                 (1, 0): cl_signal_fig,
                                 (2, 0): cl_fft_fig},
-                      individual_figsize=(12, 3),
+                      individual_figsize=(9, 3),
                       savefig_path="Clarinet_FFT"
                       )
 
