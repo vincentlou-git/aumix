@@ -31,11 +31,10 @@ def savefig(function):
         Plotting function.
     """
 
-    def wrapper(*args, show=True, savefig_path=None, auto_timestamp=True, auto_version_tag=False, **kwargs):
+    def wrapper(*args, folder="figures", show=True, savefig_path=None, auto_timestamp=True, auto_version_tag=False, **kwargs):
         # TODO: Implement auto version tag by checking the last modified date of the calling script
         plot_func = function(*args, **kwargs)
 
-        folder = "figures"
         if not os.path.exists(folder):
             os.makedirs(folder)
 
