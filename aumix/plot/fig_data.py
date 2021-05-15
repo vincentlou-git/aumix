@@ -137,7 +137,11 @@ class FigData:
         self.tickers = {} if tickers is None else tickers
         self.options = [] if options is None else options
 
-        self.kwargs = kwargs
+        # Remove any kwargs that have None as their value
+        self.kwargs = dict()
+        for k, v in kwargs.items():
+            if v is not None:
+                self.kwargs[k] = v
 
         self._fill_line_options()
 
