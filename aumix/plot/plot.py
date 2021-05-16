@@ -16,6 +16,10 @@ import matplotlib.pyplot as pl
 import numpy as np
 
 
+# Possible 3D plot types
+plots_3dable = ["plot", "plot_surface"]
+
+
 # ------------------------- Decorators --------------------------- #
 
 
@@ -55,7 +59,6 @@ def savefig(function):
 # ---------------------------------------------------------------------- #
 
 
-@savefig
 def single_plot(fig_data: FigData = None,
                 **kwargs
                 ):
@@ -86,23 +89,6 @@ def single_plot(fig_data: FigData = None,
                     fig_data=fig_dict,
                     individual_figsize=fig_data.figsize,
                     **kwargs)
-
-    # Create the figure
-    # fig = pl.figure(figsize=fig_data.figsize)
-    # ax = fig.add_subplot(111)
-    # ax.set_title(fig_data.title)
-    # ax.set_ylabel(fig_data.ylabel)
-    # ax.set_xlabel(fig_data.xlabel)
-    #
-    # if "grid" in fig_data.options:
-    #     ax.grid()
-    #
-    # # Plot all ys
-    # for i, line in enumerate(fig_data.ys):
-    #     line_len = len(line)
-    #     ax.plot(fig_data.xs[:line_len], line, **fig_data.line_options[i])
-    #
-    # ax.legend()
 
 
 @savefig
@@ -171,17 +157,24 @@ def single_subplots(grid_size,
         col = fig_pos[1]
         row_span = fig_pos[2] if len(fig_pos) > 2 else 1
         col_span = fig_pos[3] if len(fig_pos) > 3 else 1
+        projection = "3d" if (f.dim == 3 and f.plot_type in plots_3dable) else None
 
-        # ax = fig.add_subplot(gs[row:row+row_span, col:col+col_span])
-        # ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span), projection="3d" if f.dim == 3 and f.plot_type == "plot" else None)
-        ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span))
+        ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span), projection=projection)
+        # ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span))
         ax.set_title(f.title)
         ax.set_ylabel(f.ylabel)
         ax.set_xlabel(f.xlabel)
         ax.set(**f.kwargs)
 
-        if "grid" in f.options:
-            ax.grid()
+        # Perform optional settings
+        option_map = {
+            "grid": ax.grid
+        }
+
+        for option in f.options:
+            func = option_map.get(option, None)
+            if func is not None:
+                func()
 
         # Determine the plot type
         plot_map = {
@@ -202,7 +195,8 @@ def single_subplots(grid_size,
             "vlines": ax.vlines,
             "hlines": ax.hlines,
             "fill": ax.fill,
-            "pcolormesh": ax.pcolormesh
+            "pcolormesh": ax.pcolormesh,
+            "plot_surface": ax.plot_surface if projection is not None else ax.plot
         }
 
         # If the figure does not have a plot type (or the plot type is undefined), use the normal plot
