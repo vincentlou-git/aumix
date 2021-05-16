@@ -32,9 +32,9 @@ note_duration = 1
 samp_rate = 44100
 
 # STFT parameters
-window = "blackman"
+window = "hann"
 nperseg = 4096  # FFT window length
-noverlap = 2048  # nperseg - Step size
+noverlap = 3072  # nperseg - Step size
 
 # ADRess parameters
 ds = [100, 30, 165]
