@@ -25,6 +25,7 @@ class FigData:
                  fit_data=True,
                  tickers=None,
                  options=None,
+                 colorbar_params=None,
                  **kwargs
                  ):
         """
@@ -136,6 +137,8 @@ class FigData:
         self.fit_data = fit_data
         self.tickers = {} if tickers is None else tickers
         self.options = [] if options is None else options
+
+        self.colorbar_params = colorbar_params
 
         # Remove any kwargs that have None as their value
         self.kwargs = dict()

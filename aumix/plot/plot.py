@@ -12,7 +12,6 @@ from aumix.plot.fig_data import *
 import os
 from datetime import datetime
 import matplotlib.pyplot as pl
-# from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 
@@ -103,15 +102,21 @@ def single_subplots(grid_size,
 
     Parameters
     ----------
+    grid_size: tuple
+        A 2-tuple specifying the number of rows and columns of figures.
+
     fig_data: dict, optional
         A dictionary of (subplot_pos, figure_data).
-        subplot_pos expects a 2-tuple or a 4-tuple to be used in fig.add_subuplot. Index begins from 0.
-            For 2-tuples, e.g. (1, 2) means the subplot will be placed at the second row and the third column.
-            For 4-tuples, e.g. (0, 0, 2, 1) means a subplot at (0, 0) spanning 2 rows and 1 column.
+        subplot_pos expects a 2-tuple or a 4-tuple to be used in fig.add_subuplot.
+        Index begins from 0.
+            For 2-tuples, e.g. (1, 2) means the subplot will be placed at the
+            second row and the third column.
+            For 4-tuples, e.g. (0, 0, 2, 1) means a subplot at (0, 0) spanning
+            2 rows and 1 column.
         figure_data expects a FigData object, encapsulating the figure's data.
 
-        Justification: Using a dict rather than a list with each FigData having a "subplot_pos" keyword variable
-        is more explicit, and so is preferred.
+        Justification: Using a dict rather than a list with each FigData having a
+        "subplot_pos" keyword variable is more explicit, and so is preferred.
 
     individual_figsize: tuple, default: (6, 6)
         Size of each individual subplot.
@@ -160,7 +165,6 @@ def single_subplots(grid_size,
         projection = "3d" if (f.dim == 3 and f.plot_type in plots_3dable) else None
 
         ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span), projection=projection)
-        # ax = pl.subplot(gs.new_subplotspec((row, col), rowspan=row_span, colspan=col_span))
         ax.set_title(f.title)
         ax.set_ylabel(f.ylabel)
         ax.set_xlabel(f.xlabel)
@@ -168,7 +172,10 @@ def single_subplots(grid_size,
 
         # Perform optional settings
         option_map = {
-            "grid": ax.grid
+            "grid": ax.grid,
+            "invert_xaxis": ax.invert_xaxis,
+            "invert_yaxis": ax.invert_yaxis,
+            "invert_zaxis": ax.invert_zaxis if projection is not None else lambda: None,
         }
 
         for option in f.options:
@@ -195,11 +202,13 @@ def single_subplots(grid_size,
             "vlines": ax.vlines,
             "hlines": ax.hlines,
             "fill": ax.fill,
+            "imshow": ax.imshow,
             "pcolormesh": ax.pcolormesh,
             "plot_surface": ax.plot_surface if projection is not None else ax.plot
         }
 
-        # If the figure does not have a plot type (or the plot type is undefined), use the normal plot
+        # If the figure does not have a plot type (or the plot type is undefined),
+        # use the normal plot
         plot_func = plot_map.get(f.plot_type, ax.plot)
 
         # Plot data contained in the figure
@@ -226,6 +235,32 @@ def single_subplots(grid_size,
 
                 loca_func(loca_obj)
                 form_func(form_obj)
+
+        # Colorbar
+        if type(f.colorbar_params) is dict:
+
+            # Take bounds from colorbar_params
+            # If not specified then use the figure's bounds.
+            # If it is still not specified, take the value from the range of data
+            dat = np.array(f.ys) if f.dim == 2 else np.array(f.zs)
+            vmin = f.colorbar_params.get("vmin",
+                                         f.line_options[0].get("vmin",
+                                                               np.min(dat)))
+            vmax = f.colorbar_params.get("vmax",
+                                         f.line_options[0].get("vmax",
+                                                               np.max(dat)))
+
+            # Use cmap if specified
+            cmap = f.colorbar_params.get("cmap",
+                                         f.line_options[0].get("cmap",
+                                                               pl.get_cmap()))
+            sm = pl.cm.ScalarMappable(norm=pl.Normalize(vmin=vmin, vmax=vmax),
+                                      cmap=cmap)
+
+            # Remove vmax and vmin from colorbar params
+            non_cbp = ["vmin", "vmax"]
+            cbp = {k: v for k, v in f.colorbar_params.items() if k not in non_cbp}
+            pl.colorbar(sm, ax=ax, **cbp)
 
         ax.legend()
         pl.tight_layout()
