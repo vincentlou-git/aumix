@@ -33,10 +33,12 @@ def stft_pcolormesh(t, f, Zxx,
                     ylabel="Frequency (Hz)",
                     ylim=None,
                     yscale="log",
+                    figsize=(6, 4),
                     options=["grid"],
                     plot_type="pcolormesh",
                     shading="gouraud",
-                    max_mag=None
+                    max_mag=None,
+                    **kwargs
                     ):
 
     tickers = {
@@ -49,7 +51,7 @@ def stft_pcolormesh(t, f, Zxx,
         }
     }
 
-    mag = np.abs(Zxx)
+    mag = np.abs(Zxx)**2
 
     return FigData(xs=t,
                    ys=f,
@@ -62,8 +64,10 @@ def stft_pcolormesh(t, f, Zxx,
                                   "shading": shading}],
                    ylim=ylim,
                    yscale=yscale,
+                   figsize=figsize,
                    options=options,
                    plot_type=plot_type,
                    tickers=tickers if yscale == "log" else None,
-                   fit_data=False  # This must be False for a 2D zs array
+                   fit_data=False,  # This must be False for a 2D zs array
+                   **kwargs
                    )
