@@ -70,50 +70,53 @@ for seg in range(n_segments):
 
     # Compute FFT of the windowed signal.
     # Only store positive frequencies (since the spectrum is symmetric)
-    ws_ffts.append(fft(ws)[:slice_num])
+    ws_ffts.append(fft(ws)[:slice_num] / np.sqrt(nst.duration * samp_rate))   # normalized
 
     tau = '{:.2f}'.format(seg*half_nperseg/samp_rate)
 
     # Encapsulate signals data
-    ws_fig = FigData(xs=xs,
-                     ys=[ws,
-                         curr_w],
-                     title=f"tau={tau}s",
-                     line_options=[{"label": "Windowed Signal"},
-                                   {"label": "Window"}],
-                     plot_type="plot",
-                     xlabel="Time (s)",
-                     ylabel="Amplitude")
+    # ws_fig = FigData(xs=xs,
+    #                  ys=[ws,
+    #                      curr_w],
+    #                  title=f"tau={tau}s",
+    #                  line_options=[{"label": "Windowed Signal"},
+    #                                {"label": "Window"}],
+    #                  plot_type="plot",
+    #                  xlabel="Time (s)",
+    #                  ylabel="Amplitude")
+    #
+    # fft_fig = FigData(xs=fft_x[:slice_num],
+    #                   ys=np.abs(ws_ffts[seg])**2,
+    #                   title="Fourier Transform Magnitude",
+    #                   options=["grid"],
+    #                   ylim=(-0.025, 0.25),
+    #                   xlabel="Frequency (Hz)",
+    #                   ylabel="Normalised Amplitude")
 
-    fft_fig = FigData(xs=fft_x[:slice_num],
-                      ys=np.abs(ws_ffts[seg]),
-                      title="Fourier Transform Magnitude",
-                      options=["grid"],
-                      ylim=(-2, 12),
-                      xlabel="Frequency (Hz)",
-                      ylabel="Amplitude per Hz")
-
-    aplot.single_subplots(grid_size=(2, 1),
-                          fig_data={(0, 0): ws_fig,
-                                    (1, 0): fft_fig},
-                          individual_figsize=(5, 2.5),
-                          auto_timestamp=False,
-                          folder="stft_schematic",
-                          # savefig_path=f"tau={tau}s.png"
-                          )
+    # aplot.single_subplots(grid_size=(2, 1),
+    #                       fig_data={(0, 0): ws_fig,
+    #                                 (1, 0): fft_fig},
+    #                       individual_figsize=(5, 2.5),
+    #                       auto_timestamp=False,
+    #                       folder="stft_schematic",
+    #                       savefig_path=f"tau={tau}s.png"
+    #                       )
 
 # Plot the 3D vis of the FFTs which forms the STFT
-x, y = np.meshgrid(fft_x, t)
+x, y = np.meshgrid(fft_x, np.arange(0, n_segments) / sum(durations))
 fft_stack_fig = FigData(xs=x,
                         ys=y,
-                        zs=[np.abs(np.array(ws_ffts))],
+                        zs=[np.abs(np.array(ws_ffts))**2],
                         title="STFT surface from stacking FFT",
                         plot_type="plot_surface",
                         xlabel="Frequency (Hz)",
                         ylabel="Time (s)",
-                        zlabel="Amplitude per Hz",
-                        line_options=[{"cmap": "plasma"}],
-                        figsize=(5.5, 5))
+                        zlabel="Normalised Amplitude",
+                        line_options=[{"cmap": "viridis"}],
+                        options=["invert_xaxis"],
+                        figsize=(6, 5),
+                        colorbar_params={"pad": 0.1,
+                                         "vmax": 0.25})
 aplot.single_plot(fft_stack_fig,
                   auto_timestamp=False,
                   folder="stft_schematic",
@@ -128,19 +131,24 @@ signal_fig = FigData(xs=nst.samp_nums,
                      xlabel="Time (s)",
                      ylabel="Amplitude",
                      figsize=(5, 2.5))
+aplot.single_plot(signal_fig,
+                  auto_timestamp=False,
+                  folder="stft_schematic",
+                  # savefig_path="signal.png"
+                  )
+
 
 stft_fig = apreset.stft_pcolormesh(t=t,
                                    f=f,
                                    Zxx=Zxx,
                                    title="STFT Magnitude",
                                    yscale="linear",
-                                   )
+                                   figsize=(5, 2.5),
+                                   colorbar_params={})
+aplot.single_plot(stft_fig,
+                  auto_timestamp=False,
+                  folder="stft_schematic",
+                  savefig_path="stft.png"
+                  )
 
-aplot.single_subplots(grid_size=(2, 1),
-                      fig_data={(0, 0): signal_fig,
-                                (1, 0): stft_fig},
-                      individual_figsize=(5, 2.5),
-                      auto_timestamp=False,
-                      folder="stft_schematic",
-                      # savefig_path="signal_stft.png"
-                      )
+
