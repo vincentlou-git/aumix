@@ -75,32 +75,32 @@ for seg in range(n_segments):
     tau = '{:.2f}'.format(seg*half_nperseg/samp_rate)
 
     # Encapsulate signals data
-    # ws_fig = FigData(xs=xs,
-    #                  ys=[ws,
-    #                      curr_w],
-    #                  title=f"tau={tau}s",
-    #                  line_options=[{"label": "Windowed Signal"},
-    #                                {"label": "Window"}],
-    #                  plot_type="plot",
-    #                  xlabel="Time (s)",
-    #                  ylabel="Amplitude")
-    #
-    # fft_fig = FigData(xs=fft_x[:slice_num],
-    #                   ys=np.abs(ws_ffts[seg])**2,
-    #                   title="Fourier Transform Magnitude",
-    #                   options=["grid"],
-    #                   ylim=(-0.025, 0.25),
-    #                   xlabel="Frequency (Hz)",
-    #                   ylabel="Normalised Amplitude")
+    ws_fig = FigData(xs=xs,
+                     ys=[ws,
+                         curr_w],
+                     title=f"tau={tau}s",
+                     line_options=[{"label": "Windowed Signal"},
+                                   {"label": "Window"}],
+                     plot_type="plot",
+                     xlabel="Time (s)",
+                     ylabel="Amplitude")
 
-    # aplot.single_subplots(grid_size=(2, 1),
-    #                       fig_data={(0, 0): ws_fig,
-    #                                 (1, 0): fft_fig},
-    #                       individual_figsize=(5, 2.5),
-    #                       auto_timestamp=False,
-    #                       folder="stft_schematic",
-    #                       savefig_path=f"tau={tau}s.png"
-    #                       )
+    fft_fig = FigData(xs=fft_x[:slice_num],
+                      ys=np.abs(ws_ffts[seg])**2,
+                      title="Fourier Transform Magnitude",
+                      options=["grid"],
+                      ylim=(-0.025, 0.25),
+                      xlabel="Frequency (Hz)",
+                      ylabel="Normalised Amplitude")
+
+    aplot.single_subplots(grid_size=(2, 1),
+                          fig_data={(0, 0): ws_fig,
+                                    (1, 0): fft_fig},
+                          individual_figsize=(5, 2.5),
+                          auto_timestamp=False,
+                          folder="stft_schematic",
+                          savefig_path=f"tau={tau}s.png"
+                          )
 
 # Plot the 3D vis of the FFTs which forms the STFT
 x, y = np.meshgrid(fft_x, np.arange(0, n_segments) / sum(durations))

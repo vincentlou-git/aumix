@@ -81,9 +81,9 @@ fft_axis_labels = {"xlabel": "Frequency (Hz)",
                    "ylabel": "Amplitude per Hz"}
 
 # Titles
-cl_signal_title = f"Synthetic Clarinet Signal\nSampling Rate = {cl_signal.samp_rate}Hz"
-cl_raw_title = "Constituent waves of the " + cl_signal_title
-cl_fft_title = "Fourier Transform of the " + cl_signal_title.split("\n")[0]
+cl_signal_title = f"(b) Synthetic Clarinet Signal\nSampling Rate = {cl_signal.samp_rate}Hz"
+cl_raw_title = "(a) Constituent waves of the " + cl_signal_title
+cl_fft_title = "(c) Fourier Transform of the " + cl_signal_title.split("\n")[0]
 
 sine_raw_title = f"Pure Sine Waves\nSampling Rate = {sine_signal.samp_rate}Hz"
 sine_sum_signal_title = f"Sum of two sine signals at frequencies { sine_signal.sin_freqs[0] }Hz and { sine_signal.sin_freqs[1] }Hz"
