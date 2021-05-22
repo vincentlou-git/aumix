@@ -16,3 +16,7 @@ figures/
 audio/
 /audio
 *.wav
+
+# Ignore all data
+/data
+data/
