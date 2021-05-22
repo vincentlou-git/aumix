@@ -1,0 +1,114 @@
+"""
+eval.py
+
+Evaluation metrics computation.
+
+@author: Chan Wai Lou
+"""
+
+from mir_eval.separation import *
+from mir_eval.separation import _safe_db
+import numpy as np
+
+
+def bss_scale_sdr(reference_sources, estimated_sources, compute_permutation=True):
+    """
+    Compute the Scale-Invariant and Scale-Dependent Signal to Distortion Ratios
+    as proposed by Jonathan Le Roux et al. This structure of function is identical to
+    ``mir_eval.separation.bss_eval_sources''.
+
+    Parameters
+    ----------
+    reference_sources : np.ndarray, shape=(nsrc, nsampl)
+        matrix containing true sources (must have same shape as
+        estimated_sources)
+    estimated_sources : np.ndarray, shape=(nsrc, nsampl)
+        matrix containing estimated sources (must have same shape as
+        reference_sources)
+    compute_permutation : bool, optional
+        compute permutation of estimate/source combinations (True by default)
+
+    Returns
+    -------
+    si_sdr : np.ndarray, shape=(nsrc,)
+        vector of Scale-Invariant Signal to Distortion Ratios (SI-SDR)
+    si_perm : np.ndarray, shape=(nsrc,)
+        vector containing the best ordering of estimated sources in
+        the mean SI-SDR sense. Note: ``si_perm`` will be ``[0, 1, ...,
+        nsrc-1]`` if ``compute_permutation`` is ``False``.
+    sd_sdr : np.ndarray, shape=(nsrc,)
+        vector of Scale-Dependent Signal to Distortion Ratios (SI-SDR)
+    sd_perm : np.ndarray, shape=(nsrc,)
+        vector containing the best ordering of estimated sources in
+        the mean SD-SDR sense. Note: ``sd_perm`` will be ``[0, 1, ...,
+        nsrc-1]`` if ``compute_permutation`` is ``False``.
+
+    References
+    ----------
+    .. [#] Jonathan Le Roux, Scott Wisdom, Hakan Erdogan, and John R. Hershey,
+        "SDR – Half-Baked or Well Done?", ICASSP 2019 - 2019 IEEE International
+        Conference on Acoustics, Speech and Signal Processing (ICASSP),
+        pp. 626-630, 2019.
+    """
+    # make sure the input is of shape (nsrc, nsampl)
+    if estimated_sources.ndim == 1:
+        estimated_sources = estimated_sources[np.newaxis, :]
+    if reference_sources.ndim == 1:
+        reference_sources = reference_sources[np.newaxis, :]
+
+    validate(reference_sources, estimated_sources)
+    # If empty matrices were supplied, return empty lists (special case)
+    if reference_sources.size == 0 or estimated_sources.size == 0:
+        return np.array([]), np.array([]), np.array([]), np.array([])
+
+    nsrc = estimated_sources.shape[0]
+
+    # does user desire permutations?
+    if compute_permutation:
+        # compute criteria for all possible pair matches
+        si_sdr = np.empty((nsrc, nsrc))
+        sd_sdr = np.empty((nsrc, nsrc))
+
+        for jest in range(nsrc):
+            for jtrue in range(nsrc):
+                alpha, si_sdr[jest, jtrue] = _si_sdr(reference_sources[jest], estimated_sources[jtrue])
+                sd_sdr[jest, jtrue] = snr(reference_sources[jest], estimated_sources[jtrue]) + 10 * np.log10(alpha ** 2)
+
+        # select the best ordering
+        perms = list(itertools.permutations(list(range(nsrc))))
+        mean_si_sdr = np.empty(len(perms))
+        mean_sd_sdr = np.empty(len(perms))
+        dum = np.arange(nsrc)
+        for (i, perm) in enumerate(perms):
+            mean_si_sdr[i] = np.mean(si_sdr[perm, dum])
+            mean_sd_sdr[i] = np.mean(sd_sdr[perm, dum])
+
+        si_popt = perms[np.argmax(mean_si_sdr)]
+        sd_popt = perms[np.argmax(mean_sd_sdr)]
+        si_idx = (si_popt, dum)
+        sd_idx = (sd_popt, dum)
+        return (si_sdr[si_idx], np.asarray(si_popt), sd_sdr[sd_idx], np.asarray(sd_popt))
+    else:
+        # compute criteria for only the simple correspondence
+        # (estimate 1 is estimate corresponding to reference source 1, etc.)
+        
+        si_sdr = np.empty(nsrc)
+        sd_sdr = np.empty(nsrc)
+        
+        for i in range(nsrc):
+            alpha, si_sdr[i] = _si_sdr(reference_sources[i], estimated_sources[i])
+            sd_sdr[i] = snr(reference_sources[i], estimated_sources[i]) + 10 * np.log10(alpha**2)
+
+        # return the default permutation for compatibility
+        popt = np.arange(nsrc)
+        return (si_sdr, popt, sd_sdr, popt)
+
+
+def _si_sdr(ref, est):
+    alpha = est @ ref / np.sum(ref ** 2)
+    alpha_ref = alpha * ref
+    return alpha, _safe_db( np.sum(alpha_ref ** 2), np.sum((alpha_ref - est) ** 2) )
+
+
+def snr(ref, est):
+    return _safe_db( np.sum(ref ** 2), np.sum((ref - est) ** 2) )
