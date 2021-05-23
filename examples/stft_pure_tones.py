@@ -29,6 +29,7 @@ import aumix.signal.simple_signal as ss
 import aumix.signal.non_stationary_signal as nsts
 import aumix.plot.plot as aplot
 from aumix.plot.fig_data import *
+import aumix.plot.preset as apreset
 
 
 #
@@ -38,24 +39,22 @@ n_signals = 4
 
 samp_rate = 100
 
-# freqs = range(1, n_signals+1)
-freqs = range(10, 10 + 10 * n_signals, 10)
+base_freq = 10
+freq_inc = 10
 
 durations = [1] * n_signals
 # durations = [max(1 - i * 0.25, 0.25) for i in range(n_signals)]
-
-# chop_ranges = [(0, 0.5)] * n_signals
-chop_ranges = [None] * n_signals
 
 window = "blackmanharris"
 
 #
 # Generate data
 #
+freqs = np.arange(n_signals) * freq_inc + base_freq
+
 signals = [ss.SineSignal(freq=freqs[i],
                          duration=durations[i],
-                         samp_rate=samp_rate,
-                         chop_range=chop_ranges[i])
+                         samp_rate=samp_rate)
            for i in range(len(freqs))]
 nst = nsts.NonStationarySignal(signals)
 
@@ -78,25 +77,22 @@ print(t.shape, f.shape, Zxx.shape)
 
 signal_fig = FigData(xs=nst.samp_nums,
                      ys=[nst.data],
-                     title="Non stationary signal",
+                     title=f"Non stationary signal (samp rate = {samp_rate})",
                      plot_type="plot",
                      xlabel="Time (s)",
                      ylabel="Amplitude")
 
-stft_fig = FigData(xs=t,
-                   ys=f,
-                   zs=np.abs(Zxx),
-                   title="STFT Magnitude",
-                   line_options=[{"vmin": 0,
-                                  "vmax": 1,
-                                  "shading": 'gouraud'}],
-                   options=["grid"],
-                   plot_type="pcolormesh",
-                   xlabel="Time (s)",
-                   ylabel="Frequency (Hz)",
-                   fit_data=False)
+stft_fig = apreset.stft_pcolormesh(t=t,
+                                   f=f,
+                                   Zxx=Zxx,
+                                   title=f"STFT Magnitude",
+                                   yscale="linear",
+                                   ylim=(0, 50),
+                                   colorbar_params={"pad": 0.05})
 
-aplot.single_subplots(grid_size=(2, 1),
+aplot.single_subplots(grid_size=(1, 2),
                       fig_data={(0, 0): signal_fig,
-                                (1, 0): stft_fig},
-                      individual_figsize=(6, 4))
+                                (0, 1): stft_fig},
+                      individual_figsize=(5, 3.5),
+                      savefig_path="stft_sines.png"
+                      )
