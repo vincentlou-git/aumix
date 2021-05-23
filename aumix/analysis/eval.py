@@ -9,6 +9,47 @@ Evaluation metrics computation.
 from mir_eval.separation import *
 from mir_eval.separation import _safe_db
 import numpy as np
+import pandas as pd
+
+
+def bss_eval_df(ref, est, compute_permutation=True):
+    """
+    Evaluate the estimated sources against the true sources using BSS metrics
+    (SDR, SIR, SAR, SI-SDR, SD-SDR).
+
+    Parameters
+    ----------
+    ref : np.ndarray, shape=(nsrc, nsampl)
+        matrix containing true sources (must have same shape as est)
+    est : np.ndarray, shape=(nsrc, nsampl)
+        matrix containing estimated sources (must have same shape as reef)
+    compute_permutation : bool, optional
+        compute permutation of estimate/source combinations (True by default)
+
+    Returns
+    -------
+    df: pd.DataFrame
+        BSS metric values table.
+    """
+    sdr, sir, sar, perm = bss_eval_sources(ref,
+                                           est,
+                                           compute_permutation=compute_permutation)
+    si_sdr, ip, sd_sdr, dp = bss_scale_sdr(ref,
+                                           est,
+                                           compute_permutation=compute_permutation)
+    si_sdr_reorder = np.zeros(si_sdr.shape)
+    si_sdr_reorder[ip] = si_sdr[perm]
+    sd_sdr_reorder = np.zeros(sd_sdr.shape)
+    sd_sdr_reorder[dp] = sd_sdr[perm]
+    df = pd.DataFrame(data={
+        "SI-SDR": si_sdr_reorder,
+        "SD-SDR": sd_sdr_reorder,
+        "SDR": sdr,
+        "SIR": sir,
+        "SAR": sar,
+        "Perm": perm  # Best Mean SIR Permutation
+    })
+    return df
 
 
 def bss_scale_sdr(reference_sources, estimated_sources, compute_permutation=True):
