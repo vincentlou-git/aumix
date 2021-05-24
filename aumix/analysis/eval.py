@@ -31,6 +31,26 @@ def bss_eval_df(ref, est, compute_permutation=True):
     df: pd.DataFrame
         BSS metric values table.
     """
+
+    si_sdr_reorder, sd_sdr_reorder, sdr, sir, sar, perm = _bss_eval(ref,
+                                                                    est,
+                                                                    compute_permutation)
+    df = pd.DataFrame(data={
+        "SI-SDR": si_sdr_reorder,
+        "SD-SDR": sd_sdr_reorder,
+        "SDR": sdr,
+        "SIR": sir,
+        "SAR": sar,
+        "Perm": perm  # Best Mean SIR Permutation
+    })
+    return df
+
+
+def _bss_eval(ref, est, compute_permutation=True):
+    """
+    Evaluate the estimated sources against the true sources using BSS metrics
+    (SDR, SIR, SAR, SI-SDR, SD-SDR).
+    """
     sdr, sir, sar, perm = bss_eval_sources(ref,
                                            est,
                                            compute_permutation=compute_permutation)
@@ -41,15 +61,8 @@ def bss_eval_df(ref, est, compute_permutation=True):
     si_sdr_reorder[ip] = si_sdr[perm]
     sd_sdr_reorder = np.zeros(sd_sdr.shape)
     sd_sdr_reorder[dp] = sd_sdr[perm]
-    df = pd.DataFrame(data={
-        "SI-SDR": si_sdr_reorder,
-        "SD-SDR": sd_sdr_reorder,
-        "SDR": sdr,
-        "SIR": sir,
-        "SAR": sar,
-        "Perm": perm  # Best Mean SIR Permutation
-    })
-    return df
+
+    return si_sdr_reorder, sd_sdr_reorder, sdr, sir, sar, perm
 
 
 def bss_scale_sdr(reference_sources, estimated_sources, compute_permutation=True):
