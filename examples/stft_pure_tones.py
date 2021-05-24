@@ -77,7 +77,7 @@ print(t.shape, f.shape, Zxx.shape)
 
 signal_fig = FigData(xs=nst.samp_nums,
                      ys=[nst.data],
-                     title=f"Non stationary signal (samp rate = {samp_rate})",
+                     title=f"(a) Non stationary signal (samp rate = {samp_rate})",
                      plot_type="plot",
                      xlabel="Time (s)",
                      ylabel="Amplitude")
@@ -85,7 +85,7 @@ signal_fig = FigData(xs=nst.samp_nums,
 stft_fig = apreset.stft_pcolormesh(t=t,
                                    f=f,
                                    Zxx=Zxx,
-                                   title=f"STFT Magnitude",
+                                   title=f"(b) STFT Magnitude",
                                    yscale="linear",
                                    ylim=(0, 50),
                                    colorbar_params={"pad": 0.05})

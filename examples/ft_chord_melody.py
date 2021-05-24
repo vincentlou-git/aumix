@@ -73,7 +73,7 @@ for i, (sig, ft, fft_x, name) in enumerate([(chord, chord_fft, chord_fft_x, "Cho
                           plot_type="plot",
                           xlabel="Time (s)",
                           ylabel="Amplitude")
-    label += 1
+    label += 2
 
     fft_figs[i] = FigData(xs=fft_x[:slice_num],
                           ys=np.abs(ft) ** 2,
@@ -82,7 +82,7 @@ for i, (sig, ft, fft_x, name) in enumerate([(chord, chord_fft, chord_fft_x, "Cho
                           xlabel="Frequency (Hz)",
                           ylabel="Normalised Magnitude")
 
-    label += 1
+    label -= 1
 
 # Plot
 aplot.single_subplots(grid_size=(2, 2),
