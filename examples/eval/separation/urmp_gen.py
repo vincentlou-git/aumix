@@ -1,5 +1,5 @@
 """
-urmp.py
+urmp_gen.py
 
 Generation of stereo recordings and ADRess reconstruction using the URMP dataset.
 
@@ -35,24 +35,78 @@ beta = 200  # Azimuth resolution
 positions = {
     2: [25, 120],
     3: [25, 76, 150],
-    4: [25, 63, 118, 162],
-    5: [25, 50, 90, 137, 170]
+    4: [22, 63, 123, 163],
+    5: [20, 53, 90, 138, 174]
 }
 # number of sources: width
 widths = {
-    2: [20] * 2,
-    3: [20] * 3,
-    4: [22] * 4,
-    5: [22] * 5,
+    2: [20] * 2,               # 1 - 11
+    3: [14, 12, 14],           # 12 - 23
+    4: [14, 12, 12, 14],       # 24 - 37
+    5: [16, 12, 12, 12, 16],   # 38 - 44
 }
-overwrite_ds = {24: [162, 125, 63, 35]}
-overwrite_Hs = {12: [5] * 3,
-                24: [20, 20, 20, 20]}
+# Specify the position and width for specific recordings.
+# This is useful for adjusting the d and H parameters for only specific reconstructions.
+overwrite_ds = {8: [25],  9: [25],  12: [76],
+                14: [75], 17: [76], 18: [76, 150],
+                19: [25, 76],       24: [38],
+                25: [38],           26: [120, 120],
+                27: [60, 62],       31: [63, 63],
+                32: [63, 63, 118, 118],  33: [61, 65, 116, 120],
+                35: [63, 65, 116, 120],  36: [61, 65, 116, 120],
+                37: [116, 120, 124],     39: [25, 50, 56, 130, 135, 140],
+                38: [87, 89],
+                43: [86, 94, 170, 170, 170]
+                }
+overwrite_Hs = {5: [10] * 2,      6: [10] * 2,
+                7: [10, 30],      8: [10],
+                9: [10],          12: [10],
+                13: [30, 30, 20], 14: [30],
+                15: [30, 32, 20], 16: [30, 30, 30],
+                17: [14],         18: [10, 14],
+                19: [16, 14],     24: [14],
+                25: [14],         26: [18, 16],
+                27: [8, 8],       31: [8, 10],
+                32: [10, 10, 10, 10],
+                35: [10, 10, 14, 14],   36: [10, 10, 14, 14],
+                37: [12, 12, 12],       39: [16, 14, 14, 10, 10, 10],
+                38: [12, 10],
+                42: [14, 14, 16, 18, 20]
+                }
 
 # Output parameters
-freq_absence_tol = 5e-2  # Frequency magnitude to tell that "this frequency has nothing"
-taus = [5, 15, 25, 35]   # Times (second) to visualise
-whitelist = [8, 40, 41]   # Entries to do the analysis. Note: 8, 40, 41 is less than 40s long.
+id_taus = {
+    5: [5, 5.5, 6],
+    6: [5, 5.5, 6],
+    7: [15, 152.7, 195],
+    9: [1, 2, 3, 4],
+    12: [80, 96],
+    13: [20, 25],
+    14: [28.2, 28.642],
+    15: [4, 12],
+    16: [13, 15],
+    17: [10, 20, 26, 38],
+    18: [3.5, 13, 16, 18.5, 23, 34],
+    19: [25, 79, 86, 108],
+    24: [6, 13, 28, 42.5],
+    25: [17.5, 18, 33.5, 34],
+    # 38: [13.1, 18.8, 35.7, 47.14, 59.85, 81.6, 106.3],
+    # 39: [13.1, 18.8, 35.7, 47.14, 59.85, 81.6, 106.3],
+    # 40: [8.946, 17.688, 19, 21.173],
+    # 41: [8.946, 17.688, 19, 21.173],
+    # 42: [60, 110, 134, 197, 212.7, 202.8],
+    # 43: [9.416, 20.04, 39.296, 43.840, 49.6],
+    # 44: [12.938, 31.7, 35.808, 107.784, 136.32, 136.452, 136.632]
+}
+default_taus = []   # Times (second) to visualise
+whitelist = [       # Entries to do the analysis. Note: 8, 40, 41 is less than 40s long.
+             # 5, 6, 7, 9,                           # 2
+             # 12, 13, 14, 15, 16, 17, 18, 19,       # 3
+             # 25, 26, 27, 28, 29, 30, 31, 32,       # 4
+             # 33, 35,
+             38, 40, 42, 43, 44                      # 5
+             ]
+write_pan_mix = False
 
 #
 # Computation
@@ -107,7 +161,8 @@ for dir_name, subdir_list, files in os.walk(root):
 
     # Write audio:
     # Pan-mixed audio
-    wav.write(f"audio/{idx}-stereo", src.T, samp_rate=samp_rate)
+    if write_pan_mix:
+        wav.write(f"audio/{idx}-stereo", src.T, samp_rate=samp_rate)
 
     # Reconstructed audio
     for i, recon in enumerate(recons):
@@ -124,6 +179,7 @@ for dir_name, subdir_list, files in os.walk(root):
     # Compute the null/peak spectrogram for each specified tau
     nulls = []
     peaks = []
+    taus = id_taus.get(idx, default_taus)
 
     for i, tau in enumerate(taus):
         nu, p, nargs, _, _ = adress.adress_stereo_null_peak_at_sec(tau,
