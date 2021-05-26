@@ -213,7 +213,10 @@ def single_subplots(grid_size,
 
         # Plot data contained in the figure
         for i in range(f.nlines):
-            if f.dim == 2:
+            if f.dim == 2 and "xres" in f.options:
+                line_len = len(f.ys[i]) if f.fit_data else None
+                plot_func(f.xs[i][:line_len], f.ys[i][:line_len], **f.line_options[i])
+            elif f.dim == 2:
                 line_len = len(f.ys[i]) if f.fit_data else None
                 plot_func(f.xs[:line_len], f.ys[i][:line_len], **f.line_options[i])
             elif f.dim == 3:
@@ -262,7 +265,7 @@ def single_subplots(grid_size,
             cbp = {k: v for k, v in f.colorbar_params.items() if k not in non_cbp}
             pl.colorbar(sm, ax=ax, **cbp)
 
-        ax.legend()
+        ax.legend(**f.legend_options)
         pl.tight_layout()
 
     ax.set(**kwargs)

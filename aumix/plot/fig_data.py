@@ -25,6 +25,7 @@ class FigData:
                  fit_data=True,
                  tickers=None,
                  options=None,
+                 legend_options=None,
                  colorbar_params=None,
                  **kwargs
                  ):
@@ -110,6 +111,9 @@ class FigData:
 
         options : list, optional
             "grid": display a grid behind the plot.
+
+        legend_options : dict, optional
+            Parameters passed to the legend.
         """
         self.xs = np.array([]) if xs is None else xs
         self.ys = [] if ys is None else ys
@@ -137,6 +141,7 @@ class FigData:
         self.fit_data = fit_data
         self.tickers = {} if tickers is None else tickers
         self.options = [] if options is None else options
+        self.legend_options = {} if legend_options is None else legend_options
 
         self.colorbar_params = colorbar_params
 
