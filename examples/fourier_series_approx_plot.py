@@ -10,6 +10,7 @@ Plots signals approximated with fourier series.
 import aumix.signal.fourier_series as fs
 import aumix.signal.simple_signal as ss
 import aumix.plot.plot as aplot
+from aumix.plot.fig_data import *
 
 import numpy as np
 
@@ -58,14 +59,17 @@ sq_line_options.append({"label": "True signal",
                               "linewidth": 2,
                               "color": "black"})
 
-# Plot signals
-aplot.single_plot(ts, 
-                  sawtooths, 
-                  line_options=sawtooth_line_options, 
-                  title="Sawtooth wave approximated with Fourier series",
-                  **general_options)
-aplot.single_plot(ts, 
-                  squares, 
-                  line_options=sq_line_options, 
-                  title="Square wave approximated with Fourier series",
-                  **general_options)
+# Encapsulate and Plot signals
+sawtooth_fig = FigData(ts,
+                       sawtooths,
+                       line_options=sawtooth_line_options,
+                       title="Sawtooth wave approximated with a Fourier series",
+                       **general_options)
+square_fig = FigData(ts,
+                     squares,
+                     line_options=sq_line_options,
+                     title="Square wave approximated with a Fourier series",
+                     **general_options)
+
+aplot.single_plot(sawtooth_fig)
+aplot.single_plot(square_fig)
