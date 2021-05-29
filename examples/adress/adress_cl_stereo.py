@@ -6,7 +6,6 @@ Experiment of the stereo version of ADRess.
 @author: Chan Wai Lou
 """
 
-import sys
 import music21 as m21
 import scipy.signal as signal
 
@@ -46,7 +45,7 @@ beta = 200  # Azimuth resolution
 freq_absence_tol = 5e-2  # Frequency magnitude to tell that "this frequency has nothing"
 taus = [note_duration/2 + note_duration*i for i in range(len(soprano))]  # Time positions (in sec) in the STFT to plot the frequency-azimuth figures
 sep_names = ["Melody (Soprano & Tenor)", "Alto (Chord w/ Bass)", "Bass (Chord w/ Alto)"]
-name = f"melody-chord-cl-stereo={str(left_intensities).replace(' ', ',')}_sr={samp_rate}"
+name = f"melody-chord-cl-centre={str(left_intensities).replace(' ', ',')}_sr={samp_rate}"
 tech_name = f"{name}_{window}_{nperseg}_{noverlap}"
 
 #
@@ -67,7 +66,7 @@ note_sigs = [[sts.ClarinetApproxSignal(freq=freq,
                                        duration=note_duration,
                                        samp_rate=samp_rate)
              for freq in chord_freqs.T[i]]
-             for i in range(len(chord_freqs))]
+             for i in range(chord_freqs.shape[1])]
 
 melody_data = np.array([nst.NonStationarySignal(ns).data for ns in note_sigs])
 
@@ -123,15 +122,13 @@ for i, tau in enumerate(taus):
 #
 fig_data = {}
 
-vmax = max(np.max(np.abs(left_stft)), np.max(np.abs(right_stft)))
-
 # Zoom: Find max / min frequency present in the signal (less than some tolerance)
 l_ylim = apreset.ylim_zoom(f, left_stft, absence_tol=freq_absence_tol, max_offset=1.1)
 r_ylim = apreset.ylim_zoom(f, right_stft, absence_tol=freq_absence_tol, max_offset=1.1)
 global_ylim = (min(l_ylim[0], r_ylim[0]), max(l_ylim[1], r_ylim[1]))
 
 azi_fig_params = {
-    "options": ["grid"],
+    "options": ["invert_xaxis"],
     "plot_type": "pcolormesh",
     "xlabel": "Azimuth",
     "ylabel": "Frequency"
@@ -148,7 +145,7 @@ for i, (channel, stft, ylim) in enumerate((("Left", left_stft, l_ylim), ("Right"
                                                      f"winlen = {nperseg}, noverlap = {noverlap}",
                                                yscale="linear",
                                                ylim=ylim,
-                                               max_mag=vmax)
+                                               colorbar_params={})
     fig_data[(0, i)] = channel_stft_fig
 
 for i, tau in enumerate(taus):
@@ -156,7 +153,7 @@ for i, tau in enumerate(taus):
     null_fig = FigData(xs=np.arange(beta + 1),
                        ys=f,
                        zs=nulls[i],
-                       title=f"Frequency-azimuth spectrogram\n(tau={'{:.2f}'.format(tau)}s)",
+                       title=f"Freq-azi spectrogram (tau={'{:.2f}'.format(tau)}s)",
                        line_options=azi_line_options,
                        ylim=global_ylim,
                        **azi_fig_params)
@@ -165,7 +162,7 @@ for i, tau in enumerate(taus):
     peak_fig = FigData(xs=np.arange(beta + 1),
                        ys=f,
                        zs=peaks[i],
-                       title=f"Null magnitude estimation (Stereo)",
+                       title=f"Null magnitude estimation (tau={'{:.2f}'.format(tau)}s)",
                        line_options=azi_line_options,
                        ylim=global_ylim,
                        **azi_fig_params)
@@ -181,7 +178,8 @@ for i, recon_stft in enumerate(recon_stfts):
                                                  title=f"Separated source '{sep_names[i]}'\nat d={ds[i]} with width H={Hs[i]}",
                                                  yscale="linear",
                                                  ylim=global_ylim,
-                                                 max_mag=vmax)
+                                                 colorbar_params={}
+                                                 )
     fig_data[(3, i)] = recon_stft_figs[i]
 
 # True signals at each stereo position
@@ -197,14 +195,48 @@ for i, (pos, audio) in enumerate(true_signals.items()):
                                                 title=f"True signal at stereo position {pos}",
                                                 yscale="linear",
                                                 ylim=global_ylim,
-                                                max_mag=vmax)
+                                                colorbar_params={})
     fig_data[(4, i)] = true_pos_stft_fig
 
 # Plot L/R STFTs, null/peaks, recon STFTs & true STFTs at each stereo pos
 aplot.single_subplots(grid_size=(5, 4),
                       fig_data=fig_data,
-                      individual_figsize=(6, 4),
+                      individual_figsize=(4.8, 3),
                       savefig_path=f"StereoADRess_{tech_name}.png",
+                      show=False
+                      )
+
+aplot.single_subplots(grid_size=(4, 2),
+                      fig_data={(0, 0): fig_data[(0, 0)],
+                                (0, 1): fig_data[(0, 1)]},
+                      individual_figsize=(4.8, 3),
+                      savefig_path=f"ADRess_{tech_name}_LR.png",
+                      show=False
+                      )
+
+aplot.single_subplots(grid_size=(4, 2),
+                      fig_data={(0, 0): fig_data[(1, 0)],
+                                (0, 1): fig_data[(2, 0)],
+                                (1, 0): fig_data[(1, 1)],
+                                (1, 1): fig_data[(2, 1)],
+                                (2, 0): fig_data[(1, 2)],
+                                (2, 1): fig_data[(2, 2)],
+                                (3, 0): fig_data[(1, 3)],
+                                (3, 1): fig_data[(2, 3)]},
+                      individual_figsize=(4.8, 3),
+                      savefig_path=f"ADRess_{tech_name}_NP.png",
+                      show=False
+                      )
+
+aplot.single_subplots(grid_size=(4, 2),
+                      fig_data={(0, 0): fig_data[(3, 0)],
+                                (0, 1): fig_data[(4, 0)],
+                                (1, 0): fig_data[(3, 1)],
+                                (1, 1): fig_data[(4, 1)],
+                                (2, 0): fig_data[(3, 2)],
+                                (2, 1): fig_data[(4, 2)]},
+                      individual_figsize=(4.8, 3),
+                      savefig_path=f"ADRess_{tech_name}_RECON.png",
                       show=False
                       )
 
@@ -223,6 +255,6 @@ for pos, audio in true_signals.items():
 # Reconstructed audio
 for i, recon in enumerate(recons):
     wav.write(f"audio/{tech_name}_{short_sep_names[i]}", recon, samp_rate=samp_rate,
-              # auto_timestamp=True
+              auto_timestamp=True
               )
 
