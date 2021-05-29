@@ -46,8 +46,8 @@ def _null2peak_stereo(fas, lfk, rfk, beta):
     null_args = np.argmin(fas, axis=-1)  # Dominant stereo position for each frequency
     min_fa = np.min(fas, axis=-1)  # Min. freq-azi value in each frequency bin
 
-    left_ids = np.where(null_args <= (beta+1)//2)
-    right_ids = np.where(null_args > (beta+1)//2)
+    rids = np.where(null_args <= (beta+1)//2)
+    lids = np.where(null_args > (beta+1)//2)
 
     # Estimate peak magnitude (invert the nulls)
     left_peak = np.abs(lfk) - min_fa
@@ -56,10 +56,10 @@ def _null2peak_stereo(fas, lfk, rfk, beta):
     # If a source is null in the left/right channel,
     # then use the counterpart value from the right/left channel
     azi_peak = np.zeros(null_args.shape)
-    azi_peak[right_ids] = left_peak[right_ids]
-    azi_peak[left_ids] = right_peak[left_ids]
+    azi_peak[lids] = left_peak[lids]
+    azi_peak[rids] = right_peak[rids]
 
-    return azi_peak, null_args, left_ids, right_ids
+    return azi_peak, null_args, rids, lids
 
 
 def adress_null_peak_at_idx(tau_idx,
@@ -90,10 +90,10 @@ def adress_null_peak_at_idx(tau_idx,
 
 
 def adress_stereo_null_peak_at_idx(tau_idx,
-                                 left_stft,
-                                 right_stft,
-                                 beta,
-                                 g=None):
+                                   left_stft,
+                                   right_stft,
+                                   beta,
+                                   g=None):
     """
     Returns the null/peak 2D spectrograms, combining both channels into
     one frequency-azimuth space (does not choose sources in subspace)
@@ -348,11 +348,11 @@ def adress_stereo(left_signal,
         if "progress" in print_options:
             print(f"{tau if tau % 10 == 0 else '.'}", end="")
 
-        _, azi_peak, null_args, left_ids, _ = adress_stereo_null_peak_at_idx(tau_idx=tau,
-                                                                             left_stft=left_stft,
-                                                                             right_stft=right_stft,
-                                                                             g=g,
-                                                                             beta=beta)
+        _, azi_peak, null_args, right_ids, _ = adress_stereo_null_peak_at_idx(tau_idx=tau,
+                                                                              left_stft=left_stft,
+                                                                              right_stft=right_stft,
+                                                                              g=g,
+                                                                              beta=beta)
 
         # Magnitude of the dominant source in each frequency bin
         # found by the azimuth subspace - FitzGerald version 2012
@@ -361,9 +361,9 @@ def adress_stereo(left_signal,
             sep_mags[i][src_args, tau] = azi_peak[src_args]
 
         # `phase` contains the left-channel phases. If a frequency is null (i.e. a source)
-        # in the left channel (`left_ids`), replace it with the right channel's phase
+        # in the right channel (`right_ids`), replace it with the right channel's phase
         # at the same frequency. This is the "dominant" phase.
-        phase[left_ids, tau] = right_phase[left_ids, tau]
+        phase[right_ids, tau] = right_phase[right_ids, tau]
 
     # Combine estimated magnitude and original bin phases
     # Separated range of synthesized STFT values, at time tau
