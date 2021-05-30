@@ -122,9 +122,9 @@ def adress_stereo_null_peak_at_idx(tau_idx,
     #         azi_curr[freq_idx, i] = np.abs(right_stft[freq_idx, tau] - g[i] * left_stft[freq_idx, tau])
 
     # Estimate the magnitude of the nulls
-    azi_peak, null_args, left_ids, right_ids = _null2peak_stereo(azi_null, left_stft[:, tau_idx], right_stft[:, tau_idx], beta)
+    azi_peak, null_args, right_ids, left_ids = _null2peak_stereo(azi_null, left_stft[:, tau_idx], right_stft[:, tau_idx], beta)
 
-    return azi_null, azi_peak, null_args, left_ids, right_ids
+    return azi_null, azi_peak, null_args, right_ids, left_ids
 
 
 def adress_null_peak_at_sec(tau,
