@@ -21,29 +21,35 @@ import aumix.analysis.eval as aeval
 # Parameters
 #
 truth_root = "../../../data/URMP/Dataset/"
-est_root = "audio"
+est_root = "adress_audio"
 
 samp_rate = 48000
+
+ids_to_test = range(1, 45)   # Which pieces to test for?
+ns = [2, 3, 4, 5]   # Possible numbers of sources
 
 
 #
 # Functions
 #
 def comp_stats(table):
-    arr = table.iloc[:, :-2].to_numpy()
+    _arr = table.iloc[:, :-3].to_numpy()
 
-    mean = np.mean(arr, axis=0)
-    std = np.std(arr, axis=0)
-    pm = (np.max(arr, axis=0) - np.min(arr, axis=0)) / 2
+    _mean = np.mean(_arr, axis=0)
+    _std = np.std(_arr, axis=0)
+    _pm = (np.max(_arr, axis=0) - np.min(_arr, axis=0)) / 2
 
     # TODO: t-test
     # stats.ttest_rel()
-    return arr, mean, std, pm
+    return _arr, _mean, _std, _pm
 
 
 #
 # Load and Evaluate
 #
+if not os.path.exists("bss_metrics"):
+    os.mkdir("bss_metrics")
+
 results_df = pd.DataFrame()
 
 true_pattern = re.compile("AuSep(.*?).wav")   # Pattern for truth file names
@@ -55,7 +61,7 @@ est_filenames = [f for f in os.listdir(est_root_abs) if est_pattern.match(f)]
 
 # Put the est file names in a dictionary and sort them in lists
 est_file_dict = dict()
-for i in range(1, 45):
+for i in ids_to_test:
     est_part_pattern = re.compile(f"{i}-d=(.*?).wav")
     matches = [f for f in est_filenames if est_part_pattern.match(f)]
 
@@ -80,7 +86,7 @@ for dir_name, subdir_list, files in os.walk(truth_root):
     # id is the first 2 characters of the dir name
     idx = int(dir_name.split("/")[-1][:2])
 
-    if idx != 35:
+    if idx not in ids_to_test:
         continue
 
     # Load the true parts
@@ -99,11 +105,13 @@ for dir_name, subdir_list, files in os.walk(truth_root):
     # Concatenate results to the existing table
     results_df = pd.concat((results_df, df))
 
+    # Write it in case things crash
+    df.to_csv("bss_metrics/raw_urmp.txt", header=False, index=False, sep="\t", mode="a")
 
 # Calculate statistics
 columns = ["SI-SDR", "SD-SDR", "SDR", "SIR", "SAR"]
-ids = np.concatenate((np.array(["All"]), np.arange(1, 45), np.array(["-"] * 4)))
-n_sources = np.array(["All"] + [results_df.query(f"idx == {i}").n_sources.iloc[0] for i in range(1, 45)] + [2, 3, 4, 5])
+ids = np.concatenate((np.array(["All"]), ids_to_test, np.array(["-"] * len(ns))))
+n_sources = np.array(["All"] + [results_df.query(f"idx == {i}").n_sources.iloc[0] for i in ids_to_test] + ns)
 
 mean = np.empty((len(ids), 5))
 std = np.empty((len(ids), 5))
@@ -111,48 +119,43 @@ pm = np.empty((len(ids), 5))
 _, mean[0], std[0], pm[0] = comp_stats(results_df)   # overall
 
 # Stats across each piece
-for i in range(1, 45):
-    result = results_df.query(f"idx == {i}")
+for i, idx in enumerate(ids_to_test):
+    result = results_df.query(f"idx == {idx}")
 
     if result.empty:
         continue
 
-    _, mean[i], std[i], pm[i] = comp_stats(results_df)
+    _, mean[i+1], std[i+1], pm[i+1] = comp_stats(result)
 
 # Stats across each number of sources
-for i in range(4):
-    result = results_df.query(f"n_sources == {i+2}")
+for i, n in enumerate(ns):
+    result = results_df.query(f"n_sources == {n}")
 
     if result.empty:
         continue
 
-    idx = len(ids) - 4 + i
-    _, mean[idx], std[idx], pm[idx] = comp_stats(results_df)
+    idx = len(ids) - len(ns) + i
+    _, mean[idx], std[idx], pm[idx] = comp_stats(result)
 
 # Concatenate mean and plus minus
 mean_pm = np.core.defchararray.add(np.core.defchararray.add(mean.astype(str), " $\\pm$ "), pm.astype(str))
 
 # Put all statistical results in a table
-mean_pm_df = pd.DataFrame(
-    data=mean_pm,
-    columns=columns
-)
-std_df = pd.DataFrame(
-    data=std,
-    columns=columns
-)
+mean_pm_df = pd.DataFrame(data=mean_pm, columns=columns)
+mean_df = pd.DataFrame(data=mean, columns=columns)
+pm_df = pd.DataFrame(data=pm, columns=columns)
+std_df = pd.DataFrame(data=std, columns=columns)
+
 mean_pm_df = mean_pm_df.assign(idx=ids, n_sources=n_sources)
+mean_df = mean_df.assign(idx=ids, n_sources=n_sources)
+pm_df = pm_df.assign(idx=ids, n_sources=n_sources)
 std_df = std_df.assign(idx=ids, n_sources=n_sources)
 
-# Reorder raw eval results
-results_df = results_df[["idx", "n_sources", "SI-SDR", "SD-SDR", "SDR", "SIR", "SAR", "Perm"]]
-
 #
-# Write file
+# Write files
 #
-if not os.path.exists("bss_metrics"):
-    os.mkdir("bss_metrics")
 
-mean_pm_df.to_csv("bss_metrics/mean_pm_urmp.txt", header=True, index=False, sep=" ", mode="w")
-std_df.to_csv("bss_metrics/std_urmp.txt", header=True, index=False, sep=" ", mode="w")
-results_df.to_csv("bss_metrics/raw_urmp.txt", header=True, index=False, sep=" ", mode="w")
+mean_pm_df.to_csv("bss_metrics/mean_pm_urmp.txt", header=True, index=False, sep="\t", mode="w")
+mean_df.to_csv("bss_metrics/mean_urmp.txt", header=True, index=False, sep="\t", mode="w")
+pm_df.to_csv("bss_metrics/pm_urmp.txt", header=True, index=False, sep="\t", mode="w")
+std_df.to_csv("bss_metrics/std_urmp.txt", header=True, index=False, sep="\t", mode="w")
