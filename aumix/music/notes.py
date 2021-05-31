@@ -73,7 +73,7 @@ def minor_nat_scale(scale_name, n_notes=8, output="note"):
 def minor_har_scale(scale_name, n_notes=8, output="note"):
     """Harmonic minor scale"""
 
-    notes = __notes(scale_name, n_notes, [2, 1, 2, 2, 1, 3, 2])
+    notes = __notes(scale_name, n_notes, [2, 1, 2, 2, 1, 3, 1])
     return __output_helper(notes, output)
 
 
