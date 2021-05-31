@@ -109,8 +109,10 @@ cl_signal_fig = FigData(xs=cl_signal.samp_nums,
                         ys=[cl_signal.data,
                             cl_recon],
                         title=f"(b) {cl_signal_title}",
-                        line_options=[{"label": "Original"},
-                                      {"label": "Reconstructed from FFT"}],
+                        line_options=[{"label": "Original",
+                                       "linestyle": "solid"},
+                                      {"label": "Reconstructed from FFT",
+                                       "linestyle": "dashed"}],
                         xlim=cl_xlim,
                         **signal_axis_labels)
 

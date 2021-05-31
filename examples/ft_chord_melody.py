@@ -24,7 +24,7 @@ from scipy.fft import fft, fftfreq
 scale_name = "C2"
 n_notes = 3
 samp_rate = 44100
-durations = [1] * n_notes
+durations = [0.1] * n_notes
 
 #
 # Generate signals
@@ -90,11 +90,11 @@ aplot.single_subplots(grid_size=(2, 2),
                                 (0, 1): sig_figs[1],
                                 (1, 0): fft_figs[0],
                                 (1, 1): fft_figs[1]},
-                      individual_figsize=(5, 3),
+                      individual_figsize=(4, 2.5),
                       auto_timestamp=True,
                       savefig_path=f"{underline_note_names}_{round(duration*1000)}ms_{name}_FFT.png"
                       )
 
 # Output wav
-wav.write(f"audio/{underline_note_names}_{round(duration*1000)}ms_melody", melody)
-wav.write(f"audio/{underline_note_names}_{round(duration*1000)}ms_chord", chord)
+# wav.write(f"audio/{underline_note_names}_{round(duration*1000)}ms_melody", melody)
+# wav.write(f"audio/{underline_note_names}_{round(duration*1000)}ms_chord", chord)
