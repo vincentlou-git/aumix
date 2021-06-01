@@ -14,6 +14,7 @@ import pandas as pd
 from scipy import stats
 
 from aumix.plot.fig_data import *
+import aumix.io.filename as af
 import aumix.analysis.eval as aeval
 
 
@@ -52,23 +53,15 @@ if not os.path.exists("bss_metrics"):
 
 results_df = pd.DataFrame()
 
-true_pattern = re.compile("AuSep(.*?).wav")   # Pattern for truth file names
-est_pattern = re.compile("(.*?).wav")   # Pattern for separated file names
 
-# Find all separated file names
+# Put the xml file names in a dictionary and sort them in lists
 est_root_abs = os.path.abspath(est_root)
-est_filenames = [f for f in os.listdir(est_root_abs) if est_pattern.match(f)]
+est_file_dict = af.id_filename_dict(est_root_abs,
+                                    ids=ids_to_test,
+                                    regexes=[f"{i}-d=(.*?).wav" for i in ids_to_test],
+                                    sort_function=lambda f: int(f.split("d=")[1].split("-")[0]))
 
-# Put the est file names in a dictionary and sort them in lists
-est_file_dict = dict()
-for i in ids_to_test:
-    est_part_pattern = re.compile(f"{i}-d=(.*?).wav")
-    matches = [f for f in est_filenames if est_part_pattern.match(f)]
-
-    # Sort according to position
-    matches.sort(key=lambda f: int(f.split("d=")[1].split("-")[0]))
-    est_file_dict[i] = matches
-
+true_pattern = re.compile("AuSep(.*?).wav")   # Pattern for truth file names
 for dir_name, subdir_list, files in os.walk(truth_root):
     # Inside directory: dir_name
 
