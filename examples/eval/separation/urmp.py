@@ -17,36 +17,48 @@ from aumix.plot.fig_data import *
 import aumix.io.filename as af
 import aumix.analysis.eval as aeval
 
-
 #
 # Parameters
 #
 truth_root = "../../../data/URMP/Dataset/"
-est_root = "adress_audio"
-
 samp_rate = 48000
 
-ids_to_test = range(1, 45)   # Which pieces to test for?
-ns = [2, 3, 4, 5]   # Possible numbers of sources
+
+# ICA
+ids_to_test = range(12, 12)  # Which pieces to test for?
+ns = [2]  # Possible numbers of sources
+est_root = "ica_audio"
+metrics_folder = "ica_metrics"
+est_file_regexes = [f"{i}-ica-(.*?).wav" for i in ids_to_test]
+compute_permutation = True
+def sort_function(f): return f
+
+
+# ADRess
+# ids_to_test = range(1, 45)  # Which pieces to test for?
+# ns = [2, 3, 4, 5]  # Possible numbers of sources
+# est_root = "adress_audio"
+# metrics_folder = "bss_metrics"
+# est_file_regexes = [f"{i}-d=(.*?).wav" for i in ids_to_test]
+# def sort_function(f): return int(f.split("d=")[1].split("-")[0])
 
 
 #
 # Load and Evaluate
 #
-if not os.path.exists("bss_metrics"):
-    os.mkdir("bss_metrics")
+if not os.path.exists(metrics_folder):
+    os.mkdir(metrics_folder)
 
 results_df = pd.DataFrame()
-
 
 # Put the xml file names in a dictionary and sort them in lists
 est_root_abs = os.path.abspath(est_root)
 est_file_dict = af.id_filename_dict(est_root_abs,
                                     ids=ids_to_test,
-                                    regexes=[f"{i}-d=(.*?).wav" for i in ids_to_test],
-                                    sort_function=lambda f: int(f.split("d=")[1].split("-")[0]))
+                                    regexes=est_file_regexes,
+                                    sort_function=sort_function)
 
-true_pattern = re.compile("AuSep(.*?).wav")   # Pattern for truth file names
+true_pattern = re.compile("AuSep(.*?).wav")  # Pattern for truth file names
 for dir_name, subdir_list, files in os.walk(truth_root):
     # Inside directory: dir_name
 
@@ -68,15 +80,19 @@ for dir_name, subdir_list, files in os.walk(truth_root):
         continue
 
     # Load the true parts
-    true_signals = np.array([librosa.load(f"{dir_name}/{part}", sr=samp_rate, mono=True)[0] for part in part_names])
+    true_signals = np.array(
+        [librosa.load(f"{dir_name}/{part}", sr=samp_rate, mono=True)[0] for part in
+         part_names])
 
     # Load the reconstructed parts
-    est_signals = np.array([librosa.load(f"{est_root_abs}/{part}", sr=samp_rate, mono=True)[0] for part in est_file_dict[idx]])
+    est_signals = np.array(
+        [librosa.load(f"{est_root_abs}/{part}", sr=samp_rate, mono=True)[0] for part in
+         est_file_dict[idx]])
 
     # Evaluate
     df = aeval.bss_eval_df(true_signals,
                            est_signals[:, :true_signals.shape[1]],
-                           compute_permutation=False)
+                           compute_permutation=compute_permutation)
     # add index and number of instruments
     df = df.assign(idx=idx, n_sources=n)
 
@@ -84,17 +100,27 @@ for dir_name, subdir_list, files in os.walk(truth_root):
     results_df = pd.concat((results_df, df))
 
     # Write it in case things crash
-    df.to_csv("bss_metrics/raw_urmp.txt", header=False, index=False, sep="\t", mode="a")
+    df.to_csv(os.path.join(metrics_folder, "raw_urmp.txt"),
+              header=False, index=False, sep="\t", mode="a")
 
+#
 # Calculate statistics
+#
+
+# Load raw results from file
+results_df = pd.read_csv(os.path.join(metrics_folder, "raw_urmp.txt"),
+                         sep="\t", header=None,
+                         names=["SI-SDR", "SD-SDR", "SDR", "SIR", "SAR", "Perm", "idx", "n_sources"])
+
 columns = ["SI-SDR", "SD-SDR", "SDR", "SIR", "SAR"]
 ids = np.concatenate((np.array(["All"]), ids_to_test, np.array(["-"] * len(ns))))
-n_sources = np.array(["All"] + [results_df.query(f"idx == {i}").n_sources.iloc[0] for i in ids_to_test] + ns)
+n_sources = np.array(["All"] + [results_df.query(f"idx == {i}").n_sources.iloc[0] for i in
+                                ids_to_test] + ns)
 
 mean = np.empty((len(ids), 5))
 std = np.empty((len(ids), 5))
 pm = np.empty((len(ids), 5))
-_, mean[0], std[0], pm[0] = aeval.comp_stats(results_df)   # overall
+_, mean[0], std[0], pm[0] = aeval.comp_stats(results_df)  # overall
 
 # Stats across each piece
 for i, idx in enumerate(ids_to_test):
@@ -103,7 +129,7 @@ for i, idx in enumerate(ids_to_test):
     if result.empty:
         continue
 
-    _, mean[i+1], std[i+1], pm[i+1] = aeval.comp_stats(result)
+    _, mean[i + 1], std[i + 1], pm[i + 1] = aeval.comp_stats(result)
 
 # Stats across each number of sources
 for i, n in enumerate(ns):
@@ -116,7 +142,8 @@ for i, n in enumerate(ns):
     _, mean[idx], std[idx], pm[idx] = aeval.comp_stats(result)
 
 # Concatenate mean and plus minus
-mean_pm = np.core.defchararray.add(np.core.defchararray.add(mean.astype(str), " $\\pm$ "), pm.astype(str))
+mean_pm = np.core.defchararray.add( np.core.defchararray.add(
+    np.round(mean, 2).astype(str), " $\\pm$ "), np.round(pm, 2).astype(str))
 
 # Put all statistical results in a table
 mean_pm_df = pd.DataFrame(data=mean_pm, columns=columns)
@@ -133,7 +160,11 @@ std_df = std_df.assign(idx=ids, n_sources=n_sources)
 # Write files
 #
 
-mean_pm_df.to_csv("bss_metrics/mean_pm_urmp.txt", header=True, index=False, sep="\t", mode="w")
-mean_df.to_csv("bss_metrics/mean_urmp.txt", header=True, index=False, sep="\t", mode="w")
-pm_df.to_csv("bss_metrics/pm_urmp.txt", header=True, index=False, sep="\t", mode="w")
-std_df.to_csv("bss_metrics/std_urmp.txt", header=True, index=False, sep="\t", mode="w")
+mean_pm_df.to_csv(os.path.join(metrics_folder, "mean_pm_urmp.txt"),
+                  header=True, index=False, sep="\t", mode="w")
+mean_df.to_csv(os.path.join(metrics_folder, "mean_urmp.txt"),
+               header=True, index=False, sep="\t", mode="w")
+pm_df.to_csv(os.path.join(metrics_folder, "pm_urmp.txt"),
+             header=True, index=False, sep="\t", mode="w")
+std_df.to_csv(os.path.join(metrics_folder, "std_urmp.txt"),
+              header=True, index=False, sep="\t", mode="w")
