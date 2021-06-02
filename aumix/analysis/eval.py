@@ -46,6 +46,18 @@ def bss_eval_df(ref, est, compute_permutation=True):
     return df
 
 
+def comp_stats(table, ignore_last_n_rows=3):
+    _arr = table.iloc[:, :-ignore_last_n_rows].to_numpy()
+
+    _mean = np.mean(_arr, axis=0)
+    _std = np.std(_arr, axis=0)
+    _pm = (np.max(_arr, axis=0) - np.min(_arr, axis=0)) / 2
+
+    # TODO: t-test
+    # stats.ttest_rel()
+    return _arr, _mean, _std, _pm
+
+
 def _bss_eval(ref, est, compute_permutation=True):
     """
     Evaluate the estimated sources against the true sources using BSS metrics

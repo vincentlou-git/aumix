@@ -31,21 +31,6 @@ ns = [2, 3, 4, 5]   # Possible numbers of sources
 
 
 #
-# Functions
-#
-def comp_stats(table):
-    _arr = table.iloc[:, :-3].to_numpy()
-
-    _mean = np.mean(_arr, axis=0)
-    _std = np.std(_arr, axis=0)
-    _pm = (np.max(_arr, axis=0) - np.min(_arr, axis=0)) / 2
-
-    # TODO: t-test
-    # stats.ttest_rel()
-    return _arr, _mean, _std, _pm
-
-
-#
 # Load and Evaluate
 #
 if not os.path.exists("bss_metrics"):
@@ -109,7 +94,7 @@ n_sources = np.array(["All"] + [results_df.query(f"idx == {i}").n_sources.iloc[0
 mean = np.empty((len(ids), 5))
 std = np.empty((len(ids), 5))
 pm = np.empty((len(ids), 5))
-_, mean[0], std[0], pm[0] = comp_stats(results_df)   # overall
+_, mean[0], std[0], pm[0] = aeval.comp_stats(results_df)   # overall
 
 # Stats across each piece
 for i, idx in enumerate(ids_to_test):
@@ -118,7 +103,7 @@ for i, idx in enumerate(ids_to_test):
     if result.empty:
         continue
 
-    _, mean[i+1], std[i+1], pm[i+1] = comp_stats(result)
+    _, mean[i+1], std[i+1], pm[i+1] = aeval.comp_stats(result)
 
 # Stats across each number of sources
 for i, n in enumerate(ns):
@@ -128,7 +113,7 @@ for i, n in enumerate(ns):
         continue
 
     idx = len(ids) - len(ns) + i
-    _, mean[idx], std[idx], pm[idx] = comp_stats(result)
+    _, mean[idx], std[idx], pm[idx] = aeval.comp_stats(result)
 
 # Concatenate mean and plus minus
 mean_pm = np.core.defchararray.add(np.core.defchararray.add(mean.astype(str), " $\\pm$ "), pm.astype(str))
