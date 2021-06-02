@@ -131,3 +131,6 @@ df = aeval.bss_eval_df(np.array(list(true_signals.values())),
 print("True VS. Reconstructed")
 print(df)
 
+_, mean, std, pm = aeval.comp_stats(df, ignore_last_n_rows=1)
+print(f"Mean: {mean} +- {pm}")
+print(f"Std: {std}")
