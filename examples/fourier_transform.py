@@ -110,9 +110,9 @@ cl_signal_fig = FigData(xs=cl_signal.samp_nums,
                             cl_recon],
                         title=f"(b) {cl_signal_title}",
                         line_options=[{"label": "Original",
-                                       "linestyle": "solid"},
+                                       "linestyle": (4, (4, 4))},
                                       {"label": "Reconstructed from FFT",
-                                       "linestyle": "dashed"}],
+                                       "linestyle": (0, (4, 4))}],
                         xlim=cl_xlim,
                         **signal_axis_labels)
 
@@ -153,7 +153,8 @@ aplot.single_subplots(grid_size=(3, 1),
                       fig_data={(0, 0): cl_raw_fig,
                                 (1, 0): cl_signal_fig,
                                 (2, 0): cl_fft_fig},
-                      individual_figsize=(9, 3),
+                      individual_figsize=(8, 2.8),
+                      dpi=300,
                       savefig_path="Clarinet_FFT"
                       )
 
