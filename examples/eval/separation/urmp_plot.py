@@ -67,6 +67,7 @@ pl.title("Evaluation of ADRess on the URMP Dataset")
 pl.xticks(x)
 pl.xlabel("Number of sources")
 pl.ylabel("Score")
+pl.grid(alpha=0.5)
 pl.legend(bbox_to_anchor=(1, 1), loc="upper left")
 
 timestamp = datetime.now().strftime("%y%m%d-%H%M%S")
@@ -91,7 +92,7 @@ for header in headers:
     box_fig = pl.figure(figsize=(10.5, 4), dpi=300)
     for n in range(2, 6):
         pl.boxplot(data[ns.index(n):ns.index(n+1)],
-                   positions=range(ns.index(n), ns.index(n+1)),
+                   positions=range(ns.index(n)+1, ns.index(n+1)+1),
                    flierprops=dict(markerfacecolor='r', marker='d'),
                    boxprops=dict(color=box_colors[n]),
                    whiskerprops=dict(color=box_colors[n]),
@@ -101,6 +102,7 @@ for header in headers:
     pl.xticks(x)
     pl.xlabel("Piece Number")
     pl.ylabel("Score")
+    pl.grid(alpha=0.5, axis="y")
 
     ax = pl.gca()
     ax.set_ylim((min_data - (max_data - min_data) * 0.125, None))
