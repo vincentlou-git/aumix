@@ -95,6 +95,7 @@ def single_subplots(grid_size,
                     fig_data: dict = None,
                     individual_figsize=(6, 6),
                     title="",
+                    dpi=300,
                     **kwargs
                     ):
     """
@@ -125,6 +126,9 @@ def single_subplots(grid_size,
     title: string, default: ""
         Title of the master figure.
 
+    dpi: int, default: 300
+        dpi.
+
     kwargs: dict
         Other keyword arguments.
 
@@ -142,7 +146,7 @@ def single_subplots(grid_size,
     n_cols = grid_size[1]
 
     # Create figure template
-    fig = pl.figure(figsize=(individual_figsize[0] * n_cols, individual_figsize[1] * n_rows))
+    fig = pl.figure(figsize=(individual_figsize[0] * n_cols, individual_figsize[1] * n_rows), dpi=dpi)
     fig.suptitle(title)
 
     # Create a big subplot to set any desired style / parameter
