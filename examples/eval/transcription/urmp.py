@@ -3,10 +3,8 @@
 
 import os
 import re
-import mido
 import numpy as np
 import music21 as m21
-import librosa
 import mir_eval
 import pandas as pd
 
@@ -18,7 +16,7 @@ import aumix.converter.convert as aconv
 # Parameters
 #
 
-ids_to_test = [13]   # 16, 26 is weird, 28 has lots of initial silences
+ids_to_test = range(1, 45)   # 16, 26 is weird, 28 has lots of initial silences
 
 # Allow (i,j) such that the onset of reference note i is within
 # onset_tol (percent) of the onset of estimated note j
@@ -26,6 +24,25 @@ onset_tol = 0.05
 
 input_path = "D:\\Year 3\\COMP3931 Individual Project\\repo\\data\\URMP\\AnthemScore_xml"
 truth_root = "../../../data/URMP/Dataset/"
+write_path = "D:\\Year 3\\COMP3931 Individual Project\\repo\\examples\\eval\\transcription"
+
+
+# Offset values in quarter notes for each piece/part.
+manual_offset = {
+    1: [0, 0.5],
+    2: [0.5, 0],
+    3: [0, 0],   # middle offset by 1 beat
+#     4: halve duration
+#     5: [1.25, 0.5]
+#     6: [0, 0.3]
+    10: [0, 1.75]
+}
+
+stereo_manual_offset = {
+    3: 0.25,
+#     4: halve duration
+#     6: 0.5
+}
 
 
 #
@@ -71,7 +88,8 @@ for dir_name, subdir_list, files in os.walk(truth_root):
 
     # Convert reference, store each part's score in a list
     ref_intervals, ref_pitches, est_intervals, est_pitches, ref_metronome_mark = \
-        aconv.ref_est_scores_to_valued_interval(ref_score, est_scores)
+        aconv.ref_est_scores_to_valued_interval(ref_score, est_scores,
+                                                manual_offset=manual_offset.get(idx, None))
 
     # Join all parts together for another dataset
     ref_intervals_all = np.concatenate(ref_intervals)
@@ -80,14 +98,15 @@ for dir_name, subdir_list, files in os.walk(truth_root):
     est_pitches_all = np.concatenate(est_pitches)
 
     # Remove all duplicates
-    _, ids = np.unique(np.concatenate(est_intervals)[:, 0], axis=0, return_index=True)
-    est_intervals_unique = np.concatenate(est_intervals)[ids]
-    est_pitches_unique = np.concatenate(est_pitches)[ids]
+    _, ids = np.unique(np.column_stack((est_intervals_all[:, 0], est_pitches_all)), axis=0, return_index=True)
+    est_intervals_unique = est_intervals_all[ids]
+    est_pitches_unique = est_pitches_all[ids]
 
     # Convert stereo score
     stereo_intervals, stereo_pitches = aconv.score_to_valued_interval(est_stereo_score,
                                                                       ref_score,
                                                                       ref_metronome_mark,
+                                                                      manual_offset=stereo_manual_offset.get(idx, None),
                                                                       skip_non_measure=False,
                                                                       separate_parts=False,
                                                                       list_output=False)
@@ -124,28 +143,22 @@ for dir_name, subdir_list, files in os.walk(truth_root):
                                                                  onset_tolerance=onset_tol)
 
     df = pd.DataFrame(data={
-        "Piece ID": idx,
+        "PieceID": idx,
         "Comparison": ["Stereo", "Separated (Combined)", "Separated (Duplicates Removed)"]
                     + [f"Separated (Part {i+1})" for i in range(len(est_scores))],
         "Precision": precision,
         "Recall": recall,
-        "f-measure": f_measure,
-        "Avg overlap ratio": avg_overlap_ratio,
+        "fmeasure": f_measure,
+        "overlap": avg_overlap_ratio,
         # "# Notes": [(stereo_pitches).shape[0],
         #             (est_pitches_all).shape[0],
         #             (est_pitches_unique).shape[0]]
     })
-    print(df.to_string())
+    ok_df = df.query("fmeasure > 0.5 and overlap > 0.5")\
 
+    ok_df.to_csv(os.path.join(write_path, "raw.txt"),
+                 header=False, index=False, sep="\t", mode="a")
 
-# Check the length of truth MIDI and transcribed parts. Are they equal?
-
-# mid_duration = ref_mid.length
-# ticks_per_beat = ref_mid.ticks_per_beat
-# When estimated MIDI length does not match the reference MIDI length, there are 2 cases:
-# Case 1: BPM is a multiple (or an "integer fraction") of the reference MIDI.
-#         It is possible to multiply or divide the estimated MIDI to match the reference.
-# Case 2: Just bogus timing?? IDK how to fix this
 
 
 
