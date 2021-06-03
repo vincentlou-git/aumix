@@ -59,7 +59,7 @@
 
 	<!-- Demo -->
 	<div class="container">
-		<h1 class="d-block bg-primary mt-10 mb-5 p-3">Chapter 3. Fourier Analysis and Experiments</h1>
+		<h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 3. Fourier Analysis and Experiments</h1>
 	</div>
 
 	<h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
@@ -67,7 +67,7 @@
 
 	<div class="container">
 		<div class="row justify-content-md-center">
-			<div class="col-md-3">Filter unwanted notes</div>
+			<div class="col-md-9">The first 5 seconds contain the raw signal in (a). The last 5 seconds contain the filtered signal in (f).</div>
 			<div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
 		</div>
 		<div class="row">
@@ -77,12 +77,12 @@
 
 	<h3>Section 3.7.4. Phase Spectrogram of STFT</h3>  
 	  
+		<p class="text-center">Spectrogram 1</div>
 		<div class="row">
-			<div class="col-md-3">Spectrogram 1</div>
 			<div class="col-md-12"><img src="imgs/adress/phase/210425-003821-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min.png" align="left" width="800px"></div>
 		</div>
+		<p class="text-center">Spectrogram 2</div>
 		<div class="row">
-			<div class="col-md-3">Spectrogram 2</div>
 			<div class="col-md-12"><img src="imgs/adress/phase/210425-012125-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min.png" align="right" width="800px"></div>
 		</div>
 
@@ -112,70 +112,83 @@
 
 
 	    <div class="container">
-			<h1 class="d-block bg-primary text-white mt-10 mb-5 p-3">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
+			<h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
 		</div>
 
 	<h3>Section 4.7. Experiments</h3> 
 	  
-	  <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
-	      Experiment 1
-	  </span>
-	<div class="card">
+	  <!--<span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;"></span>-->
+	<div class="card bg-dark text-white">
+		<div class="card-header">
+			Experiment 1
+		</div>
 	    <div class="card-body">
-	        <div class="row">
-				<div class="col-md">Left Channel</div>
-				<div class="col-md">Stereo Mix</div>
-				<div class="col-md">Right Channel</div>
-				<div class="w-100"></div>
-				<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_left.wav?raw=true" controls=""></audio></div>
-				<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
-				<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_right.wav?raw=true" controls=""></audio></div>
-	        </div>
+
+	    	<p class="card-text">
+		    	The input signal is a four-note melody with 4 sources of the synthetic clarinet. All notes are one second long.
+		    </p>
+	    </div>
+
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-md">Left Channel</div>
+					<div class="col-md">Stereo Mix</div>
+					<div class="col-md">Right Channel</div>
+					<div class="w-100"></div>
+					<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_left.wav?raw=true" controls=""></audio></div>
+					<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
+					<div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_right.wav?raw=true" controls=""></audio></div>
+	        	</div>
+			</li>
+
+			<li class="list-group-item">
+	      		<div class="row">
+					<div class="col-md-2 text-center"></div>
+					<div class="col text-center">Truth</div>
+					<div class="col text-center">Recovered</div>
+					<div class="w-100"></div>
+
+					<div class="col-md-2 text-right">Soprano</div>
+					<div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Soprano.wav?raw=true" controls=""></audio></div>
+					<div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.5.wav?raw=true" controls=""></audio></div>
+					<div class="w-100"></div>
+
+					<div class="col-md-2 text-right">Alto</div>
+					<div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+					<div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.8.wav?raw=true" controls=""></audio></div>
+					<div class="w-100"></div>
+
+					<div class="col-md-2 text-right">Tenor</div>
+					<div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Tenor.wav?raw=true" controls=""></audio></div>
+					<div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.1.wav?raw=true" controls=""></audio></div>
+					<div class="w-100"></div>
+
+					<div class="col-md-2 text-right">Bass</div>
+					<div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.3.wav?raw=true" controls=""></audio></div>
+					<div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
+	      		</div>
+			</li>
+
+			<li class="list-group-item">
+	  			<h5 class="card-title">Spectrograms</h5>
+				<div class="row justify-content-md-center">
+				  <div class="col-md"><img src="imgs/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
+				</div>
+
+				<div class="row justify-content-md-center">
+				  <div class="col-md"><img src="imgs/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
+				</div>
+
+				<div class="row justify-content-md-center">
+				  <div class="col-md"><img src="imgs/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
+				</div>
+			</li>
+		</ul>
+
+	        
 	    </div>
 	</div>
-
-	  <div class="container">
-	      <div class="row">
-	      	  <div class="col-md-2 text-center"></div>
-	      	  <div class="col text-center">Truth</div>
-	          <div class="col text-center">Recovered</div>
-	          <div class="w-100"></div>
-
-	      	  <div class="col-md-2 text-right">Soprano</div>
-	          <div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Soprano.wav?raw=true" controls=""></audio></div>
-	          <div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.5.wav?raw=true" controls=""></audio></div>
-	          <div class="w-100"></div>
-
-	      	  <div class="col-md-2 text-right">Alto</div>
-	          <div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
-	          <div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.8.wav?raw=true" controls=""></audio></div>
-	          <div class="w-100"></div>
-
-	      	  <div class="col-md-2 text-right">Tenor</div>
-	          <div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Tenor.wav?raw=true" controls=""></audio></div>
-	          <div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.1.wav?raw=true" controls=""></audio></div>
-	          <div class="w-100"></div>
-
-	      	  <div class="col-md-2 text-right">Bass</div>
-	          <div class="col"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.3.wav?raw=true" controls=""></audio></div>
-	          <div class="col"><audio src="audio/adress/exp1/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
-	      </div>
-	  </div>
-
-	  <h5 class="col-md-3">Spectrograms</h5>
-	  <div class="container">
-		  <div class="row justify-content-md-center">
-	          <div class="col-md"><img src="imgs/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
-	      </div>
-
-		  <div class="row justify-content-md-center">
-	          <div class="col-md"><img src="imgs/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
-	      </div>
-
-		  <div class="row justify-content-md-center">
-	          <div class="col-md"><img src="imgs/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
-	      </div>
-	  </div>
 
 	  
 	  <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
@@ -248,7 +261,7 @@
 
 
 	    <div class="container">
-		  <h1 class="d-block bg-primary mt-10 mb-5 p-3">Chapter 5. Evaluation</h1>
+		  <h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 5. Evaluation</h1>
 		</div>
 
 	  <h3>Source Separation Demo on the URMP Dataset</h3> 
@@ -457,7 +470,7 @@
 
 
 		<div class="alert alert-info" role="alert">
-			The full results are only available for internal use. Contact the author at: lou.vincent.chan.wai@gmail.com for access.
+			The full results are not publicly available. Contact the author at: lou.vincent.chan.wai@gmail.com for access.
 		</div>
 	</main>
 
