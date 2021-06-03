@@ -5,7 +5,7 @@ Audio Unmixing and Music Score Transcription. Developed as my undergraduate fina
 1. Clone this git repository.
 2. Optionally, create a new virtual environment. For example, using Anaconda, this can be done by `conda create -n aumix-test-venv python=3.6 anaconda`.
 3. Activate a Python virtual environment (either an existing one, or the one created in Step 2).
-4. Install `aumix` as a package by `pip install --index-url https://test.pypi.org/project/aumix-DoraMemo/ --no-deps aumix-DoraMemo`.
+4. Install `aumix` as a package by `pip install --index-url https://test.pypi.org/simple --no-deps aumix-DoraMemo`.
 
    Alternatively, append the `aumix` folder in the cloned repository to the `sys.path` variable:
    ```
