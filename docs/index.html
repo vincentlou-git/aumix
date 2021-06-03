@@ -7,8 +7,8 @@
 	<meta name="description" content="A collection of Chart JS examples curated by David J Pfeiffer">
 	<meta name="keywords" content="Source Separation, BSS, Music, Transcription, AMT, Azimuth, Resynthesis, ADRess">
 	<meta name="viewport" content="width="device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:wght@600&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	<!--build:css styles/styles.min.css inline-->
 	<link rel="stylesheet" href="styles/styles.css">
 	<!--endbuild-->
@@ -59,7 +59,7 @@
 
 	<!-- Demo -->
 	<div class="container">
-		<h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 3. Fourier Analysis and Experiments</h1>
+		<h1 class="d-block bg-dark text-white mt-10 mb-5 p-3">Chapter 3. Fourier Analysis and Experiments</h1>
 	</div>
 
 	<h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
@@ -70,9 +70,7 @@
 			<div class="col-md-9">The first 5 seconds contain the raw signal in (a). The last 5 seconds contain the filtered signal in (f).</div>
 			<div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
 		</div>
-		<div class="row">
-			<div class="col-md-12"><img src="imgs/stft/stft_filter.png"></div>
-		</div>
+		<img class="image-responsive" src="imgs/stft/stft_filter.png">
 	</div>
 
 	<h3>Section 3.7.4. Phase Spectrogram of STFT</h3>  
@@ -112,14 +110,14 @@
 
 
 	    <div class="container">
-			<h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
+			<h1 class="d-block bg-dark text-white mt-10 mb-5 p-3">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
 		</div>
 
 	<h3>Section 4.7. Experiments</h3> 
 	  
 	  <!--<span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;"></span>-->
-	<div class="card bg-dark text-white">
-		<div class="card-header">
+	<div class="card">
+		<div class="card-header bg-dark text-white">
 			Experiment 1
 		</div>
 	    <div class="card-body">
@@ -212,23 +210,23 @@
 
 	  <div class="container">
 	      <div class="row">
-	      	  <div class="col"></div>
+	      	  <div class="col-md-2"></div>
 	      	  <div class="col text-center">Truth</div>
 	          <div class="col text-center">Recovered</div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col-md-2 text-right">Melody</div>
-	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Melody.wav?raw=true" controls=""></audio></div>
+	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_Melody.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/exp2/melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_pos%3D0.5.wav?raw=true" controls=""></audio></div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col-md-2 text-right">Alto</div>
-	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/exp2/melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_pos%3D0.25.wav?raw=true" controls=""></audio></div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col-md-2 text-right">Bass</div>
-	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
+	          <div class="col"><audio src="audio/adress/exp2/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/exp2/melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_pos%3D0.75.wav?raw=true" controls=""></audio></div>
 	      </div>
 	  </div>
@@ -261,7 +259,7 @@
 
 
 	    <div class="container">
-		  <h1 class="d-block bg-light mt-10 mb-5 p-3">Chapter 5. Evaluation</h1>
+		    <h1 class="d-block bg-secondary mt-10 mb-5 p-3">Chapter 5. Evaluation</h1>
 		</div>
 
 	  <h3>Source Separation Demo on the URMP Dataset</h3> 
