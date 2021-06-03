@@ -31,13 +31,16 @@
 <body>
   <!-- Title -->
   <header>
-    <h1>Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
-    <p>Undergraduate Final Year Project</p>
-      <li><a href="https://github.com/DoraMemo-x/aumix">View on GitHub</a></li>
+    <div class="jumbotron">
+	    <h1 class="display-4">Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
+	    <p class="lead">Undergraduate Final Year Project</p>
+	    <a class="btn btn-primary btn-lg" role="button" href="https://github.com/DoraMemo-x/aumix">GitHub</a>
+    </div>
   </header>
 
   <!-- Body -->
   <main class="container">
+  	<!--
     <div class="jumbotron">
       <h3><i class="fa fa-info-circle" aria-hidden="true"></i> About</h3>
       <p>Welcome to your brand new GitHub Pages template! This general purpose template is free to use and can be adapted as a personal website, web application, or can be used to kick-start a new project.</p>
@@ -48,16 +51,18 @@
       <h3><i class="fa fa-gavel" aria-hidden="true"></i> License</h3>
       <p>This project is licensed under the MIT License. You are asked to include an attribution back to this project if you use any of the source code. For more information about that license, click <a href="http://choosealicense.com/licenses/mit/">here</a>.</p>
     </div>
+-->
 
     <!-- Demo -->
-    <h2>Chapter 3. Fourier Analysis and Experiments</h2>
+    <h1 class="d-block bg-info">Chapter 3. Fourier Analysis and Experiments</h1>
 
     <h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
       
       <div class="row">
-        <div class="col-md-2">Filter unwanted notes</div>
+        <div class="col-md-3">Filter unwanted notes</div>
         <div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
-        <div class="col-md-8"><img src="imgs/stft/stft_filter.png"></div>
+	    <div class="w-100"></div>
+        <div class="col-md-12"><img src="imgs/stft/stft_filter.png"></div>
       </div>
 
     <h3>Section 3.7.4. Phase Spectrogram of STFT</h3>  
@@ -94,11 +99,11 @@
 
 
 
-    <h2>Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h2>
+    <h1 class="d-block bg-info">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
 
     <h3>Section 4.7. Experiments</h3> 
       
-      <span class="d-block p-2 bg-dark text-white">
+      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:3cm;">
 	      Experiment 1
 	  </span>
 	  <div class="container">
@@ -128,10 +133,12 @@
 	      	  <div class="col">Alto</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.8.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+	          <div class="w-100"></div>
 
 	      	  <div class="col">Tenor</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.1.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_Tenor.wav?raw=true" controls=""></audio></div>
+	          <div class="w-100"></div>
 
 	      	  <div class="col">Bass</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_pos=0.3.wav?raw=true" controls=""></audio></div>
@@ -141,15 +148,17 @@
 
       <div class="row">
         <div class="col-md-2">Spectrograms</div>
-        <div class="col-md-3"><audio src="audio/adress/exp1/" controls=""></audio></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151701-StereoADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072.png" align="left"></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
+        <div class="col-md"><img src="audio/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
+	    <div class="w-100"></div>
+
+        <div class="col-md"><img src="audio/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
+	    <div class="w-100"></div>
+
+        <div class="col-md"><img src="audio/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
       </div>
 
       
-      <span class="d-block p-2 bg-dark text-white">
+      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:3cm;">
 	      Experiment 2
 	  </span>
 	  <div class="container">
@@ -176,10 +185,12 @@
 	      	  <div class="col">Melody</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_pos=0.5.wav?raw=true" controls=""></audio></div>
 	          <div class="col"><audio src="audio/adress/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Melody.wav?raw=true" controls=""></audio></div>
+	          <div class="w-100"></div>
 
 	      	  <div class="col">Alto</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_pos=0.25.wav?raw=true" controls=""></audio></div>
 	          <div class="col3"><audio src="audio/adress/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+	          <div class="w-100"></div>
 
 	      	  <div class="col">Bass</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_pos=0.75.wav?raw=true" controls=""></audio></div>
@@ -188,12 +199,14 @@
 	  </div>
 
       <div class="row">
-        <div class="col-md-2">Spectrograms</div>
-        <div class="col-md-3"><audio src="audio/adress/exp2/" controls=""></audio></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153739-StereoADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072.png" align="left" width="800px"></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_LR.png" align="left" width="800px"></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_NP.png" align="left" width="800px"></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left" width="800px"></div>
+        <div class="col-md">Spectrograms</div>
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
+	    <div class="w-100"></div>
+
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
+	    <div class="w-100"></div>
+
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
       </div>
 
 
@@ -207,7 +220,7 @@
 
 
 
-	  <h2>Chapter 5. Evaluation</h2>
+	  <h1 class="d-block bg-info">Chapter 5. Evaluation</h1>
 
 	  <h3>Source Separation Demo on the URMP Dataset</h3> 
 
