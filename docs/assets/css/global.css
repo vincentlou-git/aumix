@@ -17,28 +17,6 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    min-height: 100%;
-    min-width: 100%;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    background-color: var(--light-color);
-}
-
-h1 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-}
-
-h2, h3, h4, h5, h6, .navbar {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
 .spacer {
     position: relative;
     width: 90%;
