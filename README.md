@@ -40,3 +40,17 @@ repo/
             ...
 ```
 The sample piece, 34_Fugue_tpt_tpt_hn_tbn, has been included in the repository as a guide.
+   
+   
+# Issues with Plots
+The size of the plots in the visualiser might not be the intended size, since an IDE was used during the development and the plots show up fine in the plots pane. In any case, saving the plots should retain the correct size. A figure can be saved by passing the `savefig_path` parameter in `aumix.plot.plot.single_plot` and `aumix.plot.plot.single_subplots`. For example:
+
+```
+import aumix.plot.plot as aplot
+
+# Create FigData
+
+aplot.single_plot(fig_data=fig_data,
+                  savefig_path="output.png"   # <<< this
+                  )
+```
