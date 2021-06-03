@@ -1,0 +1,145 @@
+
+/*Sets navbar height to a total of 10vh*/
+
+#main-nav {
+    margin: 0;
+    padding: 2vh 2vh;
+    background-color: var(--light-color);
+}
+
+.navbar-brand img {
+    height: 8vh;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+#main-nav {
+    -webkit-box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
+    -moz-box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
+    box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
+}
+
+#main-nav .dropdown-menu {
+    margin-left: -2vw;
+    width: 15vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    text-align: center;
+    border: none;
+}
+
+#nav-content-left, #nav-content-right {
+    width: 40%;
+}
+
+#nav-content-left .nav-link {
+    margin-right: 1vw;
+}
+
+#nav-content-right .nav-link {
+    margin-left: 1vw;
+}
+
+/*.dropdown-menu {*/
+/*    color: #F2F2F2;*/
+/*    background-color: #1E1E1E;*/
+/*}*/
+
+#brand-mobile {
+    padding-left: 65px;
+}
+
+#page_title {
+    margin-bottom: 3vh;
+    padding: 5vh;
+    color: white;
+    background-color: var(--primary-color);
+}
+
+#page_title .row {
+    min-height: 15vh;
+}
+
+#page_title h1 {
+    margin: 0;
+    text-align: center;
+}
+
+#page_title p {
+    margin: 0;
+}
+
+
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (max-width: 768px) {
+    #main-nav .float-right {
+        float: left !important;
+    }
+
+    #nav-content-left .nav-link {
+        margin-right: 0;
+        text-align: center;
+    }
+
+    #nav-content-right .nav-link {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    #main-nav .dropdown-menu {
+        margin-left: -1.8vw;
+    }
+}
+
+.bg-black {
+    background-color: #1E1E1E;
+    color: #F2F2F2;
+}
+
+.alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    margin: 0 0 0 0;
+}
+
+#cookies{
+	text-align: center;
+	border: black 0.3em ridge;
+	background-color: mintcream;
+	position: fixed;
+	top:0;
+	padding: 0.2em 0.2em 0.5em;
+	width: 80%;
+	margin-left: 10%;
+	z-index: 102;
+	display: none;
+}
+
+#cookies > h2{
+	font-size: 4em;
+	font-weight: bolder;
+}
+
+#cookies > p{
+	font-size: 1.5em;
+}
+
+#CookieAccept{
+	padding:0.2em;
+	border: black 0.1em solid;
+	font-weight: bolder;
+	color: black;
+}
+
+#invisible{
+	background-color: #ccf2ff;
+	opacity: 45%;
+	z-index: 50;
+	position:fixed;
+	width: 100%;
+	height: 100vh;
+}

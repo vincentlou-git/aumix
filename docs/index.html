@@ -5,46 +5,38 @@
   <meta charset="UTF-8">
   <title>Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</title>
   <meta name="description" content="A collection of Chart JS examples curated by David J Pfeiffer">
-  <meta name="keywords" content="GitHub, GitHub Pages, GitHub Pages template, website template, template">
+  <meta name="keywords" content="Source Separation, BSS, Music, Transcription, AMT, Azimuth, Resynthesis, ADRess">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <!--build:css styles/styles.min.css inline-->
   <link rel="stylesheet" href="styles/styles.css">
   <!--endbuild-->
+
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <!--build:js scripts/scripts.min.js inline-->
   <script src="scripts/scripts.js"></script>
   <!--endbuild-->
-  <script src="https://use.fontawesome.com/4711cc442d.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet"
+	    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        <a class="navbar-brand" href="#">aumix</a>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/DoraMemo-x/aumix">View on GitHub</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <!-- Title -->
   <header>
     <h1>Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
     <p>Undergraduate Final Year Project</p>
       <li><a href="https://github.com/DoraMemo-x/aumix">View on GitHub</a></li>
   </header>
+
+  <!-- Body -->
   <main class="container">
     <div class="jumbotron">
       <h3><i class="fa fa-info-circle" aria-hidden="true"></i> About</h3>
@@ -57,6 +49,7 @@
       <p>This project is licensed under the MIT License. You are asked to include an attribution back to this project if you use any of the source code. For more information about that license, click <a href="http://choosealicense.com/licenses/mit/">here</a>.</p>
     </div>
 
+    <!-- Demo -->
     <h2>Chapter 3. Fourier Analysis and Experiments</h2>
 
     <h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
@@ -64,7 +57,7 @@
       <div class="row r">
         <div class="col-md-2">Filter unwanted notes</div>
         <div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
-        <div class="col-md-8"><img src="imgs/stft/stft_filter.png" align="left"></div>
+        <div class="col-md-8"><img src="imgs/stft/stft_filter.png" align="left" width="800px"></div>
       </div>
 
 
@@ -72,15 +65,32 @@
       
       <div class="row r">
         <div class="col-md-2">Spectrogram 1</div>
-        <div class="col-md-3"><audio src="audio/" controls=""></audio></div>
-        <div class="col-md-12"><img src="imgs/210425-003821-FitzADRess_melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_r=r_mixPhase_max-min.png" align="left"></div>
+        <div class="col-md-12"><img src="imgs/210425-003821-FitzADRess_melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_r=r_mixPhase_max-min.png" align="left" width="800px"></div>
+        <div class="col-md-2">Spectrogram 2</div>
+        <div class="col-md-12"><img src="imgs/210425-012125-FitzADRess_melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_l=r_mixPhase_max-min.png" align="left" width="800px"></div>
       </div>
 
       <div class="row r">
-        <div class="col-md-2">Spectrogram 2</div>
-        <div class="col-md-3"><audio src="audio/" controls=""></audio></div>
-        <div class="col-md-12"><img src="imgs/210425-012125-FitzADRess_melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_l=r_mixPhase_max-min.png" align="left"></div>
+        <div class="col-md-2">Centre (Spec. 1)</div>
+        <div class="col-md-3"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_r=r_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Centre (Spec. 2)</div>
+        <div class="col-md-3"><audio src="audio/210425-012151-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_l=r_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
       </div>
+
+      <div class="row r">
+        <div class="col-md-2">Left (Spec. 1)</div>
+        <div class="col-md-3"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_r=r_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Left (Spec. 2)</div>
+        <div class="col-md-3"><audio src="audio/210425-012151-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_l=r_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">Right (Spec. 1)</div>
+        <div class="col-md-3"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_r=r_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Right (Spec. 2)</div>
+        <div class="col-md-3"><audio src="audio/210425-012151-melody-chord-cl-LCR-fitz=[0.,,0.5,0.5,1.,]_sr=44100_1g_l=r_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
+      </div>
+
 
 
 
@@ -89,47 +99,104 @@
 
     <h3>Section 4.7. Experiments</h3> 
       
+      Experiment 1
       <div class="row r">
-        <div class="col-md-2">Experiment 1</div>
-        <div class="col-md-3"><audio src="audio/" controls=""></audio></div>
-        <div class="col-md-8"><img src="imgs/" align="left"></div>
+        <div class="col-md-2">Stereo Mix</div>
+        <div class="col-md-3"><audio src="audio/adress/exp1/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_stereo.wav?raw=true" controls=""></audio></div>
       </div>
+      <div class="row r">
+        <div class="col-md-2">Left Channel</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_left.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Right Channel</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_right.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Soprano Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_pos=0.5.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Soprano Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_Soprano.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Alto Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_pos=0.8.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Alto Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Tenor Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_pos=0.1.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Tenor Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_Tenor.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Bass Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_pos=0.3.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Bass Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-151835-melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">Spectrograms</div>
+        <div class="col-md-3"><audio src="audio/adress/exp1/" controls=""></audio></div>
+        <div class="col-md-8"><img src="audio/adress/exp1/210529-151701-StereoADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_LR.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_NP.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_RECON.png" align="left" width="800px"></div>
+      </div>
+
       
+      Experiment 2
       <div class="row r">
-        <div class="col-md-2">Experiment 2</div>
-        <div class="col-md-3"><audio src="audio/" controls=""></audio></div>
-        <div class="col-md-8"><img src="imgs/" align="left"></div>
+        <div class="col-md-2">Stereo Mix</div>
+        <div class="col-md-3"><audio src="melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_stereo.wav?raw=true" controls=""></audio></div>
       </div>
+      <div class="row r">
+        <div class="col-md-2">Left Channel</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_left.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Right Channel</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_right.wav.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Melody Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_pos=0.5.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Melody Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-153857-melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_Melody.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Alto Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_pos=0.25.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Alto Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-153857-melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">True Bass Track</div>
+        <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_pos=0.75.wav?raw=true" controls=""></audio></div>
+        <div class="col-md-2">Recovered Bass Track</div>
+        <div class="col-md-3"><audio src="audio/adress/210529-153857-melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_Bass.wav?raw=true" controls=""></audio></div>
+      </div>
+
+      <div class="row r">
+        <div class="col-md-2">Spectrograms</div>
+        <div class="col-md-3"><audio src="audio/adress/exp2/" controls=""></audio></div>
+        <div class="col-md-8"><img src="audio/adress/exp2/210529-153739-StereoADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_LR.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_NP.png" align="left" width="800px"></div>
+        <div class="col-md-8"><img src="audio/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_RECON.png" align="left" width="800px"></div>
+      </div>
+
 
     <h3>Extra. Alienesque background noise</h3>
       
       <div class="row r">
         <div class="col-md-2">Alienesque noise</div>
         <div class="col-md-3"><audio src="audio/adress/alien.wav?raw=true" controls=""></audio></div>
-      </div>
-
-
-
-    <h2>Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h2>
-
-    <h3>Section 4.7. Experiments</h3> 
-      
-      <div class="row r">
-        <div class="col-md-2">Experiment 1</div>
-        <div class="col-md-3"><audio src="audio/adress/exp1/" controls=""></audio></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151701-StereoADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_LR.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_NP.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect=[0.5,0.1,0.3,0.8]_sr=44100_hann_4096_3072_RECON.png" controls=""></img></div>
-      </div>
-      
-      <div class="row r">
-        <div class="col-md-2">Experiment 2</div>
-        <div class="col-md-3"><audio src="audio/adress/exp2/" controls=""></audio></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153739-StereoADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_LR.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_NP.png" controls=""></img></div>
-        <div class="col-md-8"><img src="audio/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre=[0.5,,0.25,0.5,,0.75]_sr=44100_hann_4096_3072_RECON.png" controls=""></img></div>
       </div>
 
 

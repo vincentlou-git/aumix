@@ -1,0 +1,99 @@
+/*The Vertex Global Styling*/
+:root {
+    --primary-color: #6505FF;
+    --secondary-color: #b7b4c3;
+    --light-color: #ffff;
+    --medium-color: #b7b4c3;
+    --dark-color: #272727;
+    --neutral-color: grey;
+    --min-body-height: 86.5vh;
+    --content-spacer: 5vh;
+    --half-content-spacer: 2vh;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100%;
+    min-width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    background-color: var(--light-color);
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+h2, h3, h4, h5, h6, .navbar {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.spacer {
+    position: relative;
+    width: 90%;
+    height: 0.1rem;
+    margin: auto;
+    background-color: #ebebeb;
+}
+
+.content-container {
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    border-color: white;
+    padding: 18px 32px;
+    margin-bottom: 3vh;
+    background-color: var(--light-color);
+}
+
+/*Bootstrap classes customisation*/
+
+.navbar-light {
+    background-color: white !important;
+}
+
+.card {
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    box-shadow: 0px 0px 20px 0px rgba(232,232,232,1);
+    border-color: white;
+}
+
+.btn-primary, .btn-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary, .btn-secondary:hover {
+    background-color: var(--neutral-color);
+    border-color: var(--neutral-color);
+}
+
+.btn-danger, .btn-danger:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.list-group {
+    padding: 0;
+
+}
+
+.list-group-item {
+    border: 0;
+    padding: 1.5rem 2.5rem;
+
+}
