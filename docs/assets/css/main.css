@@ -1,45 +1,6 @@
 
 /*Sets navbar height to a total of 10vh*/
 
-#main-nav {
-    margin: 0;
-    padding: 2vh 2vh;
-    background-color: var(--light-color);
-}
-
-.navbar-brand img {
-    height: 8vh;
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-}
-
-#main-nav {
-    -webkit-box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
-    -moz-box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
-    box-shadow: 0px 5px 10px 0px rgba(207,207,207,0.25);
-}
-
-#main-nav .dropdown-menu {
-    margin-left: -2vw;
-    width: 15vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    text-align: center;
-    border: none;
-}
-
-#nav-content-left, #nav-content-right {
-    width: 40%;
-}
-
-#nav-content-left .nav-link {
-    margin-right: 1vw;
-}
-
-#nav-content-right .nav-link {
-    margin-left: 1vw;
-}
-
 /*.dropdown-menu {*/
 /*    color: #F2F2F2;*/
 /*    background-color: #1E1E1E;*/

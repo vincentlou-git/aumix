@@ -32,9 +32,9 @@
   <!-- Title -->
   <header>
     <div class="jumbotron">
-	    <h1 class="display-4">Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
-	    <p class="lead">Undergraduate Final Year Project</p>
-	    <a class="btn btn-primary btn-lg" role="button" href="https://github.com/DoraMemo-x/aumix">GitHub</a>
+	    <h1 class="display-4 text-center">Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
+	    <p class="lead text-center">Undergraduate Final Year Project</p>
+	    <a class="mx-auto btn btn-primary btn-lg" role="button" href="https://github.com/DoraMemo-x/aumix">GitHub</a>
     </div>
   </header>
 
@@ -54,7 +54,9 @@
 -->
 
     <!-- Demo -->
-    <h1 class="d-block bg-info">Chapter 3. Fourier Analysis and Experiments</h1>
+    <div class="container">
+    	<h1 class="d-block bg-primary">Chapter 3. Fourier Analysis and Experiments</h1>
+	</div>
 
     <h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
       
@@ -99,11 +101,13 @@
 
 
 
-    <h1 class="d-block bg-info">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
+    <div class="container">
+    	<h1 class="d-block bg-primary">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
+	</div>
 
     <h3>Section 4.7. Experiments</h3> 
       
-      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:3cm;">
+      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
 	      Experiment 1
 	  </span>
 	  <div class="container">
@@ -148,17 +152,17 @@
 
       <div class="row">
         <div class="col-md-2">Spectrograms</div>
-        <div class="col-md"><img src="audio/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
 	    <div class="w-100"></div>
 
-        <div class="col-md"><img src="audio/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp1/210529-151755-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
 	    <div class="w-100"></div>
 
-        <div class="col-md"><img src="audio/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
       </div>
 
       
-      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:3cm;">
+      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
 	      Experiment 2
 	  </span>
 	  <div class="container">
@@ -167,9 +171,9 @@
 	          <div class="col-md">Stereo Mix</div>
 	          <div class="col-md">Right Channel</div>
 	          <div class="w-100"></div>
-	          <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_left.wav?raw=true" controls=""></audio></div>
-	          <div class="col-md-3"><audio src="melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
-	          <div class="col-md-3"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_right.wav.wav?raw=true" controls=""></audio></div>
+	          <div class="col-md"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_left.wav?raw=true" controls=""></audio></div>
+	          <div class="col-md"><audio src="melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
+	          <div class="col-md"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_right.wav.wav?raw=true" controls=""></audio></div>
 	      </div>
   	  </div>
 
@@ -189,7 +193,7 @@
 
 	      	  <div class="col">Alto</div>
 	          <div class="col"><audio src="audio/adress/melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_pos=0.25.wav?raw=true" controls=""></audio></div>
-	          <div class="col3"><audio src="audio/adress/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
+	          <div class="col"><audio src="audio/adress/210529-153857-melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_Alto.wav?raw=true" controls=""></audio></div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col">Bass</div>
@@ -200,13 +204,13 @@
 
       <div class="row">
         <div class="col-md">Spectrograms</div>
-        <div class="col-md"><img src="imgs/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
 	    <div class="w-100"></div>
 
-        <div class="col-md"><img src="imgs/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_NP.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153826-ADRess_melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_NP.png.png" align="left"></div>
 	    <div class="w-100"></div>
 
-        <div class="col-md"><img src="imgs/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre%3D%5B0.5%2C0.25%2C0.5%2C0.75%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
+        <div class="col-md"><img src="imgs/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
       </div>
 
 
@@ -220,122 +224,116 @@
 
 
 
-	  <h1 class="d-block bg-info">Chapter 5. Evaluation</h1>
+	    <div class="container">
+		  <h1 class="d-block bg-primary">Chapter 5. Evaluation</h1>
+		</div>
 
 	  <h3>Source Separation Demo on the URMP Dataset</h3> 
 
 		Piece 1 (Two Instruments)
-	    Violin
-	    <div class="row">
-	      <div class="col-md-3">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_1_vn_01_Jupiter.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-3">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/1-d%3D25-H%3D5.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Cello
-	    <div class="row">
-	      <div class="col-md-3">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_2_vc_01_Jupiter.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-3">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/1-d%3D118-H%3D5.wav?raw=true" controls=""></audio></div>
-	    </div>
+		<div class="container">
+		  <div class="row">
+		  	  <div class="col"></div>
+		  	  <div class="col">Truth</div>
+		      <div class="col">Separated w/ ADRess</div>
+		      <div class="w-100"></div>
+
+		  	  <div class="col">Violin</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_1_vn_01_Jupiter.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/1-d%3D25-H%3D5.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Cello</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_2_vc_01_Jupiter.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/1-d%3D118-H%3D5.wav?raw=true" controls=""></audio></div>
+		  </div>
+		</div>
 
 		Piece 12 (Three Instruments)
-	    Violin 1
-	    <div class="row">
-	      <div class="col-md-3">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_1_vn_12_Spring.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-3">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/12-d%3D25-H%3D20.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Violin 2
-	    <div class="row">
-	      <div class="col-md-3">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_2_vn_12_Spring.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-3">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/12-d%3D76-H%3D10.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Cello
-	    <div class="row">
-	      <div class="col-md-3">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_3_vc_12_Spring.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-3">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/12-d%3D150-H%3D20-old1.wav?raw=true" controls=""></audio></div>
-	    </div>
+		<div class="container">
+		  <div class="row">
+		  	  <div class="col"></div>
+		  	  <div class="col">Truth</div>
+		      <div class="col">Separated w/ ADRess</div>
+		      <div class="w-100"></div>
+
+		  	  <div class="col">Violin 1</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_1_vn_12_Spring.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/12-d%3D25-H%3D20.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Violin 2</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_2_vn_12_Spring.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/12-d%3D76-H%3D10.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Cello</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_3_vc_12_Spring.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/12-d%3D150-H%3D20-old1.wav?raw=true" controls=""></audio></div>
+		  </div>
+		</div>
 
 		Piece 24 (Four Instruments)
-	    Violin 1
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_1_vn_24_Pirates.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/24-d%3D22-H%3D14.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Violin 2
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_2_vn_24_Pirates.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/24-d%3D63-H%3D20.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Viola
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_3_va_24_Pirates.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/24-d%3D125-H%3D20.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Cello
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_4_vc_24_Pirates.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/24-d%3D162-H%3D14.wav?raw=true" controls=""></audio></div>
-	    </div>
+		<div class="container">
+		  <div class="row">
+		  	  <div class="col"></div>
+		  	  <div class="col">Truth</div>
+		      <div class="col">Separated w/ ADRess</div>
+		      <div class="w-100"></div>
+
+		  	  <div class="col">Violin 1</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_1_vn_24_Pirates.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/24-d%3D22-H%3D14.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Violin 2</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_2_vn_24_Pirates.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/24-d%3D63-H%3D20.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Viola</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_3_va_24_Pirates.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/24-d%3D125-H%3D20.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Cello</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_4_vc_24_Pirates.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/24-d%3D162-H%3D14.wav?raw=true" controls=""></audio></div>
+		  </div>
+		</div>
 
 		Piece 39 (Five Instruments)
-	    Violin 1
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/AuSep_1_vn_39_Jerusalem?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated</div>
-	      <div class="col-md-3"><audio src="audio/39-d%3D25-H%3D16.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Violin 2
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_2_vn_39_Jerusalem.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/39-d%3D53-H%3D12.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Viola
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_3_va_39_Jerusalem.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/39-d%3D90-H%3D12.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Alto Saxophone
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_4_sax_39_Jerusalem.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/39-d%3D140-H%3D10.wav?raw=true" controls=""></audio></div>
-	    </div>
-	    Contrabass (Cbs.)
-	    <div class="row">
-	      <div class="col-md-2">Truth</div>
-	      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_5_db_39_Jerusalem.wav?raw=true" controls=""></audio></div>
-	      <div class="col-md-2">Separated w/ ADRess</div>
-	      <div class="col-md-3"><audio src="audio/39-d%3D170-H%3D22.wav?raw=true" controls=""></audio></div>
-	    </div>
+		<div class="container">
+		  <div class="row">
+		  	  <div class="col"></div>
+		  	  <div class="col">Truth</div>
+		      <div class="col">Separated w/ ADRess</div>
+		      <div class="w-100"></div>
+
+		  	  <div class="col">Violin 1</div>
+		      <div class="col-md-3"><audio src="audio/AuSep_1_vn_39_Jerusalem?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/39-d%3D25-H%3D16.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Violin 2</div>
+		      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_2_vn_39_Jerusalem.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/39-d%3D53-H%3D12.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Viola</div>
+		      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_3_va_39_Jerusalem.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/39-d%3D90-H%3D12.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Alto Saxophone</div>
+		      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_4_sax_39_Jerusalem.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/39-d%3D140-H%3D10.wav?raw=true" controls=""></audio></div>
+
+		  	  <div class="col">Contrabass (Cbs.)</div>
+		      <div class="col-md-3"><audio src="audio/urmp/39/AuSep_5_db_39_Jerusalem.wav?raw=true" controls=""></audio></div>
+		      <div class="col-md-3"><audio src="audio/39-d%3D170-H%3D22.wav?raw=true" controls=""></audio></div>
+		  </div>
+		</div>
 
 
 
 	  <h3>Transcription Demo on the URMP Dataset</h3> 
 
 		<h4>Piece 1 (Two Instruments)</h4>
-        <embed src="scores/1/Piece1.pdf" width="800px" height="2100px" />
+		<div class="embed-responsive">
+		    <iframe class="embed-responsive-item" src="scores/1/Piece1.pdf"></iframe>
+		</div>
 	    <div class="row">
 	      <div class="col-md-2">Truth</div>
 	      <div class="col-md-3"><audio src="audio/urmp/1/Piece1-Truth.mp3?raw=true" controls=""></audio></div>
@@ -348,7 +346,9 @@
 
 
 		<h4>Piece 12 (Three Instruments)</h4>
-        <embed src="scores/12/Piece12.pdf" width="800px" height="2100px" />
+		<div class="embed-responsive">
+		    <iframe class="embed-responsive-item" src="scores/12/Piece12.pdf"></iframe>
+		</div>
 	    <div class="row">
 	      <div class="col-md-2">Truth</div>
 	      <div class="col-md-3"><audio src="audio/urmp/12/Piece12-Truth.mp3?raw=true" controls=""></audio></div>
@@ -361,7 +361,9 @@
 
 
 		<h4>Piece 24 (Four Instruments)</h4>
-        <embed src="scores/24/Piece24.pdf" width="800px" height="2100px" />
+		<div class="embed-responsive">
+		    <iframe class="embed-responsive-item" src="scores/24/Piece24.pdf"></iframe>
+		</div>
 	    <div class="row">
 	      <div class="col-md-2"></div>
 	      <div class="col-md-2">Truth</div>
@@ -374,7 +376,9 @@
 
 
 		<h4>Piece 39 (Five Instruments)</h4>
-        <embed src="scores/39/Piece39.pdf" width="800px" height="2100px" />
+		<div class="embed-responsive">
+		    <iframe class="embed-responsive-item" src="scores/39/Piece39.pdf"></iframe>
+		</div>
 	    <div class="row">
 	      <div class="col-md-2">Truth</div>
 	      <div class="col-md-3"><audio src="audio/urmp/39/Piece39-Truth.mp3?raw=true" controls=""></audio></div>
