@@ -2,112 +2,116 @@
 <html lang="en-us">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</title>
-  <meta name="description" content="A collection of Chart JS examples curated by David J Pfeiffer">
-  <meta name="keywords" content="Source Separation, BSS, Music, Transcription, AMT, Azimuth, Resynthesis, ADRess">
-  <meta name="viewport" content="width="device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
-  <!--build:css styles/styles.min.css inline-->
-  <link rel="stylesheet" href="styles/styles.css">
-  <!--endbuild-->
+	<meta charset="UTF-8">
+	<title>Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</title>
+	<meta name="description" content="A collection of Chart JS examples curated by David J Pfeiffer">
+	<meta name="keywords" content="Source Separation, BSS, Music, Transcription, AMT, Azimuth, Resynthesis, ADRess">
+	<meta name="viewport" content="width="device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
+	<!--build:css styles/styles.min.css inline-->
+	<link rel="stylesheet" href="styles/styles.css">
+	<!--endbuild-->
 
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-  <!--build:js scripts/scripts.min.js inline-->
-  <script src="scripts/scripts.js"></script>
-  <!--endbuild-->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<!--build:js scripts/scripts.min.js inline-->
+	<script src="scripts/scripts.js"></script>
+	<!--endbuild-->
 
-  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-  <link rel="stylesheet"
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet"
 	    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	    crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="assets/css/global.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/global.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 
 </head>
 
 <body>
-  <!-- Title -->
-  <header>
-    <div class="jumbotron">
-	    <h1 class="display-4 mb-5">Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
-	    <p class="lead mb-5">Undergraduate Final Year Project</p>
-	    <a class="m-auto btn btn-primary btn-lg" role="button" href="https://github.com/DoraMemo-x/aumix">GitHub</a>
-    </div>
-  </header>
+	<!-- Title -->
+	<header>
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-md-9 mx-auto">
+			    <h1 class="display-4 mb-5r">Using Stereo ADRess as a Pre-processing Step for Automatic Music Transcription</h1>
+			    <p class="lead mb-5 text-center">Undergraduate Final Year Project</p>
+			    <a class="mx-auto btn btn-primary btn-lg" role="button" href="https://github.com/DoraMemo-x/aumix">GitHub</a>
+			</div>
+		</div>
+	</div>
+	</header>
 
-  <!-- Body -->
-  <main class="container">
-  	<!--
-    <div class="jumbotron">
-      <h3><i class="fa fa-info-circle" aria-hidden="true"></i> About</h3>
-      <p>Welcome to your brand new GitHub Pages template! This general purpose template is free to use and can be adapted as a personal website, web application, or can be used to kick-start a new project.</p>
-      <h3><i class="fa fa-star" aria-hidden="true"></i> Features</h3>
-      <p>In addition to a beautiful, simple, and responsive template for your new website, this project comes with a complete build pipeline and development environment. You can make changes to your project, run development and production builds, and deploy to GitHub Pages in seconds.</p>
-      <h3><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Libraries</h3>
-      <p>This project uses Node and Node Package Manager (NPM) to include Gulp, SASS, jQuery, and Bootstrap. All of these technologies are incorperated into your Gulp build pipeline. This makes it easy to start building fast without having to spend time setting up the basic project structure.</p>
-      <h3><i class="fa fa-gavel" aria-hidden="true"></i> License</h3>
-      <p>This project is licensed under the MIT License. You are asked to include an attribution back to this project if you use any of the source code. For more information about that license, click <a href="http://choosealicense.com/licenses/mit/">here</a>.</p>
-    </div>
--->
+    <!-- Body -->
+	<main class="container">
+		<!--
+	<div class="jumbotron">
+	  <h3><i class="fa fa-info-circle" aria-hidden="true"></i> About</h3>
+	  <p>Welcome to your brand new GitHub Pages template! This general purpose template is free to use and can be adapted as a personal website, web application, or can be used to kick-start a new project.</p>
+	  <h3><i class="fa fa-star" aria-hidden="true"></i> Features</h3>
+	  <p>In addition to a beautiful, simple, and responsive template for your new website, this project comes with a complete build pipeline and development environment. You can make changes to your project, run development and production builds, and deploy to GitHub Pages in seconds.</p>
+	  <h3><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Libraries</h3>
+	  <p>This project uses Node and Node Package Manager (NPM) to include Gulp, SASS, jQuery, and Bootstrap. All of these technologies are incorperated into your Gulp build pipeline. This makes it easy to start building fast without having to spend time setting up the basic project structure.</p>
+	  <h3><i class="fa fa-gavel" aria-hidden="true"></i> License</h3>
+	  <p>This project is licensed under the MIT License. You are asked to include an attribution back to this project if you use any of the source code. For more information about that license, click <a href="http://choosealicense.com/licenses/mit/">here</a>.</p>
+	</div>
+	-->
 
-    <!-- Demo -->
-    <div class="container">
-    	<h1 class="d-block bg-primary">Chapter 3. Fourier Analysis and Experiments</h1>
+	<!-- Demo -->
+	<div class="container">
+		<h1 class="d-block bg-primary mt-10 mb-5 p-3">Chapter 3. Fourier Analysis and Experiments</h1>
 	</div>
 
-    <h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
-      
-      <div class="row">
-        <div class="col-md-3">Filter unwanted notes</div>
-        <div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
+	<h3>Section 3.7.3. Example: STFT, Filter, Inverse STFT</h3> 
+	  
+	  <div class="row">
+	    <div class="col-md-3">Filter unwanted notes</div>
+	    <div class="col-md-3"><audio src="audio/stft/ISTFT_hann-sym_8192_50%25_Pure_A4m.wav?raw=true" controls=""></audio></div>
 	    <div class="w-100"></div>
-        <div class="col-md-12"><img src="imgs/stft/stft_filter.png"></div>
-      </div>
+	    <div class="col-md-12"><img src="imgs/stft/stft_filter.png"></div>
+	  </div>
 
-    <h3>Section 3.7.4. Phase Spectrogram of STFT</h3>  
-      
-      <div class="row">
-        <div class="col-md-3">Spectrogram 1</div>
-        <div class="col-md-12"><img src="imgs/adress/phase/210425-003821-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min.png" align="left" width="800px"></div>
-        <div class="col-md-3">Spectrogram 2</div>
-        <div class="col-md-12"><img src="imgs/adress/phase/210425-012125-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min.png" align="right" width="800px"></div>
-      </div>
+	<h3>Section 3.7.4. Phase Spectrogram of STFT</h3>  
+	  
+	  <div class="row">
+	    <div class="col-md-3">Spectrogram 1</div>
+	    <div class="col-md-12"><img src="imgs/adress/phase/210425-003821-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min.png" align="left" width="800px"></div>
+	    <div class="col-md-3">Spectrogram 2</div>
+	    <div class="col-md-12"><img src="imgs/adress/phase/210425-012125-FitzADRess_melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min.png" align="right" width="800px"></div>
+	  </div>
 
-      <div class="row">
-        <div class="col">Centre (Spec. 1)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
-        <div class="col">Centre (Spec. 2)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
-      </div>
+	  <div class="row">
+	    <div class="col">Centre (Spec. 1)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
+	    <div class="col">Centre (Spec. 2)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Center.wav?raw=true" controls=""></audio></div>
+	  </div>
 
-      <div class="row">
-        <div class="col">Left (Spec. 1)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
-        <div class="col">Left (Spec. 2)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
-      </div>
+	  <div class="row">
+	    <div class="col">Left (Spec. 1)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
+	    <div class="col">Left (Spec. 2)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Left.wav?raw=true" controls=""></audio></div>
+	  </div>
 
-      <div class="row">
-        <div class="col">Right (Spec. 1)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
-        <div class="col">Right (Spec. 2)</div>
-        <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
-      </div>
-
-
+	  <div class="row">
+	    <div class="col">Right (Spec. 1)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-003848-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_r%3Dr_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
+	    <div class="col">Right (Spec. 2)</div>
+	    <div class="col"><audio src="audio/adress/phase/210425-012151-melody-chord-cl-LCR-fitz%3D%5B0.%2C%2C0.5%2C0.5%2C1.%2C%5D_sr%3D44100_1g_l%3Dr_mixPhase_max-min_Right.wav?raw=true" controls=""></audio></div>
+	  </div>
 
 
 
-    <div class="offset-lg-1 col-lg-10">
-    	<h1 class="d-block bg-primary text-white">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
+
+
+	<div class="offset-lg-1 col-lg-10">
+		<h1 class="d-block bg-primary text-white mt-10 mb-5 p-3">Chapter 4. Azimuth Discrimination and Resynthesis (ADRess)</h1>
 	</div>
 
-    <h3>Section 4.7. Experiments</h3> 
-      
-      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
+	<h3>Section 4.7. Experiments</h3> 
+	  
+	  <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
 	      Experiment 1
 	  </span>
 	  <div class="container">
@@ -120,13 +124,13 @@
 	          <div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
 	          <div class="col-md"><audio src="audio/adress/exp1/melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_right.wav?raw=true" controls=""></audio></div>
 	      </div>
-  	  </div>
+		  </div>
 
 	  <div class="container">
 	      <div class="row">
 	      	  <div class="col"></div>
 	      	  <div class="col">Truth</div>
-              <div class="col">Recovered</div>
+	          <div class="col">Recovered</div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col">Soprano</div>
@@ -150,8 +154,8 @@
 	      </div>
 	  </div>
 
-      <h5 class="col-md-3">Spectrograms</h5>
-      <div class="container">
+	  <h5 class="col-md-3">Spectrograms</h5>
+	  <div class="container">
 		  <div class="row">
 	          <div class="col-md"><img src="imgs/adress/exp1/210529-151737-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
 		      <div class="w-100"></div>
@@ -161,10 +165,10 @@
 
 	          <div class="col-md"><img src="imgs/adress/exp1/210529-151823-ADRess_melody-chord-cl-perfect%3D%5B0.5%2C0.1%2C0.3%2C0.8%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
 	      </div>
-      </div>
+	  </div>
 
-      
-      <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
+	  
+	  <span class="d-block p-2 bg-dark text-white" style="margin-bottom:0.5cm;">
 	      Experiment 2
 	  </span>
 	  <div class="container">
@@ -177,7 +181,7 @@
 	          <div class="col-md"><audio src="audio/adress/exp2/melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_stereo.wav?raw=true" controls=""></audio></div>
 	          <div class="col-md"><audio src="audio/adress/exp2/melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_right.wav?raw=true" controls=""></audio></div>
 	      </div>
-  	  </div>
+		  </div>
 
 
 
@@ -185,7 +189,7 @@
 	      <div class="row">
 	      	  <div class="col"></div>
 	      	  <div class="col text-center">Truth</div>
-              <div class="col text-center">Recovered</div>
+	          <div class="col text-center">Recovered</div>
 	          <div class="w-100"></div>
 
 	      	  <div class="col text-right">Melody</div>
@@ -204,8 +208,8 @@
 	      </div>
 	  </div>
 
-      <h5 class="col-md-3">Spectrograms</h5>
-      <div class="container">
+	  <h5 class="col-md-3">Spectrograms</h5>
+	  <div class="container">
 	      <div class="row">
 	          <div class="col-md"><img src="imgs/adress/exp2/210529-153805-ADRess_melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_LR.png" align="left"></div>
 		      <div class="w-100"></div>
@@ -214,22 +218,22 @@
 		      <div class="w-100"></div>
 
 	          <div class="col-md"><img src="imgs/adress/exp2/210529-153849-ADRess_melody-chord-cl-centre%3D%5B0.5%2C%2C0.25%2C0.5%2C%2C0.75%5D_sr%3D44100_hann_4096_3072_RECON.png" align="left"></div>
-          </div>
-      </div>
+	      </div>
+	  </div>
 
 
-    <h3>Extra. Alienesque background noise</h3>
-      
-      <div class="row">
-        <div class="col-md-3">Alienesque noise</div>
-        <div class="col-md-3"><audio src="audio/adress/alien.wav?raw=true" controls=""></audio></div>
-      </div>
+	<h3>Extra. Alienesque background noise</h3>
+	  
+	  <div class="row">
+	    <div class="col-md-3">Alienesque noise</div>
+	    <div class="col-md-3"><audio src="audio/adress/alien.wav?raw=true" controls=""></audio></div>
+	  </div>
 
 
 
 
 	    <div class="container">
-		  <h1 class="d-block bg-primary">Chapter 5. Evaluation</h1>
+		  <h1 class="d-block bg-primary mt-10 mb-5 p-3">Chapter 5. Evaluation</h1>
 		</div>
 
 	  <h3>Source Separation Demo on the URMP Dataset</h3> 
@@ -351,11 +355,11 @@
 	            <div class="col-md">Separated Transcription (Combined)</div>
 	            <div class="col-md">Stereo Transcription</div>
 	            <div class="w-100"></div>
-		        <div class="col-md-3"><audio src="audio/urmp/1/Piece1-Truth.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/1/Piece1-Sep.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/1/Piece1-Stereo.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/1/Piece1-Truth.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/1/Piece1-Sep.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/1/Piece1-Stereo.mp3?raw=true" controls=""></audio></div>
 	        </div>
-  	    </div>
+		    </div>
 		<div class="embed-responsive">
 			<object data="scores/1/Piece1.pdf" type="application/pdf" width="100%" height="100%"></object>
 		</div>
@@ -368,11 +372,11 @@
 	            <div class="col-md">Separated Transcription (Combined)</div>
 	            <div class="col-md">Stereo Transcription</div>
 	            <div class="w-100"></div>
-		        <div class="col-md-3"><audio src="audio/urmp/12/Piece12-Truth.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/12/Piece12-Sep.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/12/Piece12-Stereo.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/12/Piece12-Truth.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/12/Piece12-Sep.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/12/Piece12-Stereo.mp3?raw=true" controls=""></audio></div>
 	        </div>
-  	    </div>
+		    </div>
 		<div class="embed-responsive">
 			<object data="scores/12/Piece12.pdf" type="application/pdf" width="100%" height="100%"></object>
 		</div>
@@ -385,11 +389,11 @@
 	            <div class="col-md">Separated Transcription (Combined)</div>
 	            <div class="col-md">Stereo Transcription</div>
 	            <div class="w-100"></div>
-		        <div class="col-md-3"><audio src="audio/urmp/24/Piece24-Truth.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/24/Piece24-Sep.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/24/Piece24-Stereo.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/24/Piece24-Truth.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/24/Piece24-Sep.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/24/Piece24-Stereo.mp3?raw=true" controls=""></audio></div>
 	        </div>
-  	    </div>
+		    </div>
 		<div class="embed-responsive">
 			<object data="scores/24/Piece24.pdf" type="application/pdf" width="100%" height="100%"></object>
 		</div>
@@ -402,48 +406,48 @@
 	            <div class="col-md">Separated Transcription (Combined)</div>
 	            <div class="col-md">Stereo Transcription</div>
 	            <div class="w-100"></div>
-		        <div class="col-md-3"><audio src="audio/urmp/39/Piece39-Truth.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/39/Piece39-Sep.mp3?raw=true" controls=""></audio></div>
-		        <div class="col-md-3"><audio src="audio/urmp/39/Piece39-Stereo.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/39/Piece39-Truth.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/39/Piece39-Sep.mp3?raw=true" controls=""></audio></div>
+		        <div class="col"><audio src="audio/urmp/39/Piece39-Stereo.mp3?raw=true" controls=""></audio></div>
 	        </div>
-  	    </div>
+		    </div>
 		<div class="embed-responsive">
 			<object data="scores/39/Piece39.pdf" type="application/pdf" width="100%" height="100%"></object>
 		</div>
 
-    The full results are only available for internal use. Contact the author at: lou.vincent.chan.wai@gmail.com for access.
-  </main>
+	The full results are only available for internal use. Contact the author at: lou.vincent.chan.wai@gmail.com for access.
+	</main>
 
-  <!--
-  <footer>
-    <div class="container">
-      <div class="col-sm-6 col-md-3">
-        <h6>Development</h6>
-        <p><a href="https://nodejs.org/en/">Node JS</a></p>
-        <p><a href="https://www.npmjs.com/">Node Package Manager</a></p>
-        <p><a href="http://gulpjs.com/">Gulp JS</a></p>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <h6>Libraries</h6>
-        <p><a href="http://sass-lang.com/">SASS</a></p>
-        <p><a href="http://getbootstrap.com/">Bootstrap</a></p>
-        <p><a href="https://jquery.com/">jQuery</a></p>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <h6>Project</h6>
-        <p><a href="https://github.com/davidjpfeiffer/gh-pages-template">GitHub Page</a></p>
-        <p><a href="https://github.com/davidjpfeiffer/gh-pages-template/issues">Report an Issue</a></p>
-        <p><a href="https://github.com/davidjpfeiffer/gh-pages-template#github-pages-template">Help</a></p>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <h6>Author</h6>
-        <p><a href="https://davidjpfeiffer.com">Official Website</a></p>
-        <p><a href="https://github.com/davidjpfeiffer">GitHub Page</a></p>
-        <p><a href="https://twitter.com/davidjpfeiffer">Twitter Account</a></p>
-      </div>
-    </div>
-  </footer>
-  -->
+
+	<footer>
+		<div class="container">
+		  <div class="col-sm-6 col-md-3">
+		    <h6>Development</h6>
+		    <p><a href="https://nodejs.org/en/">Node JS</a></p>
+		    <p><a href="https://www.npmjs.com/">Node Package Manager</a></p>
+		    <p><a href="http://gulpjs.com/">Gulp JS</a></p>
+		  </div>
+		  <div class="col-sm-6 col-md-3">
+		    <h6>Libraries</h6>
+		    <p><a href="http://sass-lang.com/">SASS</a></p>
+		    <p><a href="http://getbootstrap.com/">Bootstrap</a></p>
+		    <p><a href="https://jquery.com/">jQuery</a></p>
+		  </div>
+		  <div class="col-sm-6 col-md-3">
+		    <h6>Project</h6>
+		    <p><a href="https://github.com/davidjpfeiffer/gh-pages-template">GitHub Page</a></p>
+		    <p><a href="https://github.com/davidjpfeiffer/gh-pages-template/issues">Report an Issue</a></p>
+		    <p><a href="https://github.com/davidjpfeiffer/gh-pages-template#github-pages-template">Help</a></p>
+		  </div>
+		  <div class="col-sm-6 col-md-3">
+		    <h6>Author</h6>
+		    <p><a href="https://davidjpfeiffer.com">Official Website</a></p>
+		    <p><a href="https://github.com/davidjpfeiffer">GitHub Page</a></p>
+		    <p><a href="https://twitter.com/davidjpfeiffer">Twitter Account</a></p>
+		  </div>
+		</div>
+	</footer>
+  
 </body>
 
 </html>
