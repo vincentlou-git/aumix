@@ -12,7 +12,8 @@ Audio Unmixing and Music Score Transcription. Developed as my undergraduate fina
    import sys
    sys.path.append("path_to_aumix")
    ```
-4. Change the directory to the script you want to run, then run it by `python3 <script_name>`. For example:
+5. Install all dependencies in the repository by `pip install -r requirements.txt`.
+6. Change the directory to the script you want to run, then run it by `python3 <script_name>`. For example:
 
    ```
    repo$   cd examples
