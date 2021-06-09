@@ -493,82 +493,97 @@
 
 
 
+		<h3>Section 5.4. Qualitative Results and Discussion</h3> 
+		<div class="card">
+
+			<p class="lead mb-5">
+				Some quality issues in the separation, the URMP dataset, and the transcriptions were pointed out in this section in the report. Selected sections of the mentioned examples are presented here.
+			</p>
+
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<h5 class="card-title">Subspace width</h5>
+					<div class="row">
+						<div class="col-md-9">
+							<p class="card-text">
+								The timbre components (harmonic overtones) from the other parts has seeped into the extraction of <p class="text-italic">the second flute in Piece 30 at 50 seconds</p> due to an overly wide subspace width H.
+							</p>
+						</div>
+			        	<div class="col-md-3 my-auto"><audio src="audio/urmp/30/30-d63-H12-48-57.wav?raw=true" controls=""></audio></div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<h5 class="card-title">Same note from different instruments</h5>
+					<div class="row">
+						<div class="col-md-9">
+							<p class="card-text">
+								When two instruments play the same note (not necessarily at the same octave), their harmonic overtones overlap. Thus, the same frequency bands have energy at different azimuth positions, causing the nulltoe shift between them. This happens most noticeably in <p class="text-italic">Piece 40, at 20 seconds</p>: the oboe plays a C4 quietly, whereas the bassoon plays a C3 loudly. Consequently, this section in the recovered bassoon sounds somewhat muted due to this extra energy in its harmonic overtone C4. In contrast, this melody in the extracted oboe track sounds as quiet as the background noise. Immediately after this, at 21 seconds, all parts are muted except the oboe, and thus it is clearly extracted and demonstrates a big contrast to the previously muffled sound.
+							</p>
+						</div>
+
+						<div class="row">
+			        		<div class="col-md-3 my-auto"><audio src="audio/urmp/40/40-d90-H14.wav?raw=true" controls=""></audio></div>
+			        	</div>
+						<div class="row">
+				        	<div class="col-md-3 my-auto"><audio src="audio/urmp/40/40-d175-H16.wav?raw=true" controls=""></audio></div>
+				        </div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<h5 class="card-title">Trills</h5>
+					<div class="row">
+						<div class="col-md-9">
+							<p class="card-text">
+								Trills in the dataset are explicitly written out as sixteen triplets (for example, in <p class="text-italic">Piece 4</p>).
+							</p>
+						</div>
+			        	<div class="col-md-3"><audio src="audio/urmp/4/AuSep_1_fl_04_Allegro.wav?raw=true" controls=""></audio></div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<h5 class="card-title">Expressive Timings</h5>
+					<div class="row">
+						<div class="col-md-9">
+							<p class="card-text">
+								Expressive timings were not denoted in the music score but were performed. For example, the ritardando ending in <p class="text-italic">Piece 10</p> or the gradual accelerando in <p class="text-italic">Piece 26</p>.
+							</p>
+						</div>
+
+						<div class="row">
+			        		<div class="col-md-3"><audio src="audio/urmp/10/AuMix_10_March_tpt_sax.wav?raw=true" controls=""></audio></div>
+			        	</div>
+
+						<div class="row">
+				        	<div class="col-md-3"><audio src="audio/urmp/26/AuMix_26_King_vn_vn_va_vc.wav?raw=true" controls=""></audio></div>
+				        </div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<h5 class="card-title">Performance Errors</h5>
+					<div class="row">
+						<div class="col-md-9">
+							<p class="card-text">
+								There were performance errors, such as the trombone in <p class="text-italic">Piece 33 at 27 seconds</p>.
+							</p>
+						</div>
+			        	<div class="col-md-3"><audio src="audio/urmp/33/AuSep_4_tbn_33_Elise.wav?raw=true" controls=""></audio></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+
+
 		<div class="alert alert-info" role="alert">
 			The full results are not publicly available. Contact the author at: lou.vincent.chan.wai@gmail.com for access.
 		</div>
+		
 	</main>
 
-
-
-	<h3>Section 5.4. Qualitative Results and Discussion</h3> 
-	<div class="card">
-
-		<p class="lead mb-5">
-			Some quality issues in the separation, the URMP dataset, and the transcriptions were pointed out in this section in the report. The selected sections of the examples mentioned in the text are presented here.
-
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item">
-				<h5 class="card-title">Subspace width</h5>
-				<div class="row">
-					<div class="col-md-9">
-						<p class="card-text">
-							The timbre components (harmonic overtones) from the other parts has seeped into the extraction of <p class="text-italic">the second flute in Piece 30 at 50 seconds</p> due to an overly wide subspace width H.
-						</p>
-					</div>
-		        	<div class="col-md-3 my-auto"><audio src="audio/urmp/30/30-d63-H12-48-57.wav?raw=true" controls=""></audio></div>
-				</div>
-			</li>
-
-			<li class="list-group-item">
-				<h5 class="card-title">Same note from different instruments</h5>
-				<div class="row">
-					<div class="col-md-9">
-						<p class="card-text">
-							When two instruments play the same note (not necessarily at the same octave), their harmonic overtones overlap. Thus, the same frequency bands have energy at different azimuth positions, causing the nulltoe shift between them. This happens most noticeably in <p class="text-italic">Piece 40, at 20 seconds</p>: the oboe plays a C4 quietly, whereas the bassoon plays a C3 loudly. Consequently, this section in the recovered bassoon sounds somewhat muted due to this extra energy in its harmonic overtone C4. In contrast, this melody in the extracted oboe track sounds as quiet as the background noise. Immediately after this, at 21 seconds, all parts are muted except the oboe, and thus it is clearly extracted and demonstrates a big contrast to the previously muffled sound.
-						</p>
-					</div>
-		        	<div class="col-md-3 my-auto"><audio src="audio/urmp/40/40-d90-H14.wav?raw=true" controls=""></audio></div>
-		        	<div class="col-md-3 my-auto"><audio src="audio/urmp/40/40-d175-H16.wav?raw=true" controls=""></audio></div>
-				</div>
-			</li>
-
-			<li class="list-group-item">
-				<h5 class="card-title">Trills</h5>
-				<div class="row">
-					<div class="col-md-9">
-						<p class="card-text">
-							sixteen triplets in Piece 4
-						</p>
-					</div>
-		        	<div class="col-md-3"><audio src="audio/urmp/4/AuSep_1_fl_04_Allegro.wav?raw=true" controls=""></audio></div>
-				</div>
-			</li>
-
-			<li class="list-group-item">
-				<h5 class="card-title">Expressive Timings</h5>
-				<div class="row">
-					<div class="col-md-9">
-						<p class="card-text">
-							For example, the
-ritardando endings in Piece 10 or the gradual accelerando in Piece 26
-						</p>
-					</div>
-		        	<div class="col-md-3"><audio src="audio/urmp/?raw=true" controls=""></audio></div>
-				</div>
-			</li>
-
-			<li class="list-group-item">
-				<h5 class="card-title">Performance Errors</h5>
-				<div class="row">
-					<div class="col-md-9">
-						<p class="card-text">
-			the trombone in Piece 33 at 27 seconds.
-						</p>
-					</div>
-		        	<div class="col-md-3"><audio src="audio/urmp/?raw=true" controls=""></audio></div>
-				</div>
-			</li>
-		</ul>
 
 
 	<footer class="bg-light">
